@@ -1,0 +1,19 @@
+{
+  "name": "confgo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A map of conferences and the people who orbit them.",
+  "scripts": {
+    "emulators": "firebase emulators:start",
+    "import-conferences": "node functions/scripts/import-conferences.mjs",
+    "import-conferences:prod": "node functions/scripts/import-conferences.mjs --production",
+    "collect-conferences": "node functions/scripts/collect-conferences.mjs",
+    "seed": "node functions/scripts/seed-dummy-data.mjs",
+    "clear": "node functions/scripts/clear-dummy-data.mjs",
+    "dev:web": "npm run dev --prefix web",
+    "build:web": "npm run build --prefix web",
+    "build:functions": "npm run build --prefix functions",
+    "build": "npm run build:functions && npm run build:web",
+    "deploy": "firebase deploy"
+  }
+}

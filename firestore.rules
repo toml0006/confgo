@@ -1,0 +1,43 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Conferences: anyone signed-in can read. No client writes — the Cloud Function
+    // enforces is_admin for create. v1 has no edit/delete.
+    match /conferences/{confId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    // Users: read all, write own — except is_admin, which is server-managed.
+    match /users/{userId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && !("is_admin" in request.resource.data && request.resource.data.is_admin == true);
+      allow update: if signedIn()
+        && request.auth.uid == userId
+        && (!("is_admin" in request.resource.data) ||
+            request.resource.data.is_admin == resource.data.get("is_admin", false));
+      allow delete: if false;
+    }
+
+    // Attendances: readable so clients can run onSnapshot on their own user_id.
+    // Writes routed through the Cloud Function.
+    match /attendances/{attendanceId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    // Pings: readable so clients can tail incoming/outgoing. Writes through API.
+    match /pings/{pingId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+  }
+}
