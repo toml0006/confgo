@@ -54,6 +54,17 @@ jobs:
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
+      - name: Diagnose credentials
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          echo "--- service account identity ---"
+          python3 -c "import json,os; d=json.load(open(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])); print('client_email:', d.get('client_email')); print('project_id:', d.get('project_id'))"
+          echo "--- gcloud auth list ---"
+          gcloud auth list || true
+          echo "--- gcloud projects describe ---"
+          gcloud projects describe "$GOOGLE_CLOUD_PROJECT" || true
+
       - name: Deploy to Firebase
         env:
           GOOGLE_CLOUD_PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
