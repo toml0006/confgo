@@ -1,0 +1,14 @@
+{
+  "name": "confgo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Confgo — conferences on a dark map",
+  "scripts": {
+    "install:all": "npm install && npm install --prefix functions && npm install --prefix web",
+    "dev:emulators": "firebase emulators:start",
+    "dev:collect-conferences": "node functions/scripts/collect-conferences.mjs",
+    "dev:import-conferences": "node functions/scripts/import-conferences.mjs",
+    "dev:seed": "node functions/scripts/seed-dummy-data.mjs",
+    "dev:web": "npm --prefix web run dev"
+  }
+}
