@@ -1,21 +1,46 @@
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
-import { User, onAuthStateChanged, signInAnonymously } from "firebase/auth";
+import {
+  AuthProvider as FbAuthProvider,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  User,
+  linkWithPopup,
+  onAuthStateChanged,
+  signInAnonymously,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { auth } from "../firebase";
+
+export type AuthProviderId = "google.com" | "github.com";
 
 type AuthValue = {
   user: User | null;
   ready: boolean;
+  isAnonymous: boolean;
   getIdToken: () => Promise<string | null>;
+  linkProvider: (id: AuthProviderId) => Promise<void>;
+  signOutUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthValue | null>(null);
+
+function providerFor(id: AuthProviderId): FbAuthProvider {
+  switch (id) {
+    case "google.com":
+      return new GoogleAuthProvider();
+    case "github.com":
+      return new GithubAuthProvider();
+  }
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -45,13 +70,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const linkProvider = useCallback(async (id: AuthProviderId) => {
+    const provider = providerFor(id);
+    const current = auth.currentUser;
+    if (current?.isAnonymous) {
+      try {
+        const cred = await linkWithPopup(current, provider);
+        setUser(cred.user);
+        return;
+      } catch (err) {
+        const code = (err as { code?: string }).code;
+        if (code !== "auth/credential-already-in-use") throw err;
+        // Credential already belongs to another account — fall through to signIn.
+      }
+    }
+    const cred = await signInWithPopup(auth, provider);
+    setUser(cred.user);
+  }, []);
+
+  const signOutUser = useCallback(async () => {
+    await signOut(auth);
+    // onAuthStateChanged will kick off a fresh anonymous session.
+  }, []);
+
   const value = useMemo<AuthValue>(
     () => ({
       user,
       ready,
+      isAnonymous: user?.isAnonymous ?? true,
       getIdToken: async () => (user ? user.getIdToken() : null),
+      linkProvider,
+      signOutUser,
     }),
-    [user, ready],
+    [user, ready, linkProvider, signOutUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
