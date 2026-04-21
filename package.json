@@ -1,0 +1,20 @@
+{
+  "name": "confgo",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "web",
+    "functions"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace functions && npm run build --workspace web",
+    "typecheck": "npm run typecheck --workspace functions && npm run typecheck --workspace web",
+    "lint": "npm run lint --workspace functions && npm run lint --workspace web",
+    "dev": "npm run dev --workspace web",
+    "dev:functions": "npm run serve --workspace functions",
+    "dev:import-conferences": "node functions/scripts/import-conferences.mjs",
+    "dev:seed": "node functions/scripts/seed-dummy-data.mjs",
+    "dev:clear-seed": "node functions/scripts/clear-dummy-data.mjs"
+  }
+}
+
