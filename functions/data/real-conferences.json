@@ -1,0 +1,5929 @@
+[
+  {
+    "name": "JSNation US",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2026-11-16T00:00:00.000Z",
+    "end_date": "2026-11-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://jsnation.us"
+  },
+  {
+    "name": "SpiceWorld",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2026-11-12T00:00:00.000Z",
+    "end_date": "2026-11-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.spiceworks.com/spiceworld"
+  },
+  {
+    "name": "KubeCon + CloudNativeCon North America",
+    "location_name": "Los Angeles, CA, USA",
+    "latitude": 34.048051,
+    "longitude": -118.254187,
+    "start_date": "2026-10-26T00:00:00.000Z",
+    "end_date": "2026-10-29T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america-2026"
+  },
+  {
+    "name": "GAI World",
+    "location_name": "Boulder, CO, USA",
+    "latitude": 40.01816,
+    "longitude": -105.278683,
+    "start_date": "2026-09-28T00:00:00.000Z",
+    "end_date": "2026-09-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.gaiworld.com"
+  },
+  {
+    "name": "WeAreDevelopers World Congress North America",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2026-09-23T00:00:00.000Z",
+    "end_date": "2026-09-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.wearedevelopers.com/world-congress-us"
+  },
+  {
+    "name": "LDX3 New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2026-09-15T00:00:00.000Z",
+    "end_date": "2026-09-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://leaddev.com/leaddev-new-york"
+  },
+  {
+    "name": "Disney Data & Analytics Conference (DDAC)",
+    "location_name": "Orlando, FL, USA",
+    "latitude": 28.54211,
+    "longitude": -81.379039,
+    "start_date": "2026-09-14T00:00:00.000Z",
+    "end_date": "2026-09-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://disneydataconference.com"
+  },
+  {
+    "name": "Drupalcamp Colorado",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2026-08-27T00:00:00.000Z",
+    "end_date": "2026-08-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://www.drupal.org/community/events/drupalcamp-colorado-2026-2026-08-27"
+  },
+  {
+    "name": "Swift Rockies",
+    "location_name": "Calgary, Canada",
+    "latitude": 51.0457,
+    "longitude": -114.067955,
+    "start_date": "2026-07-22T00:00:00.000Z",
+    "end_date": "2026-07-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "ios"
+    ],
+    "url": "https://swiftrockies.com"
+  },
+  {
+    "name": "droidcon USA",
+    "location_name": "Orlando, FL, USA",
+    "latitude": 28.54211,
+    "longitude": -81.379039,
+    "start_date": "2026-07-16T00:00:00.000Z",
+    "end_date": "2026-07-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android",
+      "kotlin"
+    ],
+    "url": "https://usa.droidcon.com"
+  },
+  {
+    "name": "UberConf",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2026-07-14T00:00:00.000Z",
+    "end_date": "2026-07-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "java"
+    ],
+    "url": "https://uberconf.com"
+  },
+  {
+    "name": "SciPy",
+    "location_name": "Minneapolis, MN, USA",
+    "latitude": 44.976106,
+    "longitude": -93.266096,
+    "start_date": "2026-07-13T00:00:00.000Z",
+    "end_date": "2026-07-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "python"
+    ],
+    "url": "https://www.scipy2026.scipy.org/"
+  },
+  {
+    "name": "PlatformCON Live day NYC",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2026-06-25T00:00:00.000Z",
+    "end_date": "2026-06-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://platformcon.com/live-day-nyc"
+  },
+  {
+    "name": "ETHConf",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2026-06-08T00:00:00.000Z",
+    "end_date": "2026-06-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://ethconf.com/r/CTECONF"
+  },
+  {
+    "name": "SymfonyDay",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2026-06-04T00:00:00.000Z",
+    "end_date": "2026-06-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://live.symfony.com/2026-montreal"
+  },
+  {
+    "name": "CascadiaJS",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2026-06-01T00:00:00.000Z",
+    "end_date": "2026-06-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "javascript",
+      "typescript"
+    ],
+    "url": "https://cascadiajs.com/2026"
+  },
+  {
+    "name": "Minnedemo 41",
+    "location_name": "Minneapolis, USA",
+    "latitude": 44.9778,
+    "longitude": -93.265,
+    "start_date": "2026-05-21T14:00:00.000Z",
+    "end_date": "2026-05-21T23:00:00.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general",
+      "community"
+    ],
+    "url": "https://minnestar.org"
+  },
+  {
+    "name": "VueconfUS",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2026-05-19T00:00:00.000Z",
+    "end_date": "2026-05-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://vueconf.us"
+  },
+  {
+    "name": "GraphQLConf",
+    "location_name": "Menlo Park, CA, USA",
+    "latitude": 37.453527,
+    "longitude": -122.182998,
+    "start_date": "2026-05-19T00:00:00.000Z",
+    "end_date": "2026-05-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "graphql"
+    ],
+    "url": "https://graphql.org/conf/2026"
+  },
+  {
+    "name": "PHP Tek",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2026-05-19T00:00:00.000Z",
+    "end_date": "2026-05-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "php"
+    ],
+    "url": "https://phptek.io"
+  },
+  {
+    "name": "MAU Vegas",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2026-05-19T00:00:00.000Z",
+    "end_date": "2026-05-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android",
+      "ios"
+    ],
+    "url": "https://mauvegas.com"
+  },
+  {
+    "name": "Cyber Security & Cloud Congress",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2026-05-18T00:00:00.000Z",
+    "end_date": "2026-05-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.cybersecuritycloudexpo.com/northamerica"
+  },
+  {
+    "name": "TechEx North America",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2026-05-18T00:00:00.000Z",
+    "end_date": "2026-05-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://techexevent.com/northamerica"
+  },
+  {
+    "name": "Apidays New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2026-05-13T00:00:00.000Z",
+    "end_date": "2026-05-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "graphql"
+    ],
+    "url": "https://www.apidays.global/new-york"
+  },
+  {
+    "name": "KCD Toronto",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2026-05-13T00:00:00.000Z",
+    "end_date": "2026-05-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "devops"
+    ],
+    "url": "https://kcdtoronto.ca"
+  },
+  {
+    "name": "MidCamp",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2026-05-12T00:00:00.000Z",
+    "end_date": "2026-05-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://www.midcamp.org"
+  },
+  {
+    "name": "Code Remix Summit",
+    "location_name": "Hollywood, FL, USA",
+    "latitude": 26.011388,
+    "longitude": -80.146983,
+    "start_date": "2026-05-11T00:00:00.000Z",
+    "end_date": "2026-05-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "java",
+      "security"
+    ],
+    "url": "https://coderemix.ai"
+  },
+  {
+    "name": "Replay: The Durable Execution Conference for Agentic AI",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2026-05-05T00:00:00.000Z",
+    "end_date": "2026-05-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "devops"
+    ],
+    "url": "https://replay.temporal.io"
+  },
+  {
+    "name": "Minnebar 20",
+    "location_name": "Minneapolis, USA",
+    "latitude": 44.9778,
+    "longitude": -93.265,
+    "start_date": "2026-04-25T14:00:00.000Z",
+    "end_date": "2026-04-25T23:00:00.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general",
+      "community"
+    ],
+    "url": "https://minnestar.org"
+  },
+  {
+    "name": "ConveyUX",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2026-04-13T00:00:00.000Z",
+    "end_date": "2026-04-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "ux"
+    ],
+    "url": "https://conveyux.com"
+  },
+  {
+    "name": "Frontrunners",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2026-03-27T00:00:00.000Z",
+    "end_date": "2026-03-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://frontrunners.tech"
+  },
+  {
+    "name": "BSidesSF",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2026-03-21T00:00:00.000Z",
+    "end_date": "2026-03-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://bsidessf.org"
+  },
+  {
+    "name": "DAM Los Angeles",
+    "location_name": "Los Angeles, CA, USA",
+    "latitude": 34.048051,
+    "longitude": -118.254187,
+    "start_date": "2026-03-18T00:00:00.000Z",
+    "end_date": "2026-03-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.henrystewartconferences.com/events/dam-la-2026"
+  },
+  {
+    "name": "VSLive! Las Vegas",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2026-03-16T00:00:00.000Z",
+    "end_date": "2026-03-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "dotnet"
+    ],
+    "url": "https://vslive.com/events/las-vegas-2026/home.aspx"
+  },
+  {
+    "name": "Devnexus",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2026-03-04T00:00:00.000Z",
+    "end_date": "2026-03-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java",
+      "security"
+    ],
+    "url": "https://devnexus.com"
+  },
+  {
+    "name": "[un]prompted | The AI Security Practitioner Conference",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2026-03-03T00:00:00.000Z",
+    "end_date": "2026-03-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://unpromptedcon.org"
+  },
+  {
+    "name": "ConFoo Montreal",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2026-02-25T00:00:00.000Z",
+    "end_date": "2026-02-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://confoo.ca"
+  },
+  {
+    "name": "Florida Drupal Camp",
+    "location_name": "Orlando, FL, USA",
+    "latitude": 28.54211,
+    "longitude": -81.379039,
+    "start_date": "2026-02-20T00:00:00.000Z",
+    "end_date": "2026-02-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://www.fldrupal.camp"
+  },
+  {
+    "name": "ProductWorld",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2026-02-18T00:00:00.000Z",
+    "end_date": "2026-02-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "product"
+    ],
+    "url": "https://productworld.co"
+  },
+  {
+    "name": "DeveloperWeek",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2026-02-18T00:00:00.000Z",
+    "end_date": "2026-02-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.developerweek.com"
+  },
+  {
+    "name": "AI DevWorld",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2026-02-18T00:00:00.000Z",
+    "end_date": "2026-02-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://aidevworld.com"
+  },
+  {
+    "name": "AgentCon Vancouver",
+    "location_name": "Vancouver, Canada",
+    "latitude": 49.260975,
+    "longitude": -123.11498,
+    "start_date": "2025-12-11T00:00:00.000Z",
+    "end_date": "2025-12-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://globalai.community/chapters/vancouver/events/agentcon-vancouver"
+  },
+  {
+    "name": "ArchConf",
+    "location_name": "Clear Water, FL, USA",
+    "latitude": 39.17571,
+    "longitude": -84.645841,
+    "start_date": "2025-12-08T00:00:00.000Z",
+    "end_date": "2025-12-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://archconf.com"
+  },
+  {
+    "name": "AgentCon Milwaukee",
+    "location_name": "Milwaukee, WI, USA",
+    "latitude": 43.038772,
+    "longitude": -87.906548,
+    "start_date": "2025-12-02T00:00:00.000Z",
+    "end_date": "2025-12-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://globalai.community/chapters/milwaukee/events/agentcon-milwaukee"
+  },
+  {
+    "name": "AI By The Bay",
+    "location_name": "Oakland, CA, USA",
+    "latitude": 37.805306,
+    "longitude": -122.27058,
+    "start_date": "2025-11-17T00:00:00.000Z",
+    "end_date": "2025-11-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://ai.bythebay.io"
+  },
+  {
+    "name": "KubeCon + CloudNativeCon North America",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2025-11-10T00:00:00.000Z",
+    "end_date": "2025-11-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america-2025"
+  },
+  {
+    "name": "Ray Summit",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2025-11-03T00:00:00.000Z",
+    "end_date": "2025-11-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.anyscale.com/ray-summit/2025"
+  },
+  {
+    "name": "Devopsdays Detroit",
+    "location_name": "Detroit, MI, USA",
+    "latitude": 42.331397,
+    "longitude": -83.046217,
+    "start_date": "2025-10-22T00:00:00.000Z",
+    "end_date": "2025-10-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-detroit/welcome/"
+  },
+  {
+    "name": "LeadingEng New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2025-10-17T00:00:00.000Z",
+    "end_date": "2025-10-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://leaddev.com/leadingeng-new-york"
+  },
+  {
+    "name": "IMPACT - The Industrial AI and Data Conference",
+    "location_name": "Houston, TX, USA",
+    "latitude": 29.760496,
+    "longitude": -95.363433,
+    "start_date": "2025-10-13T00:00:00.000Z",
+    "end_date": "2025-10-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "http://cognite.com/en/impact-conference"
+  },
+  {
+    "name": "JCON USA @ IBM TechXchange",
+    "location_name": "Orlando, FL, USA",
+    "latitude": 28.54211,
+    "longitude": -81.379039,
+    "start_date": "2025-10-06T00:00:00.000Z",
+    "end_date": "2025-10-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://usa.jcon.one"
+  },
+  {
+    "name": "Supabase Select",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2025-10-03T00:00:00.000Z",
+    "end_date": "2025-10-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://select.supabase.com"
+  },
+  {
+    "name": "Devopsdays Des Moines",
+    "location_name": "Des Moines, IA, USA",
+    "latitude": 41.584997,
+    "longitude": -93.624273,
+    "start_date": "2025-10-02T00:00:00.000Z",
+    "end_date": "2025-10-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-des-moines/welcome"
+  },
+  {
+    "name": "COLLIDE Data & AI Conference",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2025-10-01T00:00:00.000Z",
+    "end_date": "2025-10-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://datasciconnect.com/events/collide"
+  },
+  {
+    "name": "DYNA Fall",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2025-09-29T00:00:00.000Z",
+    "end_date": "2025-09-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://dyna.dyalog.com"
+  },
+  {
+    "name": "Enterprise Tech Leadership Summit",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2025-09-23T00:00:00.000Z",
+    "end_date": "2025-09-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "devops"
+    ],
+    "url": "https://itrevolution.com/product/enterprise-tech-leadership-summit-las-vegas"
+  },
+  {
+    "name": "BSides Edmonton",
+    "location_name": "Edmonton, Canada",
+    "latitude": 53.543144,
+    "longitude": -113.493744,
+    "start_date": "2025-09-22T00:00:00.000Z",
+    "end_date": "2025-09-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.bsidesedmonton.org"
+  },
+  {
+    "name": "SquiggleConf",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2025-09-18T00:00:00.000Z",
+    "end_date": "2025-09-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "rust",
+      "typescript"
+    ],
+    "url": "https://2025.squiggleconf.com"
+  },
+  {
+    "name": "Make with Notion",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2025-09-18T00:00:00.000Z",
+    "end_date": "2025-09-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "product",
+      "ux"
+    ],
+    "url": "https://makewithnotion.com"
+  },
+  {
+    "name": "CascadiaJS",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2025-09-18T00:00:00.000Z",
+    "end_date": "2025-09-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "javascript"
+    ],
+    "url": "https://cascadiajs.com/2025"
+  },
+  {
+    "name": "HPE Nonstop Technology and Business Conference",
+    "location_name": "Houston, TX, USA",
+    "latitude": 29.760496,
+    "longitude": -95.363433,
+    "start_date": "2025-09-16T00:00:00.000Z",
+    "end_date": "2025-09-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://nonstoptbc.com"
+  },
+  {
+    "name": "Devopsdays Denver",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2025-09-15T00:00:00.000Z",
+    "end_date": "2025-09-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-denver/welcome/"
+  },
+  {
+    "name": "UtahJS",
+    "location_name": "Salt Lake City, UT, USA",
+    "latitude": 40.762759,
+    "longitude": -111.889779,
+    "start_date": "2025-09-12T00:00:00.000Z",
+    "end_date": "2025-09-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://utahjs.com/conference"
+  },
+  {
+    "name": "DjangoCon US",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2025-09-08T00:00:00.000Z",
+    "end_date": "2025-09-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "python"
+    ],
+    "url": "https://2025.djangocon.us"
+  },
+  {
+    "name": "Industry",
+    "location_name": "Cleveland, OH, USA",
+    "latitude": 41.501377,
+    "longitude": -81.690317,
+    "start_date": "2025-09-08T00:00:00.000Z",
+    "end_date": "2025-09-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "product"
+    ],
+    "url": "https://www.industryconference.com"
+  },
+  {
+    "name": "Visual Studio Live",
+    "location_name": "San Diego, CA, USA",
+    "latitude": 32.713623,
+    "longitude": -117.16016,
+    "start_date": "2025-09-08T00:00:00.000Z",
+    "end_date": "2025-09-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "dotnet",
+      "python"
+    ],
+    "url": "https://vslive.com/events/san-diego-2025/home.aspx"
+  },
+  {
+    "name": "Devopsdays Halifax",
+    "location_name": "Halifax, Canada",
+    "latitude": 44.648618,
+    "longitude": -63.585949,
+    "start_date": "2025-08-26T00:00:00.000Z",
+    "end_date": "2025-08-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-halifax/welcome/"
+  },
+  {
+    "name": "KCDC",
+    "location_name": "Kansas City, KS, USA",
+    "latitude": 39.113629,
+    "longitude": -94.626816,
+    "start_date": "2025-08-13T00:00:00.000Z",
+    "end_date": "2025-08-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://www.kcdc.info"
+  },
+  {
+    "name": "DevOpsDays Kansas City",
+    "location_name": "Kansas City, MO, USA",
+    "latitude": 39.098485,
+    "longitude": -94.578631,
+    "start_date": "2025-08-13T00:00:00.000Z",
+    "end_date": "2025-08-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdayskc.org"
+  },
+  {
+    "name": "Skytalks at BSidesLV",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2025-08-04T00:00:00.000Z",
+    "end_date": "2025-08-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://skytalks.info"
+  },
+  {
+    "name": "The Diana Initiative",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2025-08-04T00:00:00.000Z",
+    "end_date": "2025-08-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.dianainitiative.org"
+  },
+  {
+    "name": "Visual Studio Live",
+    "location_name": "Redmond, WA, USA",
+    "latitude": 47.673904,
+    "longitude": -122.121527,
+    "start_date": "2025-08-04T00:00:00.000Z",
+    "end_date": "2025-08-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "cpp",
+      "devops",
+      "dotnet"
+    ],
+    "url": "https://vslive.com/events/microsofthq-2025/home.aspx"
+  },
+  {
+    "name": "Big Sky Dev Con",
+    "location_name": "Bozeman, MT, USA",
+    "latitude": 45.679303,
+    "longitude": -111.035732,
+    "start_date": "2025-08-02T00:00:00.000Z",
+    "end_date": "2025-08-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript",
+      "networking"
+    ],
+    "url": "https://bigskydevcon.com"
+  },
+  {
+    "name": "Buffer-Free Video^AI",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2025-07-30T00:00:00.000Z",
+    "end_date": "2025-07-31T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "networking"
+    ],
+    "url": "https://www.buffconf.com"
+  },
+  {
+    "name": "AI in Production",
+    "location_name": "Asheville, NC, USA",
+    "latitude": 35.595523,
+    "longitude": -82.551925,
+    "start_date": "2025-07-18T00:00:00.000Z",
+    "end_date": "2025-07-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.aiinproduction.com"
+  },
+  {
+    "name": "UberConf",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2025-07-15T00:00:00.000Z",
+    "end_date": "2025-07-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://uberconf.com"
+  },
+  {
+    "name": "PlatformCon Live Day New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2025-06-26T00:00:00.000Z",
+    "end_date": "2025-06-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://platformcon.com/live-day-nyc"
+  },
+  {
+    "name": "RenderATL",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2025-06-11T00:00:00.000Z",
+    "end_date": "2025-06-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.renderatl.com"
+  },
+  {
+    "name": "InfoQ Dev Summit Boston",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2025-06-09T00:00:00.000Z",
+    "end_date": "2025-06-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://devsummit.infoq.com/conference/boston2025"
+  },
+  {
+    "name": "CTO Craft Con: Toronto",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2025-05-27T00:00:00.000Z",
+    "end_date": "2025-05-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://conference.ctocraft.com/toronto-2025"
+  },
+  {
+    "name": "Minnedemo 40",
+    "location_name": "Minneapolis, USA",
+    "latitude": 44.9778,
+    "longitude": -93.265,
+    "start_date": "2025-05-22T14:00:00.000Z",
+    "end_date": "2025-05-22T23:00:00.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general",
+      "community"
+    ],
+    "url": "https://minnestar.org"
+  },
+  {
+    "name": "Global Agentic AI & LLM Bootcamp May 16 - 18",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2025-05-16T00:00:00.000Z",
+    "end_date": "2025-05-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.globalbigdataconference.com/fremont/global-agentic-ai-and-llm-bootcamp/event-145.html"
+  },
+  {
+    "name": "PyCon US",
+    "location_name": "Pittsburgh, PA, USA",
+    "latitude": 40.439375,
+    "longitude": -79.996754,
+    "start_date": "2025-05-14T00:00:00.000Z",
+    "end_date": "2025-05-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "python"
+    ],
+    "url": "https://us.pycon.org/2025"
+  },
+  {
+    "name": "AI & Machine Learning Summit",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2025-05-14T00:00:00.000Z",
+    "end_date": "2025-05-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.dbta.com/DataSummit/2025/AIMachineLearningSummit.aspx"
+  },
+  {
+    "name": "PGConf Dev",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2025-05-13T00:00:00.000Z",
+    "end_date": "2025-05-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://2025.pgconf.dev/"
+  },
+  {
+    "name": "Code Remix Summit",
+    "location_name": "Miami, FL, USA",
+    "latitude": 25.773357,
+    "longitude": -80.1919,
+    "start_date": "2025-05-12T00:00:00.000Z",
+    "end_date": "2025-05-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "java",
+      "security"
+    ],
+    "url": "https://coderemix.ai"
+  },
+  {
+    "name": "Devopsdays Salt Lake City",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2025-05-12T00:00:00.000Z",
+    "end_date": "2025-05-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-salt-lake-city/welcome/"
+  },
+  {
+    "name": "MLsys",
+    "location_name": "Santa Clara, CA, USA",
+    "latitude": 37.35231,
+    "longitude": -121.9619,
+    "start_date": "2025-05-12T00:00:00.000Z",
+    "end_date": "2025-05-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://mlsys.org"
+  },
+  {
+    "name": "Infobip Shift Miami",
+    "location_name": "Miami, FL, USA",
+    "latitude": 25.773357,
+    "longitude": -80.1919,
+    "start_date": "2025-05-06T00:00:00.000Z",
+    "end_date": "2025-05-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://shift.infobip.com/us"
+  },
+  {
+    "name": "Tech + Startups Community Conference",
+    "location_name": "Miami, FL, USA",
+    "latitude": 25.773357,
+    "longitude": -80.1919,
+    "start_date": "2025-05-01T00:00:00.000Z",
+    "end_date": "2025-05-01T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://lu.ma/0nct5q0k"
+  },
+  {
+    "name": "Devopsdays Austin",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2025-05-01T00:00:00.000Z",
+    "end_date": "2025-05-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-austin/welcome/"
+  },
+  {
+    "name": "Into The Box",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2025-04-30T00:00:00.000Z",
+    "end_date": "2025-05-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java",
+      "security"
+    ],
+    "url": "https://www.intothebox.org"
+  },
+  {
+    "name": "DevOpsDays Atlanta",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2025-04-29T00:00:00.000Z",
+    "end_date": "2025-04-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-atlanta/welcome/"
+  },
+  {
+    "name": "Minnebar 19",
+    "location_name": "Minneapolis, USA",
+    "latitude": 44.9778,
+    "longitude": -93.265,
+    "start_date": "2025-04-26T14:00:00.000Z",
+    "end_date": "2025-04-26T23:00:00.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general",
+      "community"
+    ],
+    "url": "https://minnestar.org"
+  },
+  {
+    "name": "React Miami",
+    "location_name": "Miami, FL, USA",
+    "latitude": 25.773357,
+    "longitude": -80.1919,
+    "start_date": "2025-04-17T00:00:00.000Z",
+    "end_date": "2025-04-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://www.reactmiami.com"
+  },
+  {
+    "name": "DevOpsDays Raleigh",
+    "location_name": "Raleigh, NC, USA",
+    "latitude": 35.779557,
+    "longitude": -78.638148,
+    "start_date": "2025-04-16T00:00:00.000Z",
+    "end_date": "2025-04-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "product"
+    ],
+    "url": "https://devopsdays.org/events/2025-raleigh/welcome"
+  },
+  {
+    "name": "SREDay",
+    "location_name": "Redmond, WA, USA",
+    "latitude": 47.673904,
+    "longitude": -122.121527,
+    "start_date": "2025-04-14T00:00:00.000Z",
+    "end_date": "2025-04-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "sre"
+    ],
+    "url": "https://sreday.com/2025-redmond-q2"
+  },
+  {
+    "name": "SREDay",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2025-04-11T00:00:00.000Z",
+    "end_date": "2025-04-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "sre"
+    ],
+    "url": "https://sreday.com/2025-san-francisco-q2"
+  },
+  {
+    "name": "Frontrunners",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2025-03-21T00:00:00.000Z",
+    "end_date": "2025-03-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://frontrunners.tech"
+  },
+  {
+    "name": "JavaOne",
+    "location_name": "Redwood City, CA, USA",
+    "latitude": 37.48628,
+    "longitude": -122.232529,
+    "start_date": "2025-03-18T00:00:00.000Z",
+    "end_date": "2025-03-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://www.oracle.com/javaone/"
+  },
+  {
+    "name": "Devopsdays Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2025-03-18T00:00:00.000Z",
+    "end_date": "2025-03-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-chicago/welcome/"
+  },
+  {
+    "name": "SymfonyDay Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2025-03-17T00:00:00.000Z",
+    "end_date": "2025-03-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://live.symfony.com/2025-chicago"
+  },
+  {
+    "name": "Visual Studio Live",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2025-03-10T00:00:00.000Z",
+    "end_date": "2025-03-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://vslive.com/Events/Las-Vegas-2025"
+  },
+  {
+    "name": "Devopsdays Los Angeles",
+    "location_name": "Los Angeles, CA, USA",
+    "latitude": 34.048051,
+    "longitude": -118.254187,
+    "start_date": "2025-03-07T00:00:00.000Z",
+    "end_date": "2025-03-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2025-los-angeles/welcome/"
+  },
+  {
+    "name": "SCaLE 22x",
+    "location_name": "Pasadena, CA, USA",
+    "latitude": 34.145775,
+    "longitude": -118.150475,
+    "start_date": "2025-03-06T00:00:00.000Z",
+    "end_date": "2025-03-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.socallinuxexpo.org"
+  },
+  {
+    "name": "ConFoo",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2025-02-26T00:00:00.000Z",
+    "end_date": "2025-02-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://confoo.ca/en/2025"
+  },
+  {
+    "name": "ConFoo Montreal",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2025-02-26T00:00:00.000Z",
+    "end_date": "2025-02-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://confoo.ca"
+  },
+  {
+    "name": "Civo Navigate",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2025-02-10T00:00:00.000Z",
+    "end_date": "2025-02-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.civo.com/navigate/north-america"
+  },
+  {
+    "name": "pycascades",
+    "location_name": "Portland, OR, USA",
+    "latitude": 45.515197,
+    "longitude": -122.678367,
+    "start_date": "2025-02-08T00:00:00.000Z",
+    "end_date": "2025-02-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "python"
+    ],
+    "url": "https://2025.pycascades.com"
+  },
+  {
+    "name": "Prodacity",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2025-02-04T00:00:00.000Z",
+    "end_date": "2025-02-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "product"
+    ],
+    "url": "https://www.rise8.us/resource/prodacity"
+  },
+  {
+    "name": "HalfStack Phoenix",
+    "location_name": "Phoenix, AZ, USA",
+    "latitude": 33.44823,
+    "longitude": -112.075098,
+    "start_date": "2025-01-31T00:00:00.000Z",
+    "end_date": "2025-01-31T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://halfstackconf.com/phoenix"
+  },
+  {
+    "name": "CodeMash",
+    "location_name": "Sandusky, OH, USA",
+    "latitude": 41.454919,
+    "longitude": -82.710989,
+    "start_date": "2025-01-14T00:00:00.000Z",
+    "end_date": "2025-01-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://codemash.org"
+  },
+  {
+    "name": "Gartner Identity & Access Management Summit",
+    "location_name": "Grapevine, TX, USA",
+    "latitude": 32.934362,
+    "longitude": -97.078388,
+    "start_date": "2024-12-09T00:00:00.000Z",
+    "end_date": "2024-12-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.gartner.com/en/conferences/na/identity-access-management-us"
+  },
+  {
+    "name": "ArchConf",
+    "location_name": "Clearwater, FL, USA",
+    "latitude": 27.962345,
+    "longitude": -82.801662,
+    "start_date": "2024-12-09T00:00:00.000Z",
+    "end_date": "2024-12-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "java",
+      "security"
+    ],
+    "url": "https://archconf.com"
+  },
+  {
+    "name": "Tech Leader Summit",
+    "location_name": "Clearwater, FL, USA",
+    "latitude": 27.962345,
+    "longitude": -82.801662,
+    "start_date": "2024-12-04T00:00:00.000Z",
+    "end_date": "2024-12-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://techleadersummit.io"
+  },
+  {
+    "name": "DevOps Vision",
+    "location_name": "Clearwater, FL, USA",
+    "latitude": 27.962345,
+    "longitude": -82.801662,
+    "start_date": "2024-12-02T00:00:00.000Z",
+    "end_date": "2024-12-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "java",
+      "security"
+    ],
+    "url": "https://devopsvision.io"
+  },
+  {
+    "name": "Cypher",
+    "location_name": "Santa Clara, CA, USA",
+    "latitude": 37.35231,
+    "longitude": -121.9619,
+    "start_date": "2024-11-21T00:00:00.000Z",
+    "end_date": "2024-11-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://cypher.aimresearch.co"
+  },
+  {
+    "name": "QCon",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-11-18T00:00:00.000Z",
+    "end_date": "2024-11-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://qconsf.com"
+  },
+  {
+    "name": "Connect.Tech",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2024-11-18T00:00:00.000Z",
+    "end_date": "2024-11-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://2024.connect.tech"
+  },
+  {
+    "name": "Live! 360",
+    "location_name": "Orlando, FL, USA",
+    "latitude": 28.54211,
+    "longitude": -81.379039,
+    "start_date": "2024-11-17T00:00:00.000Z",
+    "end_date": "2024-11-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://live360events.com/Events/Orlando-2024"
+  },
+  {
+    "name": "DevFestYYC",
+    "location_name": "Calgary, Canada",
+    "latitude": 51.0457,
+    "longitude": -114.067955,
+    "start_date": "2024-11-15T00:00:00.000Z",
+    "end_date": "2024-11-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://devfestyyc.com"
+  },
+  {
+    "name": "AfroTech",
+    "location_name": "Houston, TX, USA",
+    "latitude": 29.760496,
+    "longitude": -95.363433,
+    "start_date": "2024-11-13T00:00:00.000Z",
+    "end_date": "2024-11-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://afrotechconference.com"
+  },
+  {
+    "name": "SpiceWorld",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2024-11-13T00:00:00.000Z",
+    "end_date": "2024-11-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.spiceworks.com/spiceworld"
+  },
+  {
+    "name": "KubeCon + CloudNativeCon North America",
+    "location_name": "Salt Lake City, UT, USA",
+    "latitude": 40.762759,
+    "longitude": -111.889779,
+    "start_date": "2024-11-12T00:00:00.000Z",
+    "end_date": "2024-11-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america"
+  },
+  {
+    "name": "IEEE World Technology Summit",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2024-11-12T00:00:00.000Z",
+    "end_date": "2024-11-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "ux"
+    ],
+    "url": "https://wts.ieee.org"
+  },
+  {
+    "name": "WasmCon",
+    "location_name": "Salt Lake City, UT, USA",
+    "latitude": 40.762759,
+    "longitude": -111.889779,
+    "start_date": "2024-11-11T00:00:00.000Z",
+    "end_date": "2024-11-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://events.linuxfoundation.org/wasmcon"
+  },
+  {
+    "name": "SREday",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-11-08T00:00:00.000Z",
+    "end_date": "2024-11-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "sre"
+    ],
+    "url": "https://sreday.com/2024-san-francisco-q4"
+  },
+  {
+    "name": "DevIgnition",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2024-11-07T00:00:00.000Z",
+    "end_date": "2024-11-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "devops",
+      "java"
+    ],
+    "url": "https://devignition.com"
+  },
+  {
+    "name": "PASS Data Community Summit",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2024-11-04T00:00:00.000Z",
+    "end_date": "2024-11-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://passdatacommunitysummit.com"
+  },
+  {
+    "name": "GNRT.AI",
+    "location_name": "Arlington, VA, USA",
+    "latitude": 38.888414,
+    "longitude": -77.091601,
+    "start_date": "2024-10-28T00:00:00.000Z",
+    "end_date": "2024-10-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://gnrt.ai"
+  },
+  {
+    "name": "Innovate Virginia",
+    "location_name": "Richmond, VA, USA",
+    "latitude": 37.535871,
+    "longitude": -77.434646,
+    "start_date": "2024-10-25T00:00:00.000Z",
+    "end_date": "2024-10-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://innovatevirginia.com"
+  },
+  {
+    "name": "Techbash Dev Conference",
+    "location_name": "Pocono Manor, PA, USA",
+    "latitude": 41.100105,
+    "longitude": -75.35896,
+    "start_date": "2024-10-24T00:00:00.000Z",
+    "end_date": "2024-10-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://techbash.com"
+  },
+  {
+    "name": "IDPCon",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-10-24T00:00:00.000Z",
+    "end_date": "2024-10-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "sre"
+    ],
+    "url": "https://idpcon.com"
+  },
+  {
+    "name": "SOSS Fusion",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2024-10-22T00:00:00.000Z",
+    "end_date": "2024-10-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://events.linuxfoundation.org/soss-fusion"
+  },
+  {
+    "name": "RISC-V Summit",
+    "location_name": "Santa Clara, CA, USA",
+    "latitude": 37.35231,
+    "longitude": -121.9619,
+    "start_date": "2024-10-22T00:00:00.000Z",
+    "end_date": "2024-10-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://events.linuxfoundation.org/riscv-summit"
+  },
+  {
+    "name": "Gartner IT Symposium/Xpo",
+    "location_name": "Orlando, FL, USA",
+    "latitude": 28.54211,
+    "longitude": -81.379039,
+    "start_date": "2024-10-21T00:00:00.000Z",
+    "end_date": "2024-10-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.gartner.com/en/conferences/na/symposium-us"
+  },
+  {
+    "name": "GOTO Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2024-10-21T00:00:00.000Z",
+    "end_date": "2024-10-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://gotochgo.com/2024"
+  },
+  {
+    "name": "Replay",
+    "location_name": "Bellevue, WA, USA",
+    "latitude": 47.613846,
+    "longitude": -122.200173,
+    "start_date": "2024-10-18T00:00:00.000Z",
+    "end_date": "2024-10-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://replay.temporal.io"
+  },
+  {
+    "name": "Momentum Developer Conference",
+    "location_name": "Cincinnati, OH, USA",
+    "latitude": 39.102438,
+    "longitude": -84.513301,
+    "start_date": "2024-10-17T00:00:00.000Z",
+    "end_date": "2024-10-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://momentumdevcon.com"
+  },
+  {
+    "name": "CDAO Fall",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2024-10-15T00:00:00.000Z",
+    "end_date": "2024-10-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://cdao-fall.coriniumintelligence.com"
+  },
+  {
+    "name": "BazelCon",
+    "location_name": "Mountain View, CA, USA",
+    "latitude": 37.393816,
+    "longitude": -122.078961,
+    "start_date": "2024-10-14T00:00:00.000Z",
+    "end_date": "2024-10-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://events.linuxfoundation.org/bazelcon"
+  },
+  {
+    "name": "AI.dev: Open Souce GenAI & ML Summit",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2024-10-14T00:00:00.000Z",
+    "end_date": "2024-10-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://events.linuxfoundation.org/ai-dev-north-america"
+  },
+  {
+    "name": "JawnCon",
+    "location_name": "Philadelphia, PA, USA",
+    "latitude": 39.952756,
+    "longitude": -75.166853,
+    "start_date": "2024-10-11T00:00:00.000Z",
+    "end_date": "2024-10-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://jawncon.org"
+  },
+  {
+    "name": "Airflow Summer",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-10-10T00:00:00.000Z",
+    "end_date": "2024-10-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://airflowsummit.org"
+  },
+  {
+    "name": "GraphQL Summit",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-10-08T00:00:00.000Z",
+    "end_date": "2024-10-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "graphql"
+    ],
+    "url": "https://summit.graphql.com"
+  },
+  {
+    "name": "MWC Las Vegas",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2024-10-08T00:00:00.000Z",
+    "end_date": "2024-10-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android"
+    ],
+    "url": "https://www.mwclasvegas.com"
+  },
+  {
+    "name": "SquiggleConf",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2024-10-03T00:00:00.000Z",
+    "end_date": "2024-10-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript",
+      "rust",
+      "typescript"
+    ],
+    "url": "https://squiggleconf.com"
+  },
+  {
+    "name": "Umbraco US Festival",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2024-10-03T00:00:00.000Z",
+    "end_date": "2024-10-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://umbracofestival.us"
+  },
+  {
+    "name": "SingleStore Now",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-10-03T00:00:00.000Z",
+    "end_date": "2024-10-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://events.singlestore.com/singlestore-now-2024"
+  },
+  {
+    "name": "Fin + AI",
+    "location_name": "Fort Lauderdale, FL, USA",
+    "latitude": 26.119142,
+    "longitude": -80.140425,
+    "start_date": "2024-10-02T00:00:00.000Z",
+    "end_date": "2024-10-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.finaiconference.com"
+  },
+  {
+    "name": "Dev2Next",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2024-09-30T00:00:00.000Z",
+    "end_date": "2024-10-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.dev2next.com"
+  },
+  {
+    "name": "PGConf NYC",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-09-30T00:00:00.000Z",
+    "end_date": "2024-10-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://2024.pgconf.nyc"
+  },
+  {
+    "name": "GovAI Summit",
+    "location_name": "Arlington, VA, USA",
+    "latitude": 38.888414,
+    "longitude": -77.091601,
+    "start_date": "2024-09-28T00:00:00.000Z",
+    "end_date": "2024-09-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.govaisummit.com"
+  },
+  {
+    "name": "JCONF.DEV",
+    "location_name": "Dallas, TX, USA",
+    "latitude": 32.781339,
+    "longitude": -96.799759,
+    "start_date": "2024-09-24T00:00:00.000Z",
+    "end_date": "2024-09-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://2024.jconf.dev"
+  },
+  {
+    "name": "BSides Edmonton",
+    "location_name": "Edmonton, Canada",
+    "latitude": 53.543144,
+    "longitude": -113.493744,
+    "start_date": "2024-09-23T00:00:00.000Z",
+    "end_date": "2024-09-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.bsidesedmonton.ca"
+  },
+  {
+    "name": "PyBay",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-09-21T00:00:00.000Z",
+    "end_date": "2024-09-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "python"
+    ],
+    "url": "https://pybay.org"
+  },
+  {
+    "name": "Fluttercon USA",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-09-19T00:00:00.000Z",
+    "end_date": "2024-09-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://flutterconusa.dev"
+  },
+  {
+    "name": "DevOpsDays Tampa Bay",
+    "location_name": "Tampa, FL, USA",
+    "latitude": 27.947974,
+    "longitude": -82.457098,
+    "start_date": "2024-09-19T00:00:00.000Z",
+    "end_date": "2024-09-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "sre"
+    ],
+    "url": "https://devopsdays.org/events/2024-tampa/welcome"
+  },
+  {
+    "name": "droidcon NYC",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-09-19T00:00:00.000Z",
+    "end_date": "2024-09-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android",
+      "kotlin",
+      "networking"
+    ],
+    "url": "https://nyc.droidcon.com"
+  },
+  {
+    "name": "Pytorch",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-09-18T00:00:00.000Z",
+    "end_date": "2024-09-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "python"
+    ],
+    "url": "https://events.linuxfoundation.org/pytorch-conference"
+  },
+  {
+    "name": "UtahJS Conf",
+    "location_name": "Salt Lake City, UT, USA",
+    "latitude": 40.762759,
+    "longitude": -111.889779,
+    "start_date": "2024-09-13T00:00:00.000Z",
+    "end_date": "2024-09-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://utahjs.com/conference"
+  },
+  {
+    "name": "GraphQLConf",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-09-10T00:00:00.000Z",
+    "end_date": "2024-09-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "graphql"
+    ],
+    "url": "https://graphql.org/conf/2024"
+  },
+  {
+    "name": "SOSS Policy Summit",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2024-09-09T00:00:00.000Z",
+    "end_date": "2024-09-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://events.linuxfoundation.org/soss-policy-summit-dc"
+  },
+  {
+    "name": "swampUp",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2024-09-09T00:00:00.000Z",
+    "end_date": "2024-09-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "security"
+    ],
+    "url": "https://swampup.jfrog.com"
+  },
+  {
+    "name": "gRPConf",
+    "location_name": "Sunnyvale, CA, USA",
+    "latitude": 37.3773,
+    "longitude": -122.028784,
+    "start_date": "2024-08-27T00:00:00.000Z",
+    "end_date": "2024-08-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://events.linuxfoundation.org/grpconf"
+  },
+  {
+    "name": "Carolina Code Conference",
+    "location_name": "Greenville, SC, USA",
+    "latitude": 34.849611,
+    "longitude": -82.399498,
+    "start_date": "2024-08-23T00:00:00.000Z",
+    "end_date": "2024-08-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://blog.carolina.codes"
+  },
+  {
+    "name": "Enterprise Technology Leadership Summit Las Vegas",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2024-08-20T00:00:00.000Z",
+    "end_date": "2024-08-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://itrevolution.com/product/enterprise-technology-leadership-summit-las-vegas-2024"
+  },
+  {
+    "name": "Amplify",
+    "location_name": "Tulsa, OK, USA",
+    "latitude": 36.15286,
+    "longitude": -95.989398,
+    "start_date": "2024-08-19T00:00:00.000Z",
+    "end_date": "2024-08-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://amplify.abstracta.us"
+  },
+  {
+    "name": "Blockchain Futurist Conference",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2024-08-13T00:00:00.000Z",
+    "end_date": "2024-08-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://futuristconference.com"
+  },
+  {
+    "name": "Ai4",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2024-08-12T00:00:00.000Z",
+    "end_date": "2024-08-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://ai4.io/vegas"
+  },
+  {
+    "name": "Secure Software by Design",
+    "location_name": "Arlington, VA, USA",
+    "latitude": 38.888414,
+    "longitude": -77.091601,
+    "start_date": "2024-08-06T00:00:00.000Z",
+    "end_date": "2024-08-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://resources.sei.cmu.edu/news-events/events/secure-software-by-design/index.cfm"
+  },
+  {
+    "name": "BSides Las Vegas",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2024-08-06T00:00:00.000Z",
+    "end_date": "2024-08-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.bsideslv.org"
+  },
+  {
+    "name": "Devopsdays Minneapolis",
+    "location_name": "Minneapolis, MN, USA",
+    "latitude": 44.976106,
+    "longitude": -93.266096,
+    "start_date": "2024-08-06T00:00:00.000Z",
+    "end_date": "2024-08-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-minneapolis/welcome"
+  },
+  {
+    "name": "Devopsdays Halifax",
+    "location_name": "Halifax, Canada",
+    "latitude": 44.648618,
+    "longitude": -63.585949,
+    "start_date": "2024-08-06T00:00:00.000Z",
+    "end_date": "2024-08-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-halifax/welcome"
+  },
+  {
+    "name": "The Diana Initiative",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2024-08-05T00:00:00.000Z",
+    "end_date": "2024-08-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.dianainitiative.org"
+  },
+  {
+    "name": "Visual Studio Live! (VSLive!) @ Microsoft HQ",
+    "location_name": "Redmond, WA, USA",
+    "latitude": 47.673904,
+    "longitude": -122.121527,
+    "start_date": "2024-08-05T00:00:00.000Z",
+    "end_date": "2024-08-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "dotnet",
+      "typescript"
+    ],
+    "url": "https://vslive.com/events/microsofthq-2024/home.aspx"
+  },
+  {
+    "name": "Beer City Code",
+    "location_name": "Grand Rapids, MI, USA",
+    "latitude": 42.966386,
+    "longitude": -85.670181,
+    "start_date": "2024-08-02T00:00:00.000Z",
+    "end_date": "2024-08-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.beercitycode.com"
+  },
+  {
+    "name": "THAT Conference",
+    "location_name": "Wisconsin Dells, WI, USA",
+    "latitude": 43.627692,
+    "longitude": -89.77524,
+    "start_date": "2024-07-29T00:00:00.000Z",
+    "end_date": "2024-08-01T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://thatconference.com/wi"
+  },
+  {
+    "name": "The MachineCon",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-07-26T00:00:00.000Z",
+    "end_date": "2024-07-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://machinecon.aimresearch.co"
+  },
+  {
+    "name": "Agile",
+    "location_name": "Dallas, TX, USA",
+    "latitude": 32.781339,
+    "longitude": -96.799759,
+    "start_date": "2024-07-22T00:00:00.000Z",
+    "end_date": "2024-07-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.agilealliance.org/agile2024"
+  },
+  {
+    "name": "Cpp North",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2024-07-21T00:00:00.000Z",
+    "end_date": "2024-07-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "cpp"
+    ],
+    "url": "https://cppnorth.ca"
+  },
+  {
+    "name": "CDAO Canada Public Sector",
+    "location_name": "Ottawa, Canada",
+    "latitude": 45.420204,
+    "longitude": -75.69779,
+    "start_date": "2024-07-18T00:00:00.000Z",
+    "end_date": "2024-07-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://cdao-canada-ps.coriniumintelligence.com"
+  },
+  {
+    "name": "AI in Production",
+    "location_name": "Asheville, NC, USA",
+    "latitude": 35.595523,
+    "longitude": -82.551925,
+    "start_date": "2024-07-18T00:00:00.000Z",
+    "end_date": "2024-07-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.aiinproduction.com"
+  },
+  {
+    "name": "Nebraska.Code()",
+    "location_name": "Lincoln, NE, USA",
+    "latitude": 40.809193,
+    "longitude": -96.701189,
+    "start_date": "2024-07-17T00:00:00.000Z",
+    "end_date": "2024-07-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://nebraskacode.amegala.com"
+  },
+  {
+    "name": "Chain React",
+    "location_name": "Portland, OR, USA",
+    "latitude": 45.515197,
+    "longitude": -122.678367,
+    "start_date": "2024-07-17T00:00:00.000Z",
+    "end_date": "2024-07-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android",
+      "ios",
+      "javascript"
+    ],
+    "url": "https://chainreactconf.com"
+  },
+  {
+    "name": "UberConf",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2024-07-16T00:00:00.000Z",
+    "end_date": "2024-07-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://uberconf.com"
+  },
+  {
+    "name": "Kscope",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2024-07-14T00:00:00.000Z",
+    "end_date": "2024-07-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://kscope24.odtug.com"
+  },
+  {
+    "name": "Dev Up Conference",
+    "location_name": "St. Charles, MO, USA",
+    "latitude": 38.781555,
+    "longitude": -90.482532,
+    "start_date": "2024-07-14T00:00:00.000Z",
+    "end_date": "2024-07-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.devupconf.org"
+  },
+  {
+    "name": "Scenic City Summit",
+    "location_name": "Chattanooga, TN, USA",
+    "latitude": 35.045767,
+    "longitude": -85.308281,
+    "start_date": "2024-06-28T00:00:00.000Z",
+    "end_date": "2024-06-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://sceniccitysummit.com"
+  },
+  {
+    "name": "CloudNativeSecurityCon",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2024-06-26T00:00:00.000Z",
+    "end_date": "2024-06-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://events.linuxfoundation.org/cloudnativesecuritycon-north-america"
+  },
+  {
+    "name": "KCDC",
+    "location_name": "Kansas City, MO, USA",
+    "latitude": 39.098485,
+    "longitude": -94.578631,
+    "start_date": "2024-06-26T00:00:00.000Z",
+    "end_date": "2024-06-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.kcdc.info"
+  },
+  {
+    "name": "AI Risk Summit",
+    "location_name": "Half Moon Bay, CA, USA",
+    "latitude": 37.463634,
+    "longitude": -122.429242,
+    "start_date": "2024-06-25T00:00:00.000Z",
+    "end_date": "2024-06-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.airisksummit.com"
+  },
+  {
+    "name": "AI Engineer Worlds Fair",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-06-25T00:00:00.000Z",
+    "end_date": "2024-06-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.ai.engineer/worldsfair"
+  },
+  {
+    "name": "The AI Quality Conference (AIQCon)",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-06-25T00:00:00.000Z",
+    "end_date": "2024-06-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.aiqualityconference.com"
+  },
+  {
+    "name": "InfoQ Dev Summit Boston",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2024-06-24T00:00:00.000Z",
+    "end_date": "2024-06-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://devsummit.infoq.com/conference/boston2024"
+  },
+  {
+    "name": "InfoQ Dev Summit",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2024-06-24T00:00:00.000Z",
+    "end_date": "2024-06-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devsummit.infoq.com"
+  },
+  {
+    "name": "SREday San Francisco",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-06-22T00:00:00.000Z",
+    "end_date": "2024-06-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "sre"
+    ],
+    "url": "https://sreday.com/2024-san-francisco"
+  },
+  {
+    "name": "Conference on Computer Vision and Pattern Recognition (CVPR)",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2024-06-17T00:00:00.000Z",
+    "end_date": "2024-06-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://cvpr.thecvf.com/Conferences/2024"
+  },
+  {
+    "name": "RenderATL",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2024-06-12T00:00:00.000Z",
+    "end_date": "2024-06-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://RenderATL.com"
+  },
+  {
+    "name": "One More Thing Conference",
+    "location_name": "Cupertino, CA, USA",
+    "latitude": 37.319321,
+    "longitude": -122.029283,
+    "start_date": "2024-06-10T00:00:00.000Z",
+    "end_date": "2024-06-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "ios"
+    ],
+    "url": "https://omt-conf.com"
+  },
+  {
+    "name": "Monitorama",
+    "location_name": "Portland, OR, USA",
+    "latitude": 45.515197,
+    "longitude": -122.678367,
+    "start_date": "2024-06-10T00:00:00.000Z",
+    "end_date": "2024-06-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "sre"
+    ],
+    "url": "https://monitorama.com/2024/pdx.html"
+  },
+  {
+    "name": "Databricks Data + AI Summit",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-06-10T00:00:00.000Z",
+    "end_date": "2024-06-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.databricks.com/dataaisummit"
+  },
+  {
+    "name": "Big Sky Dev Con",
+    "location_name": "Bozeman, MT, USA",
+    "latitude": 45.679303,
+    "longitude": -111.035732,
+    "start_date": "2024-06-08T00:00:00.000Z",
+    "end_date": "2024-06-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://bigskydevcon.com"
+  },
+  {
+    "name": "droidcon San Francisco",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-06-06T00:00:00.000Z",
+    "end_date": "2024-06-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android",
+      "kotlin",
+      "networking"
+    ],
+    "url": "https://sf.droidcon.com"
+  },
+  {
+    "name": "International Conference on Automated Planning and Scheduling (ICAPS)",
+    "location_name": "Banff, Canada",
+    "latitude": 51.176613,
+    "longitude": -115.57096,
+    "start_date": "2024-06-01T00:00:00.000Z",
+    "end_date": "2024-06-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://icaps24.icaps-conference.org"
+  },
+  {
+    "name": "Hardwear.io",
+    "location_name": "Santa Clara, CA, USA",
+    "latitude": 37.35231,
+    "longitude": -121.9619,
+    "start_date": "2024-05-31T00:00:00.000Z",
+    "end_date": "2024-06-01T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://hardwear.io"
+  },
+  {
+    "name": "Hampton Roads DevFest",
+    "location_name": "Virginia Beach, VA, USA",
+    "latitude": 36.850006,
+    "longitude": -75.976869,
+    "start_date": "2024-05-31T00:00:00.000Z",
+    "end_date": "2024-05-31T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://hrdevfest.org"
+  },
+  {
+    "name": "PGConf.dev",
+    "location_name": "Vancouver, Canada",
+    "latitude": 49.260975,
+    "longitude": -123.11498,
+    "start_date": "2024-05-28T00:00:00.000Z",
+    "end_date": "2024-05-31T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://2024.pgconf.dev"
+  },
+  {
+    "name": "Devopsdays Montreal",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2024-05-27T00:00:00.000Z",
+    "end_date": "2024-05-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-montreal/welcome"
+  },
+  {
+    "name": "Minnedemo 39",
+    "location_name": "Minneapolis, USA",
+    "latitude": 44.9778,
+    "longitude": -93.265,
+    "start_date": "2024-05-23T14:00:00.000Z",
+    "end_date": "2024-05-23T23:00:00.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general",
+      "community"
+    ],
+    "url": "https://minnestar.org"
+  },
+  {
+    "name": "KCD New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-05-22T00:00:00.000Z",
+    "end_date": "2024-05-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://community.cncf.io/events/details/cncf-kcd-new-york-presents-kcd-new-york-2024"
+  },
+  {
+    "name": "Devopsdays Baltimore",
+    "location_name": "Baltimore, MD, USA",
+    "latitude": 39.289643,
+    "longitude": -76.612299,
+    "start_date": "2024-05-21T00:00:00.000Z",
+    "end_date": "2024-05-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-baltimore/welcome"
+  },
+  {
+    "name": "AI in Prod",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-05-21T00:00:00.000Z",
+    "end_date": "2024-05-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://events.weaviate.io/ai-in-prod-ny-24"
+  },
+  {
+    "name": "Greater Wisconsin Software Symposium",
+    "location_name": "Madison, WI, USA",
+    "latitude": 43.073198,
+    "longitude": -89.38219,
+    "start_date": "2024-05-17T00:00:00.000Z",
+    "end_date": "2024-05-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "java"
+    ],
+    "url": "https://nofluffjuststuff.com/madison"
+  },
+  {
+    "name": "Devopsdays Kansas City",
+    "location_name": "Kansas City, MO, USA",
+    "latitude": 39.098485,
+    "longitude": -94.578631,
+    "start_date": "2024-05-15T00:00:00.000Z",
+    "end_date": "2024-05-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "general"
+    ],
+    "url": "https://devopsdays.org/events/2024-kansas-city/welcome"
+  },
+  {
+    "name": "Devopsdays Seattle",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2024-05-14T00:00:00.000Z",
+    "end_date": "2024-05-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-seattle/welcome"
+  },
+  {
+    "name": "Devopsdays Philadelphia",
+    "location_name": "Philadelphia, PA, USA",
+    "latitude": 39.952756,
+    "longitude": -75.166853,
+    "start_date": "2024-05-14T00:00:00.000Z",
+    "end_date": "2024-05-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-philadelphia/welcome"
+  },
+  {
+    "name": "BSidesSF",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-05-04T00:00:00.000Z",
+    "end_date": "2024-05-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://bsidessf.org"
+  },
+  {
+    "name": "New England Software Symposium",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2024-05-03T00:00:00.000Z",
+    "end_date": "2024-05-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "java"
+    ],
+    "url": "https://nofluffjuststuff.com/boston"
+  },
+  {
+    "name": "Devopsdays Austin",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2024-05-02T00:00:00.000Z",
+    "end_date": "2024-05-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-austin/welcome"
+  },
+  {
+    "name": "Apidays New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2024-04-30T00:00:00.000Z",
+    "end_date": "2024-05-01T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "graphql"
+    ],
+    "url": "https://www.apidays.global/new-york"
+  },
+  {
+    "name": "Devopsdays Denver",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2024-04-29T00:00:00.000Z",
+    "end_date": "2024-04-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-denver/welcome"
+  },
+  {
+    "name": "Visual Studio Live! (VSLive!) Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2024-04-29T00:00:00.000Z",
+    "end_date": "2024-05-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "dotnet",
+      "typescript"
+    ],
+    "url": "https://vslive.com/events/chicago-2024/home.aspx"
+  },
+  {
+    "name": "Minnebar 18",
+    "location_name": "Minneapolis, USA",
+    "latitude": 44.9778,
+    "longitude": -93.265,
+    "start_date": "2024-04-27T14:00:00.000Z",
+    "end_date": "2024-04-27T23:00:00.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general",
+      "community"
+    ],
+    "url": "https://minnestar.org"
+  },
+  {
+    "name": "React Miami",
+    "location_name": "Miami, FL, USA",
+    "latitude": 25.773357,
+    "longitude": -80.1919,
+    "start_date": "2024-04-19T00:00:00.000Z",
+    "end_date": "2024-04-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://www.reactmiami.com"
+  },
+  {
+    "name": "Devopsdays Birmingham",
+    "location_name": "Birmingham, AL, USA",
+    "latitude": 33.522217,
+    "longitude": -86.809079,
+    "start_date": "2024-04-17T00:00:00.000Z",
+    "end_date": "2024-04-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-birmingham-al/welcome"
+  },
+  {
+    "name": "Navigate Local Tampa",
+    "location_name": "Tampa, FL, USA",
+    "latitude": 27.947974,
+    "longitude": -82.457098,
+    "start_date": "2024-04-16T00:00:00.000Z",
+    "end_date": "2024-04-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.civo.com/navigate/local-tampa-2024"
+  },
+  {
+    "name": "Derby City Data Days",
+    "location_name": "Louisville, KY, USA",
+    "latitude": 38.253246,
+    "longitude": -85.758804,
+    "start_date": "2024-04-13T00:00:00.000Z",
+    "end_date": "2024-04-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "networking"
+    ],
+    "url": "https://www.meetup.com/louisville-data-technology-group/events/299453678"
+  },
+  {
+    "name": "Lone Star Software Symposium",
+    "location_name": "Dallas, TX, USA",
+    "latitude": 32.781339,
+    "longitude": -96.799759,
+    "start_date": "2024-04-12T00:00:00.000Z",
+    "end_date": "2024-04-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "java"
+    ],
+    "url": "https://nofluffjuststuff.com/dallas"
+  },
+  {
+    "name": "WiCys",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2024-04-11T00:00:00.000Z",
+    "end_date": "2024-04-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.wicys.org/events/wicys-2024"
+  },
+  {
+    "name": "DevOps Days Raleigh",
+    "location_name": "Raleigh, NC, USA",
+    "latitude": 35.779557,
+    "longitude": -78.638148,
+    "start_date": "2024-04-10T00:00:00.000Z",
+    "end_date": "2024-04-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/raleigh"
+  },
+  {
+    "name": "PowerShell + DevOps Global Summit",
+    "location_name": "Bellevue, WA, USA",
+    "latitude": 47.613846,
+    "longitude": -122.200173,
+    "start_date": "2024-04-08T00:00:00.000Z",
+    "end_date": "2024-04-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.powershellsummit.org"
+  },
+  {
+    "name": "Women Techmakers Montreal",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2024-04-06T00:00:00.000Z",
+    "end_date": "2024-04-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "networking"
+    ],
+    "url": "https://wtmmontreal.com"
+  },
+  {
+    "name": "Gateway Software Symposium",
+    "location_name": "St. Louis, MO, USA",
+    "latitude": 38.627464,
+    "longitude": -90.19835,
+    "start_date": "2024-04-05T00:00:00.000Z",
+    "end_date": "2024-04-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "java"
+    ],
+    "url": "https://nofluffjuststuff.com/stlouis"
+  },
+  {
+    "name": "Michigan Technology Conference",
+    "location_name": "Detroit, MI, USA",
+    "latitude": 42.331397,
+    "longitude": -83.046217,
+    "start_date": "2024-03-21T00:00:00.000Z",
+    "end_date": "2024-03-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.mitechcon.org"
+  },
+  {
+    "name": "SRECon Americas",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2024-03-18T00:00:00.000Z",
+    "end_date": "2024-03-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "sre"
+    ],
+    "url": "https://www.usenix.org/conference/srecon24americas"
+  },
+  {
+    "name": "Internet 2.0 Conference USA",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2024-03-18T00:00:00.000Z",
+    "end_date": "2024-03-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking",
+      "security"
+    ],
+    "url": "https://www.internet2conf.com"
+  },
+  {
+    "name": "Devopsdays Los Angeles",
+    "location_name": "Los Angeles, CA, USA",
+    "latitude": 34.048051,
+    "longitude": -118.254187,
+    "start_date": "2024-03-15T00:00:00.000Z",
+    "end_date": "2024-03-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2024-los-angeles/welcome"
+  },
+  {
+    "name": "Southern California Linux",
+    "location_name": "Pasadena, CA, USA",
+    "latitude": 34.145775,
+    "longitude": -118.150475,
+    "start_date": "2024-03-14T00:00:00.000Z",
+    "end_date": "2024-03-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.socallinuxexpo.org"
+  },
+  {
+    "name": "API Summit",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2024-03-11T00:00:00.000Z",
+    "end_date": "2024-03-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "graphql",
+      "security"
+    ],
+    "url": "https://nordicapis.com/events/austin-api-summit-2024"
+  },
+  {
+    "name": "DataTune",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2024-03-08T00:00:00.000Z",
+    "end_date": "2024-03-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.datatuneconf.com"
+  },
+  {
+    "name": "Frontrunners",
+    "location_name": "Arlington, VA, USA",
+    "latitude": 38.888414,
+    "longitude": -77.091601,
+    "start_date": "2024-03-08T00:00:00.000Z",
+    "end_date": "2024-03-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "css",
+      "javascript",
+      "ux"
+    ],
+    "url": "https://frontrunners.tech"
+  },
+  {
+    "name": "Visual Studio Live! (VSLive!) Las Vegas",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2024-03-03T00:00:00.000Z",
+    "end_date": "2024-03-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "dotnet",
+      "typescript"
+    ],
+    "url": "https://vslive.com/events/las-vegas-2024/home.aspx"
+  },
+  {
+    "name": "Civo Navigate North America",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2024-02-20T00:00:00.000Z",
+    "end_date": "2024-02-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.civo.com/navigate/north-america"
+  },
+  {
+    "name": "THAT Conference Texas",
+    "location_name": "Round Rock, TX, USA",
+    "latitude": 30.508594,
+    "longitude": -97.678812,
+    "start_date": "2024-01-29T00:00:00.000Z",
+    "end_date": "2024-02-01T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://that.us/events/tx/2024"
+  },
+  {
+    "name": "Front-end Design Conference",
+    "location_name": "St. Petersburg, FL, USA",
+    "latitude": 27.772077,
+    "longitude": -82.638486,
+    "start_date": "2024-01-25T00:00:00.000Z",
+    "end_date": "2024-01-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "css",
+      "javascript",
+      "ux"
+    ],
+    "url": "https://frontenddesignconference.com"
+  },
+  {
+    "name": "Codemash",
+    "location_name": "Sandusky, OH, USA",
+    "latitude": 41.454919,
+    "longitude": -82.710989,
+    "start_date": "2024-01-09T00:00:00.000Z",
+    "end_date": "2024-01-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://codemash.org"
+  },
+  {
+    "name": "AI.dev: Open Souce GenAI & ML Summit",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2023-12-12T00:00:00.000Z",
+    "end_date": "2023-12-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://events.linuxfoundation.org/ai-dev-north-america"
+  },
+  {
+    "name": "AI EXPO",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2023-12-09T00:00:00.000Z",
+    "end_date": "2023-12-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://aiexpo.us"
+  },
+  {
+    "name": "Scale By The Bay",
+    "location_name": "Oakland, CA, USA",
+    "latitude": 37.805306,
+    "longitude": -122.27058,
+    "start_date": "2023-11-13T00:00:00.000Z",
+    "end_date": "2023-11-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.scale.bythebay.io"
+  },
+  {
+    "name": "Live! 360",
+    "location_name": "Orlando, FL, USA",
+    "latitude": 28.54211,
+    "longitude": -81.379039,
+    "start_date": "2023-11-12T00:00:00.000Z",
+    "end_date": "2023-11-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "dotnet"
+    ],
+    "url": "https://live360events.com/events/orlando-2023/Home.aspx"
+  },
+  {
+    "name": "TechBash",
+    "location_name": "Pocono Manor, PA, USA",
+    "latitude": 41.100105,
+    "longitude": -75.35896,
+    "start_date": "2023-11-07T00:00:00.000Z",
+    "end_date": "2023-11-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://techbash.com"
+  },
+  {
+    "name": "Prodacity",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2023-11-06T00:00:00.000Z",
+    "end_date": "2023-11-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "product"
+    ],
+    "url": "https://rise8.us/prodacity"
+  },
+  {
+    "name": "KubeCon + CloudNativeCon",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-11-06T00:00:00.000Z",
+    "end_date": "2023-11-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "devops"
+    ],
+    "url": "https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america"
+  },
+  {
+    "name": "Devopsdays Montreal",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2023-11-01T00:00:00.000Z",
+    "end_date": "2023-11-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-montreal/welcome"
+  },
+  {
+    "name": "MLOps World",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2023-10-25T00:00:00.000Z",
+    "end_date": "2023-10-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://mlopsworld.com"
+  },
+  {
+    "name": "CONNECT.TECH",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2023-10-24T00:00:00.000Z",
+    "end_date": "2023-10-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://2023.connect.tech"
+  },
+  {
+    "name": "DevSpace",
+    "location_name": "Huntsville, AL, USA",
+    "latitude": 34.729538,
+    "longitude": -86.585304,
+    "start_date": "2023-10-23T00:00:00.000Z",
+    "end_date": "2023-10-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.devspaceconf.com"
+  },
+  {
+    "name": "GOTO AI DAYS CHICAGO",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-10-23T00:00:00.000Z",
+    "end_date": "2023-10-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "product"
+    ],
+    "url": "https://gotochgo.com/ai-days-2023"
+  },
+  {
+    "name": "Minnedemo 38",
+    "location_name": "Minneapolis, USA",
+    "latitude": 44.9778,
+    "longitude": -93.265,
+    "start_date": "2023-10-19T14:00:00.000Z",
+    "end_date": "2023-10-19T23:00:00.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general",
+      "community"
+    ],
+    "url": "https://minnestar.org"
+  },
+  {
+    "name": "Momentum Developer Conference",
+    "location_name": "Cincinnati, OH, USA",
+    "latitude": 39.102438,
+    "longitude": -84.513301,
+    "start_date": "2023-10-19T00:00:00.000Z",
+    "end_date": "2023-10-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://momentumdevcon.com"
+  },
+  {
+    "name": "Devopsdays Detroit",
+    "location_name": "Detroit, MI, USA",
+    "latitude": 42.331397,
+    "longitude": -83.046217,
+    "start_date": "2023-10-18T00:00:00.000Z",
+    "end_date": "2023-10-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-detroit/welcome"
+  },
+  {
+    "name": "DevOps World",
+    "location_name": "Santa Clara, CA, USA",
+    "latitude": 37.35231,
+    "longitude": -121.9619,
+    "start_date": "2023-10-18T00:00:00.000Z",
+    "end_date": "2023-10-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.devopsworld.com"
+  },
+  {
+    "name": "SingleStore Now: The Real-Time AI Conference",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2023-10-17T00:00:00.000Z",
+    "end_date": "2023-10-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://singlestorenowtherealtimeaicon.splashthat.com"
+  },
+  {
+    "name": "Prairie Dev Con",
+    "location_name": "Regina, Canada",
+    "latitude": 50.448906,
+    "longitude": -104.6108,
+    "start_date": "2023-10-16T00:00:00.000Z",
+    "end_date": "2023-10-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.prairiedevcon.com/regina"
+  },
+  {
+    "name": "Devopsdays Boston",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2023-10-16T00:00:00.000Z",
+    "end_date": "2023-10-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-boston/welcome"
+  },
+  {
+    "name": "LibertyJS",
+    "location_name": "Philadelphia, PA, USA",
+    "latitude": 39.952756,
+    "longitude": -75.166853,
+    "start_date": "2023-10-12T00:00:00.000Z",
+    "end_date": "2023-10-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://libertyjs.com"
+  },
+  {
+    "name": "GraphQL Summit",
+    "location_name": "San Diego, CA, USA",
+    "latitude": 32.713623,
+    "longitude": -117.16016,
+    "start_date": "2023-10-10T00:00:00.000Z",
+    "end_date": "2023-10-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "graphql",
+      "security"
+    ],
+    "url": "https://summit.graphql.com"
+  },
+  {
+    "name": "AI Engineer Summit",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2023-10-08T00:00:00.000Z",
+    "end_date": "2023-10-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.ai.engineer/summit"
+  },
+  {
+    "name": "UC Berkeley AI Summit",
+    "location_name": "Berkeley, CA, USA",
+    "latitude": 37.870313,
+    "longitude": -122.268064,
+    "start_date": "2023-10-08T00:00:00.000Z",
+    "end_date": "2023-10-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.berkeleyhaasaisummit.com"
+  },
+  {
+    "name": "Devopsdays Indianapolis",
+    "location_name": "Indianapolis, IN, USA",
+    "latitude": 39.768602,
+    "longitude": -86.16166,
+    "start_date": "2023-10-05T00:00:00.000Z",
+    "end_date": "2023-10-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-indianapolis/welcome"
+  },
+  {
+    "name": "DevOps Enterprise Summit Las Vegas",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2023-10-03T00:00:00.000Z",
+    "end_date": "2023-10-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://itrevolution.com/product/devops-enterprise-summit-las-vegas-2023"
+  },
+  {
+    "name": "SnapLogic Integreat Tour",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2023-10-03T00:00:00.000Z",
+    "end_date": "2023-10-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.snaplogic.com/integreat-tour/san-francisco"
+  },
+  {
+    "name": "The Product Conference",
+    "location_name": "Cleveland, OH, USA",
+    "latitude": 41.501377,
+    "longitude": -81.690317,
+    "start_date": "2023-10-02T00:00:00.000Z",
+    "end_date": "2023-10-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "product"
+    ],
+    "url": "http://INDUSTRYconference.com/global"
+  },
+  {
+    "name": "QCon",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2023-10-02T00:00:00.000Z",
+    "end_date": "2023-10-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://qconsf.com"
+  },
+  {
+    "name": "CakeFest",
+    "location_name": "Los Angeles, CA, USA",
+    "latitude": 34.048051,
+    "longitude": -118.254187,
+    "start_date": "2023-09-28T00:00:00.000Z",
+    "end_date": "2023-09-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://cakefest.org"
+  },
+  {
+    "name": "DevOps World",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-09-27T00:00:00.000Z",
+    "end_date": "2023-09-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.devopsworld.com"
+  },
+  {
+    "name": "UndergroundJS",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2023-09-21T00:00:00.000Z",
+    "end_date": "2023-09-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://undergroundjs.com"
+  },
+  {
+    "name": "Strange Loop",
+    "location_name": "St. Louis, MO, USA",
+    "latitude": 38.627464,
+    "longitude": -90.19835,
+    "start_date": "2023-09-21T00:00:00.000Z",
+    "end_date": "2023-09-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://thestrangeloop.com"
+  },
+  {
+    "name": "GraphQLConf",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2023-09-19T00:00:00.000Z",
+    "end_date": "2023-09-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "graphql"
+    ],
+    "url": "https://www.graphql.org/conf"
+  },
+  {
+    "name": "ATL Dev Con",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2023-09-16T00:00:00.000Z",
+    "end_date": "2023-09-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.atldevcon.com"
+  },
+  {
+    "name": "UtahJS Conf",
+    "location_name": "Salt Lake City, UT, USA",
+    "latitude": 40.762759,
+    "longitude": -111.889779,
+    "start_date": "2023-09-15T00:00:00.000Z",
+    "end_date": "2023-09-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://utahjs.com/conference"
+  },
+  {
+    "name": "droidcon New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2023-09-14T00:00:00.000Z",
+    "end_date": "2023-09-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android",
+      "kotlin",
+      "networking"
+    ],
+    "url": "https://nyc.droidcon.com"
+  },
+  {
+    "name": "Devopsdays Washington, DC",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2023-09-13T00:00:00.000Z",
+    "end_date": "2023-09-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-washington-dc/welcome"
+  },
+  {
+    "name": "DevOps World",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2023-09-13T00:00:00.000Z",
+    "end_date": "2023-09-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.devopsworld.com"
+  },
+  {
+    "name": "swampUP",
+    "location_name": "San Jose, CA, USA",
+    "latitude": 37.336157,
+    "longitude": -121.890608,
+    "start_date": "2023-09-13T00:00:00.000Z",
+    "end_date": "2023-09-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "security"
+    ],
+    "url": "https://swampup.jfrog.com"
+  },
+  {
+    "name": "SPM Summit North America",
+    "location_name": "Berkeley, CA, USA",
+    "latitude": 37.870313,
+    "longitude": -122.268064,
+    "start_date": "2023-09-12T00:00:00.000Z",
+    "end_date": "2023-09-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "product"
+    ],
+    "url": "https://spmsummit.org/northamerica"
+  },
+  {
+    "name": "Replay",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2023-09-12T00:00:00.000Z",
+    "end_date": "2023-09-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://temporal.io/replay"
+  },
+  {
+    "name": "Devopsdays Des Moines",
+    "location_name": "Des Moines, IA, USA",
+    "latitude": 41.584997,
+    "longitude": -93.624273,
+    "start_date": "2023-09-07T00:00:00.000Z",
+    "end_date": "2023-09-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-des-moines/welcome"
+  },
+  {
+    "name": "WasmCon",
+    "location_name": "Bellevue, WA, USA",
+    "latitude": 47.613846,
+    "longitude": -122.200173,
+    "start_date": "2023-09-06T00:00:00.000Z",
+    "end_date": "2023-09-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://events.linuxfoundation.org/wasmcon"
+  },
+  {
+    "name": "Try Swift! NYC",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2023-09-05T00:00:00.000Z",
+    "end_date": "2023-09-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data",
+      "ios"
+    ],
+    "url": "https://www.tryswift.co/events/2023/nyc"
+  },
+  {
+    "name": "Devopsdays Dallas",
+    "location_name": "Dallas, TX, USA",
+    "latitude": 32.781339,
+    "longitude": -96.799759,
+    "start_date": "2023-08-29T00:00:00.000Z",
+    "end_date": "2023-08-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-dallas/welcome"
+  },
+  {
+    "name": "Dev Up",
+    "location_name": "St. Louis, MO, USA",
+    "latitude": 38.627464,
+    "longitude": -90.19835,
+    "start_date": "2023-08-28T00:00:00.000Z",
+    "end_date": "2023-08-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.devupconf.org"
+  },
+  {
+    "name": "Outland",
+    "location_name": "Palm Springs, CA, USA",
+    "latitude": 33.8231,
+    "longitude": -116.545565,
+    "start_date": "2023-08-26T00:00:00.000Z",
+    "end_date": "2023-08-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://outland.sh"
+  },
+  {
+    "name": "Javascript and Friends",
+    "location_name": "Columbus, OH, USA",
+    "latitude": 39.962232,
+    "longitude": -83.000642,
+    "start_date": "2023-08-25T00:00:00.000Z",
+    "end_date": "2023-08-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://www.javascriptandfriends.com"
+  },
+  {
+    "name": "React Rally",
+    "location_name": "Salt Lake City, UT, USA",
+    "latitude": 40.762759,
+    "longitude": -111.889779,
+    "start_date": "2023-08-17T00:00:00.000Z",
+    "end_date": "2023-08-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://www.reactrally.com"
+  },
+  {
+    "name": "Skytalks at DEF CON",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2023-08-10T00:00:00.000Z",
+    "end_date": "2023-08-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://skytalks.info"
+  },
+  {
+    "name": "Swift TO",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2023-08-10T00:00:00.000Z",
+    "end_date": "2023-08-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "ios"
+    ],
+    "url": "https://swiftconf.to"
+  },
+  {
+    "name": "Indy.Code()",
+    "location_name": "Indianapolis, IN, USA",
+    "latitude": 39.768602,
+    "longitude": -86.16166,
+    "start_date": "2023-08-10T00:00:00.000Z",
+    "end_date": "2023-08-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://indycode.amegala.com"
+  },
+  {
+    "name": "Devopsdays Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-08-09T00:00:00.000Z",
+    "end_date": "2023-08-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-chicago/welcome"
+  },
+  {
+    "name": "SeattleJS Conf",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2023-08-08T00:00:00.000Z",
+    "end_date": "2023-08-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://seattlejs.com/conf"
+  },
+  {
+    "name": "The Diana Initiative",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2023-08-07T00:00:00.000Z",
+    "end_date": "2023-08-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.dianainitiative.org"
+  },
+  {
+    "name": "Visual Studio Live! San Diego",
+    "location_name": "San Diego, CA, USA",
+    "latitude": 32.713623,
+    "longitude": -117.16016,
+    "start_date": "2023-08-07T00:00:00.000Z",
+    "end_date": "2023-08-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "dotnet",
+      "security"
+    ],
+    "url": "https://vslive.com/events/san-diego-2023/home.aspx"
+  },
+  {
+    "name": "Beer City Code",
+    "location_name": "Grand Rapids, MI, USA",
+    "latitude": 42.966386,
+    "longitude": -85.670181,
+    "start_date": "2023-08-04T00:00:00.000Z",
+    "end_date": "2023-08-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.beercitycode.com"
+  },
+  {
+    "name": "Devopsdays Seattle",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2023-08-01T00:00:00.000Z",
+    "end_date": "2023-08-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-seattle/welcome"
+  },
+  {
+    "name": "Laracon",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2023-07-19T00:00:00.000Z",
+    "end_date": "2023-07-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://laracon.us"
+  },
+  {
+    "name": "Visual Studio Live! Microsoft HQ",
+    "location_name": "Redmond, WA, USA",
+    "latitude": 47.673904,
+    "longitude": -122.121527,
+    "start_date": "2023-07-17T00:00:00.000Z",
+    "end_date": "2023-07-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "dotnet",
+      "security"
+    ],
+    "url": "https://vslive.com/events/microsofthq-2023/home.aspx"
+  },
+  {
+    "name": "Cpp North",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2023-07-17T00:00:00.000Z",
+    "end_date": "2023-07-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "cpp"
+    ],
+    "url": "https://cppnorth.ca"
+  },
+  {
+    "name": "FOSSY",
+    "location_name": "Portland, OR, USA",
+    "latitude": 45.515197,
+    "longitude": -122.678367,
+    "start_date": "2023-07-13T00:00:00.000Z",
+    "end_date": "2023-07-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://sfconservancy.org/fossy"
+  },
+  {
+    "name": "Internet 2.0 Conference USA",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2023-07-10T00:00:00.000Z",
+    "end_date": "2023-07-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android"
+    ],
+    "url": "https://www.internet2conf.com"
+  },
+  {
+    "name": "BCI Summit: Transforming Data and AI",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2023-06-28T00:00:00.000Z",
+    "end_date": "2023-06-29T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://bcisummit.com/summit-2023j.html"
+  },
+  {
+    "name": "KCDC",
+    "location_name": "Kansas City, KS, USA",
+    "latitude": 39.113629,
+    "longitude": -94.626816,
+    "start_date": "2023-06-21T00:00:00.000Z",
+    "end_date": "2023-06-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.kcdc.info"
+  },
+  {
+    "name": "Prairie Dev Con winnipeg",
+    "location_name": "Winnipeg, Canada",
+    "latitude": 49.89558,
+    "longitude": -97.138596,
+    "start_date": "2023-06-12T00:00:00.000Z",
+    "end_date": "2023-06-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.prairiedevcon.com/winnipeg.html"
+  },
+  {
+    "name": "GothamGo",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2023-06-09T00:00:00.000Z",
+    "end_date": "2023-06-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "golang"
+    ],
+    "url": "http://gothamgo.com"
+  },
+  {
+    "name": "State of the Map US",
+    "location_name": "Richmond, VA, USA",
+    "latitude": 37.535871,
+    "longitude": -77.434646,
+    "start_date": "2023-06-08T00:00:00.000Z",
+    "end_date": "2023-06-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://2023.stateofthemap.us"
+  },
+  {
+    "name": "ScalaDays",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2023-06-05T00:00:00.000Z",
+    "end_date": "2023-06-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "scala"
+    ],
+    "url": "https://scaladays.org/seattle-2023"
+  },
+  {
+    "name": "North American Technology Executive Summit",
+    "location_name": "Scottsdale, AZ, USA",
+    "latitude": 33.496821,
+    "longitude": -111.92618,
+    "start_date": "2023-06-05T00:00:00.000Z",
+    "end_date": "2023-06-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://cto-summit.com"
+  },
+  {
+    "name": "Scenic City Summit",
+    "location_name": "Chattanooga, TN, USA",
+    "latitude": 35.045767,
+    "longitude": -85.308281,
+    "start_date": "2023-06-02T00:00:00.000Z",
+    "end_date": "2023-06-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://sceniccitysummit.com"
+  },
+  {
+    "name": "RenderATL",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2023-05-31T00:00:00.000Z",
+    "end_date": "2023-06-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.renderatl.com"
+  },
+  {
+    "name": "PGCon",
+    "location_name": "Ottawa, Canada",
+    "latitude": 45.420204,
+    "longitude": -75.69779,
+    "start_date": "2023-05-30T00:00:00.000Z",
+    "end_date": "2023-06-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.pgcon.org/2023"
+  },
+  {
+    "name": "The Data Science Conference",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-05-25T00:00:00.000Z",
+    "end_date": "2023-05-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.thedatascienceconference.com"
+  },
+  {
+    "name": "Vueconf.US",
+    "location_name": "New Orleans, LA, USA",
+    "latitude": 29.975962,
+    "longitude": -90.078202,
+    "start_date": "2023-05-24T00:00:00.000Z",
+    "end_date": "2023-05-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://vueconf.us"
+  },
+  {
+    "name": "Devopsdays Baltimore",
+    "location_name": "Baltimore, MD, USA",
+    "latitude": 39.289643,
+    "longitude": -76.612299,
+    "start_date": "2023-05-23T00:00:00.000Z",
+    "end_date": "2023-05-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-baltimore"
+  },
+  {
+    "name": "Infobip Shift Miami",
+    "location_name": "Miami, FL, USA",
+    "latitude": 25.773357,
+    "longitude": -80.1919,
+    "start_date": "2023-05-23T00:00:00.000Z",
+    "end_date": "2023-05-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "javascript"
+    ],
+    "url": "https://shift.infobip.com/us"
+  },
+  {
+    "name": "SmashingConf SF",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2023-05-23T00:00:00.000Z",
+    "end_date": "2023-05-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "css",
+      "javascript"
+    ],
+    "url": "https://smashingconf.com/sf-2023"
+  },
+  {
+    "name": "Agile Testing Days USA",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-05-22T00:00:00.000Z",
+    "end_date": "2023-05-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://agiletestingdays.us"
+  },
+  {
+    "name": "GOTO Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-05-22T00:00:00.000Z",
+    "end_date": "2023-05-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://gotochgo.com/2023"
+  },
+  {
+    "name": "Into The Box",
+    "location_name": "Houston, TX, USA",
+    "latitude": 29.760496,
+    "longitude": -95.363433,
+    "start_date": "2023-05-17T00:00:00.000Z",
+    "end_date": "2023-05-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://intothebox.org"
+  },
+  {
+    "name": "KubeHuddle Toronto",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2023-05-17T00:00:00.000Z",
+    "end_date": "2023-05-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://kubehuddle.com"
+  },
+  {
+    "name": "php[tek]",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-05-16T00:00:00.000Z",
+    "end_date": "2023-05-18T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://tek.phparch.com"
+  },
+  {
+    "name": "DevOpsDays Atlanta",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2023-05-16T00:00:00.000Z",
+    "end_date": "2023-05-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-atlanta/welcome"
+  },
+  {
+    "name": "Visual Studio Live! Nashville",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2023-05-15T00:00:00.000Z",
+    "end_date": "2023-05-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "dotnet",
+      "security"
+    ],
+    "url": "https://vslive.com/events/nashville-2023/home.aspx"
+  },
+  {
+    "name": "cdCon + GitOpsCon",
+    "location_name": "Vancouver, Canada",
+    "latitude": 49.260975,
+    "longitude": -123.11498,
+    "start_date": "2023-05-08T00:00:00.000Z",
+    "end_date": "2023-05-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://events.linuxfoundation.org/cdcon-gitopscon"
+  },
+  {
+    "name": "Stir Trek",
+    "location_name": "Columbus, OH, USA",
+    "latitude": 39.962232,
+    "longitude": -83.000642,
+    "start_date": "2023-05-05T00:00:00.000Z",
+    "end_date": "2023-05-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://stirtrek.com"
+  },
+  {
+    "name": "The New York Product Conference",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2023-05-04T00:00:00.000Z",
+    "end_date": "2023-05-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "product"
+    ],
+    "url": "http://INDUSTRYconference.com/new-york"
+  },
+  {
+    "name": "Devopsdays Austin",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2023-05-04T00:00:00.000Z",
+    "end_date": "2023-05-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-austin/welcome"
+  },
+  {
+    "name": "Reactathon",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2023-05-02T00:00:00.000Z",
+    "end_date": "2023-05-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://reactathon.com"
+  },
+  {
+    "name": "Deep Dish Swift",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-04-30T00:00:00.000Z",
+    "end_date": "2023-05-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "ios"
+    ],
+    "url": "https://deepdishswift.com"
+  },
+  {
+    "name": "Devops Days Phoenix",
+    "location_name": "Phoenix, AZ, USA",
+    "latitude": 33.44823,
+    "longitude": -112.075098,
+    "start_date": "2023-04-27T00:00:00.000Z",
+    "end_date": "2023-04-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-phoenix"
+  },
+  {
+    "name": "Clojure/conj",
+    "location_name": "Durham, NC, USA",
+    "latitude": 35.995039,
+    "longitude": -78.900646,
+    "start_date": "2023-04-27T00:00:00.000Z",
+    "end_date": "2023-04-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "clojure"
+    ],
+    "url": "https://2023.clojure-conj.org"
+  },
+  {
+    "name": "PyData",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2023-04-26T00:00:00.000Z",
+    "end_date": "2023-04-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://pydata.org/seattle2023"
+  },
+  {
+    "name": "Connectaha",
+    "location_name": "Omaha, NE, USA",
+    "latitude": 41.256568,
+    "longitude": -95.940959,
+    "start_date": "2023-04-24T00:00:00.000Z",
+    "end_date": "2023-04-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking"
+    ],
+    "url": "https://www.connectaha.com"
+  },
+  {
+    "name": "Devopsdays Denver",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2023-04-23T00:00:00.000Z",
+    "end_date": "2023-04-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-denver/welcome"
+  },
+  {
+    "name": "Minnebar 17",
+    "location_name": "Minneapolis, USA",
+    "latitude": 44.9778,
+    "longitude": -93.265,
+    "start_date": "2023-04-22T14:00:00.000Z",
+    "end_date": "2023-04-22T23:00:00.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general",
+      "community"
+    ],
+    "url": "https://minnestar.org"
+  },
+  {
+    "name": "React Miami",
+    "location_name": "Miami, FL, USA",
+    "latitude": 25.773357,
+    "longitude": -80.1919,
+    "start_date": "2023-04-20T00:00:00.000Z",
+    "end_date": "2023-04-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://reactmiami.com"
+  },
+  {
+    "name": "Laserfiche Empower",
+    "location_name": "Dallas, TX, USA",
+    "latitude": 32.781339,
+    "longitude": -96.799759,
+    "start_date": "2023-04-20T00:00:00.000Z",
+    "end_date": "2023-04-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://event.laserfiche.com/Empower23Dallas"
+  },
+  {
+    "name": "Devopsdays Birmingham, AL",
+    "location_name": "Birmingham, AL, USA",
+    "latitude": 33.522217,
+    "longitude": -86.809079,
+    "start_date": "2023-04-20T00:00:00.000Z",
+    "end_date": "2023-04-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-birmingham-al/welcome"
+  },
+  {
+    "name": "pgDay Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2023-04-20T00:00:00.000Z",
+    "end_date": "2023-04-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://2023.pgdaychicago.org"
+  },
+  {
+    "name": "InflectraCon",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2023-04-19T00:00:00.000Z",
+    "end_date": "2023-04-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.inflectracon.com"
+  },
+  {
+    "name": "NYSwifty",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2023-04-18T00:00:00.000Z",
+    "end_date": "2023-04-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "ios"
+    ],
+    "url": "https://nyswifty.com"
+  },
+  {
+    "name": "Sp4rkcon",
+    "location_name": "Bentonville, AR, USA",
+    "latitude": 36.372346,
+    "longitude": -94.208842,
+    "start_date": "2023-04-15T00:00:00.000Z",
+    "end_date": "2023-04-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://one.walmart.com/content/sp4rkcon/wmeo/sp4rkcon-home/sp4rkcon-2023.html"
+  },
+  {
+    "name": "DevOps Midwest",
+    "location_name": "St. Louis, MO, USA",
+    "latitude": 38.627464,
+    "longitude": -90.19835,
+    "start_date": "2023-04-13T00:00:00.000Z",
+    "end_date": "2023-04-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.sketchdev.io/devopsmidwest"
+  },
+  {
+    "name": "Devopsdays Raleigh",
+    "location_name": "Raleigh, NC, USA",
+    "latitude": 35.779557,
+    "longitude": -78.638148,
+    "start_date": "2023-04-12T00:00:00.000Z",
+    "end_date": "2023-04-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-raleigh/welcome"
+  },
+  {
+    "name": "Devopsdays Nashville",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2023-04-06T00:00:00.000Z",
+    "end_date": "2023-04-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-nashville/welcome"
+  },
+  {
+    "name": "Devnexus",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2023-04-04T00:00:00.000Z",
+    "end_date": "2023-04-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://devnexus.com"
+  },
+  {
+    "name": "MLconf",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2023-03-30T00:00:00.000Z",
+    "end_date": "2023-03-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://mlconf.com"
+  },
+  {
+    "name": "Data Council",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2023-03-28T00:00:00.000Z",
+    "end_date": "2023-03-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://www.datacouncil.ai"
+  },
+  {
+    "name": "SREcon Americas",
+    "location_name": "Santa Clara, CA, USA",
+    "latitude": 37.35231,
+    "longitude": -121.9619,
+    "start_date": "2023-03-21T00:00:00.000Z",
+    "end_date": "2023-03-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://www.usenix.org/conference/srecon23americas"
+  },
+  {
+    "name": "Visual Studio Live! Las Vegas",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2023-03-19T00:00:00.000Z",
+    "end_date": "2023-03-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "dotnet"
+    ],
+    "url": "https://vslive.com/events/las-vegas-2023/home.aspx"
+  },
+  {
+    "name": "PyCascades",
+    "location_name": "Vancouver, Canada",
+    "latitude": 49.260975,
+    "longitude": -123.11498,
+    "start_date": "2023-03-18T00:00:00.000Z",
+    "end_date": "2023-03-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "python"
+    ],
+    "url": "https://2023.pycascades.com"
+  },
+  {
+    "name": "FutureStack Roadshow San Francisco",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2023-03-15T00:00:00.000Z",
+    "end_date": "2023-03-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://newrelic.com/events/2023-03-15/futurestack-san-francisco"
+  },
+  {
+    "name": "Devopsdays Salt Lake City",
+    "location_name": "Salt Lake City, UT, USA",
+    "latitude": 40.762759,
+    "longitude": -111.889779,
+    "start_date": "2023-03-14T00:00:00.000Z",
+    "end_date": "2023-03-15T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-salt-lake-city/welcome"
+  },
+  {
+    "name": "Frontrunners",
+    "location_name": "Arlington, VA, USA",
+    "latitude": 38.888414,
+    "longitude": -77.091601,
+    "start_date": "2023-03-10T00:00:00.000Z",
+    "end_date": "2023-03-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript",
+      "ux"
+    ],
+    "url": "https://frontrunners.tech"
+  },
+  {
+    "name": "Devopsdays Los Angeles",
+    "location_name": "Los Angeles, CA, USA",
+    "latitude": 34.048051,
+    "longitude": -118.254187,
+    "start_date": "2023-03-10T00:00:00.000Z",
+    "end_date": "2023-03-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2023-los-angeles/welcome"
+  },
+  {
+    "name": "SCaLE 20x",
+    "location_name": "Pasadena, CA, USA",
+    "latitude": 34.145775,
+    "longitude": -118.150475,
+    "start_date": "2023-03-09T00:00:00.000Z",
+    "end_date": "2023-03-12T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.socallinuxexpo.org/scale/20x"
+  },
+  {
+    "name": "Pink: International IT Service Management Conference & Exhibition",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2023-02-26T00:00:00.000Z",
+    "end_date": "2023-03-01T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.pinkelephant.com/en-us/Pink23/home"
+  },
+  {
+    "name": "ConFoo",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2023-02-22T00:00:00.000Z",
+    "end_date": "2023-02-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://confoo.ca/en/2023"
+  },
+  {
+    "name": "Meet Magento Florida",
+    "location_name": "Hollywood, FL, USA",
+    "latitude": 26.011388,
+    "longitude": -80.146983,
+    "start_date": "2023-02-15T00:00:00.000Z",
+    "end_date": "2023-02-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://meetmagentofl.com"
+  },
+  {
+    "name": "Civo Navigate",
+    "location_name": "Tampa, FL, USA",
+    "latitude": 27.947974,
+    "longitude": -82.457098,
+    "start_date": "2023-02-07T00:00:00.000Z",
+    "end_date": "2023-02-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.civo.com/navigate"
+  },
+  {
+    "name": "HalfStack",
+    "location_name": "Phoenix, AZ, USA",
+    "latitude": 33.44823,
+    "longitude": -112.075098,
+    "start_date": "2023-02-03T00:00:00.000Z",
+    "end_date": "2023-02-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://halfstackconf.com/phoenix"
+  },
+  {
+    "name": "CloudNativeSecurityCon",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2023-02-01T00:00:00.000Z",
+    "end_date": "2023-02-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://events.linuxfoundation.org/cloudnativesecuritycon-north-america"
+  },
+  {
+    "name": "CodeMash",
+    "location_name": "Sandusky, OH, USA",
+    "latitude": 41.454919,
+    "longitude": -82.710989,
+    "start_date": "2023-01-10T00:00:00.000Z",
+    "end_date": "2023-01-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.codemash.org"
+  },
+  {
+    "name": "Frontrunners JS/Web",
+    "location_name": "Arlington, VA, USA",
+    "latitude": 38.888414,
+    "longitude": -77.091601,
+    "start_date": "2022-12-08T00:00:00.000Z",
+    "end_date": "2022-12-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "css",
+      "javascript",
+      "ux"
+    ],
+    "url": "https://frontrunners.tech"
+  },
+  {
+    "name": "WEBCONGRESS MIAMI",
+    "location_name": "Miami, FL, USA",
+    "latitude": 25.773357,
+    "longitude": -80.1919,
+    "start_date": "2022-12-07T00:00:00.000Z",
+    "end_date": "2022-12-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.webcongress.com/miami"
+  },
+  {
+    "name": "SpringOne",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2022-12-06T00:00:00.000Z",
+    "end_date": "2022-12-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://springone.io"
+  },
+  {
+    "name": "Global Conference On Cyber Security And Cloud Engineering",
+    "location_name": "Vancouver, Canada",
+    "latitude": 49.260975,
+    "longitude": -123.11498,
+    "start_date": "2022-12-03T00:00:00.000Z",
+    "end_date": "2022-12-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "networking",
+      "security"
+    ],
+    "url": "https://gcbme.org/gccsce-december-3-2022"
+  },
+  {
+    "name": "Weave Sphere",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2022-11-15T00:00:00.000Z",
+    "end_date": "2022-11-17T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "http://weavesphere.co"
+  },
+  {
+    "name": "TechBash",
+    "location_name": "Pocono Manor, PA, USA",
+    "latitude": 41.100105,
+    "longitude": -75.35896,
+    "start_date": "2022-11-08T00:00:00.000Z",
+    "end_date": "2022-11-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.techbash.com"
+  },
+  {
+    "name": "CONNECT.TECH",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2022-11-07T00:00:00.000Z",
+    "end_date": "2022-11-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "css",
+      "javascript",
+      "ux"
+    ],
+    "url": "https://2022.connect.tech"
+  },
+  {
+    "name": "Longhorn PHP",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2022-11-03T00:00:00.000Z",
+    "end_date": "2022-11-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://www.longhornphp.com"
+  },
+  {
+    "name": "Developer Productivity Summit",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2022-11-02T00:00:00.000Z",
+    "end_date": "2022-11-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://dpesummit.com"
+  },
+  {
+    "name": "Innotech Houston",
+    "location_name": "Houston, TX, USA",
+    "latitude": 29.760496,
+    "longitude": -95.363433,
+    "start_date": "2022-11-02T00:00:00.000Z",
+    "end_date": "2022-11-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "networking",
+      "security"
+    ],
+    "url": "http://www.Innotechhouston.com"
+  },
+  {
+    "name": "Devopsdays Des Moines",
+    "location_name": "Des Moines, IA, USA",
+    "latitude": 41.584997,
+    "longitude": -93.624273,
+    "start_date": "2022-10-27T00:00:00.000Z",
+    "end_date": "2022-10-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-des-moines/welcome"
+  },
+  {
+    "name": "Arm DevSummit",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2022-10-26T00:00:00.000Z",
+    "end_date": "2022-10-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://devsummit.arm.com"
+  },
+  {
+    "name": "Devopsdays Montréal",
+    "location_name": "Montreal, Canada",
+    "latitude": 45.50283,
+    "longitude": -73.5728,
+    "start_date": "2022-10-26T00:00:00.000Z",
+    "end_date": "2022-10-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-montreal/welcome"
+  },
+  {
+    "name": "Activate: BitGo Developer Conference",
+    "location_name": "Mountain View, CA, USA",
+    "latitude": 37.393816,
+    "longitude": -122.078961,
+    "start_date": "2022-10-25T00:00:00.000Z",
+    "end_date": "2022-10-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://activate.bitgo.com"
+  },
+  {
+    "name": "QCon San Francisco Software Conference",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2022-10-24T00:00:00.000Z",
+    "end_date": "2022-10-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://qconsf.com"
+  },
+  {
+    "name": "Devopsdays Tampa Bay",
+    "location_name": "Tampa Bay, FL, USA",
+    "latitude": 28.184734,
+    "longitude": -82.343389,
+    "start_date": "2022-10-21T00:00:00.000Z",
+    "end_date": "2022-10-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-tampa/welcome"
+  },
+  {
+    "name": "Indy.Code()",
+    "location_name": "Indianapolis, IN, USA",
+    "latitude": 39.768602,
+    "longitude": -86.16166,
+    "start_date": "2022-10-19T00:00:00.000Z",
+    "end_date": "2022-10-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://indycode.amegala.com"
+  },
+  {
+    "name": "DevOps Enterprise Summit",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2022-10-18T00:00:00.000Z",
+    "end_date": "2022-10-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://events.itrevolution.com/lasvegas"
+  },
+  {
+    "name": "Dash",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2022-10-18T00:00:00.000Z",
+    "end_date": "2022-10-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops",
+      "security"
+    ],
+    "url": "https://www.dashcon.io"
+  },
+  {
+    "name": "JavaOne",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2022-10-16T00:00:00.000Z",
+    "end_date": "2022-10-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://www.oracle.com/cloudworld/javaone"
+  },
+  {
+    "name": "DevopsDays Houston",
+    "location_name": "Houston, TX, USA",
+    "latitude": 29.760496,
+    "longitude": -95.363433,
+    "start_date": "2022-10-04T00:00:00.000Z",
+    "end_date": "2022-10-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-houston/welcome"
+  },
+  {
+    "name": "GraphQL Summit",
+    "location_name": "San Diego, CA, USA",
+    "latitude": 32.713623,
+    "longitude": -117.16016,
+    "start_date": "2022-10-03T00:00:00.000Z",
+    "end_date": "2022-10-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "graphql"
+    ],
+    "url": "https://summit.graphql.com"
+  },
+  {
+    "name": "DevOpsDays Buffalo",
+    "location_name": "Buffalo, NY, USA",
+    "latitude": 42.886791,
+    "longitude": -78.878646,
+    "start_date": "2022-09-29T00:00:00.000Z",
+    "end_date": "2022-09-30T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-buffalo/welcome"
+  },
+  {
+    "name": "jconf.dev",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2022-09-26T00:00:00.000Z",
+    "end_date": "2022-09-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "java"
+    ],
+    "url": "https://2022.jconf.dev"
+  },
+  {
+    "name": "Strange Loop",
+    "location_name": "St. Louis, MO, USA",
+    "latitude": 38.627464,
+    "longitude": -90.19835,
+    "start_date": "2022-09-22T00:00:00.000Z",
+    "end_date": "2022-09-24T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://thestrangeloop.com"
+  },
+  {
+    "name": "PGConf NYC",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2022-09-22T00:00:00.000Z",
+    "end_date": "2022-09-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://2022.pgconf.nyc"
+  },
+  {
+    "name": "Devopsdays Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2022-09-21T00:00:00.000Z",
+    "end_date": "2022-09-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-chicago/welcome"
+  },
+  {
+    "name": "Devopsdays Washington",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2022-09-15T00:00:00.000Z",
+    "end_date": "2022-09-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-washington-dc/welcome"
+  },
+  {
+    "name": "REFACTR.TECH",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2022-09-14T00:00:00.000Z",
+    "end_date": "2022-09-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.refactr.tech"
+  },
+  {
+    "name": "Devopsdays Boston",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2022-09-12T00:00:00.000Z",
+    "end_date": "2022-09-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-boston/welcome"
+  },
+  {
+    "name": "Devopsdays Charlotte",
+    "location_name": "Charlotte, NC, USA",
+    "latitude": 35.227207,
+    "longitude": -80.84309,
+    "start_date": "2022-09-08T00:00:00.000Z",
+    "end_date": "2022-09-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-charlotte/welcome"
+  },
+  {
+    "name": "Droidcon New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2022-09-01T00:00:00.000Z",
+    "end_date": "2022-09-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android"
+    ],
+    "url": "https://www.nyc.droidcon.com"
+  },
+  {
+    "name": "CascadiaJS",
+    "location_name": "Bend, OR, USA",
+    "latitude": 44.059025,
+    "longitude": -121.31226,
+    "start_date": "2022-08-30T00:00:00.000Z",
+    "end_date": "2022-09-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://2022.cascadiajs.com"
+  },
+  {
+    "name": "Devopsdays Detroit",
+    "location_name": "Detroit, MI, USA",
+    "latitude": 42.331397,
+    "longitude": -83.046217,
+    "start_date": "2022-08-25T00:00:00.000Z",
+    "end_date": "2022-08-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-detroit/welcome"
+  },
+  {
+    "name": "Devopsdays Dallas",
+    "location_name": "Dallas, TX, USA",
+    "latitude": 32.781339,
+    "longitude": -96.799759,
+    "start_date": "2022-08-24T00:00:00.000Z",
+    "end_date": "2022-08-25T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-dallas/welcome"
+  },
+  {
+    "name": "PowerShell on the River",
+    "location_name": "Chattanooga, TN, USA",
+    "latitude": 35.045767,
+    "longitude": -85.308281,
+    "start_date": "2022-08-12T00:00:00.000Z",
+    "end_date": "2022-08-13T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "dotnet"
+    ],
+    "url": "https://www.powershellchatt.com"
+  },
+  {
+    "name": "Kansas City Developer Conference",
+    "location_name": "Kansas City, MO, USA",
+    "latitude": 39.098485,
+    "longitude": -94.578631,
+    "start_date": "2022-08-08T00:00:00.000Z",
+    "end_date": "2022-08-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.kcdc.info"
+  },
+  {
+    "name": "Devopsdays Minneapolis",
+    "location_name": "Minneapolis, MN, USA",
+    "latitude": 44.976106,
+    "longitude": -93.266096,
+    "start_date": "2022-08-01T00:00:00.000Z",
+    "end_date": "2022-08-02T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-minneapolis/welcome"
+  },
+  {
+    "name": "JavaScript and Friends Conference",
+    "location_name": "Columbus, OH, USA",
+    "latitude": 39.962232,
+    "longitude": -83.000642,
+    "start_date": "2022-07-29T00:00:00.000Z",
+    "end_date": "2022-07-29T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript"
+    ],
+    "url": "https://www.javascriptandfriends.com"
+  },
+  {
+    "name": "CincyDeliver()",
+    "location_name": "Cincinnati, OH, USA",
+    "latitude": 39.102438,
+    "longitude": -84.513301,
+    "start_date": "2022-07-29T00:00:00.000Z",
+    "end_date": "2022-07-29T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "http://www.cincydeliver.org"
+  },
+  {
+    "name": "Devopsdays Los Angeles",
+    "location_name": "Los Angeles, CA, USA",
+    "latitude": 34.048051,
+    "longitude": -118.254187,
+    "start_date": "2022-07-29T00:00:00.000Z",
+    "end_date": "2022-07-29T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-los-angeles/welcome"
+  },
+  {
+    "name": "THAT Conference",
+    "location_name": "Wisconsin Dells, WI, USA",
+    "latitude": 43.627692,
+    "longitude": -89.77524,
+    "start_date": "2022-07-25T00:00:00.000Z",
+    "end_date": "2022-07-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://that.us/events/wi/2022"
+  },
+  {
+    "name": "DevOpsDays Seattle",
+    "location_name": "Seattle, WA, USA",
+    "latitude": 47.603243,
+    "longitude": -122.330286,
+    "start_date": "2022-07-19T00:00:00.000Z",
+    "end_date": "2022-07-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-seattle/welcome"
+  },
+  {
+    "name": "Agile Nashville",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2022-07-18T00:00:00.000Z",
+    "end_date": "2022-07-22T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.agilealliance.org/agile2022"
+  },
+  {
+    "name": "CppNorth",
+    "location_name": "Toronto, Canada",
+    "latitude": 43.647938,
+    "longitude": -79.38355,
+    "start_date": "2022-07-17T00:00:00.000Z",
+    "end_date": "2022-07-20T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "cpp"
+    ],
+    "url": "https://cppnorth.ca"
+  },
+  {
+    "name": "BCI Summit - Big Data Management",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2022-06-23T00:00:00.000Z",
+    "end_date": "2022-06-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://bcisummit.com/summit-2022-big-data-management.html"
+  },
+  {
+    "name": "Vueconf.US",
+    "location_name": "Fort Lauderdale, FL, USA",
+    "latitude": 26.119142,
+    "longitude": -80.140425,
+    "start_date": "2022-06-08T00:00:00.000Z",
+    "end_date": "2022-06-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "javascript",
+      "ux"
+    ],
+    "url": "https://vueconf.us"
+  },
+  {
+    "name": "Hardwear.io Security Trainings & Conference USA",
+    "location_name": "Santa Clara, CA, USA",
+    "latitude": 37.35231,
+    "longitude": -121.9619,
+    "start_date": "2022-06-06T00:00:00.000Z",
+    "end_date": "2022-06-10T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "security"
+    ],
+    "url": "https://hardwear.io/usa-2022"
+  },
+  {
+    "name": "Agile Testing Days USA",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2022-06-05T00:00:00.000Z",
+    "end_date": "2022-06-09T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://agiletestingdays.us"
+  },
+  {
+    "name": "Droidcon San Francisco",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2022-06-02T00:00:00.000Z",
+    "end_date": "2022-06-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "android"
+    ],
+    "url": "https://www.sf.droidcon.com"
+  },
+  {
+    "name": "Render-Atlanta (RenderATL)",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2022-06-01T00:00:00.000Z",
+    "end_date": "2022-06-04T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.renderatl.com"
+  },
+  {
+    "name": "Devopsdays Tampa Bay",
+    "location_name": "Tampa, FL, USA",
+    "latitude": 27.947974,
+    "longitude": -82.457098,
+    "start_date": "2022-05-27T00:00:00.000Z",
+    "end_date": "2022-05-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-tampa/welcome"
+  },
+  {
+    "name": "No-Code Days: Freedom to Create",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2022-05-26T00:00:00.000Z",
+    "end_date": "2022-05-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.creatio.com/page/no-code-days-chicago-2022"
+  },
+  {
+    "name": "THAT Conference",
+    "location_name": "Round Rock, TX, USA",
+    "latitude": 30.508594,
+    "longitude": -97.678812,
+    "start_date": "2022-05-23T00:00:00.000Z",
+    "end_date": "2022-05-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://that.us/events/tx/2022"
+  },
+  {
+    "name": "Devopsdays Chicago",
+    "location_name": "Chicago, IL, USA",
+    "latitude": 41.881953,
+    "longitude": -87.632362,
+    "start_date": "2022-05-10T00:00:00.000Z",
+    "end_date": "2022-05-11T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-chicago/welcome"
+  },
+  {
+    "name": "InflectraCon",
+    "location_name": "Washington, DC, USA",
+    "latitude": 38.90253,
+    "longitude": -77.039386,
+    "start_date": "2022-05-05T00:00:00.000Z",
+    "end_date": "2022-05-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://www.inflectracon.com"
+  },
+  {
+    "name": "Devopsdays Nashville",
+    "location_name": "Nashville, TN, USA",
+    "latitude": 36.164518,
+    "longitude": -86.781073,
+    "start_date": "2022-05-05T00:00:00.000Z",
+    "end_date": "2022-05-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-nashville/welcome"
+  },
+  {
+    "name": "Devopsdays Austin",
+    "location_name": "Austin, TX, USA",
+    "latitude": 30.268072,
+    "longitude": -97.742806,
+    "start_date": "2022-05-04T00:00:00.000Z",
+    "end_date": "2022-05-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-austin/welcome"
+  },
+  {
+    "name": "Devopsdays Boise",
+    "location_name": "Boise, ID, USA",
+    "latitude": 43.615045,
+    "longitude": -116.202327,
+    "start_date": "2022-05-03T00:00:00.000Z",
+    "end_date": "2022-05-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-boise/welcome"
+  },
+  {
+    "name": "C++ Now",
+    "location_name": "Aspen, CO, USA",
+    "latitude": 39.190681,
+    "longitude": -106.819217,
+    "start_date": "2022-05-01T00:00:00.000Z",
+    "end_date": "2022-05-06T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "cpp"
+    ],
+    "url": "https://cppnow.org"
+  },
+  {
+    "name": "PyCon",
+    "location_name": "Salt Lake City, UT, USA",
+    "latitude": 40.762759,
+    "longitude": -111.889779,
+    "start_date": "2022-04-27T00:00:00.000Z",
+    "end_date": "2022-05-03T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "python"
+    ],
+    "url": "https://us.pycon.org/2022"
+  },
+  {
+    "name": "DrupalCon",
+    "location_name": "Portland, OR, USA",
+    "latitude": 45.515197,
+    "longitude": -122.678367,
+    "start_date": "2022-04-25T00:00:00.000Z",
+    "end_date": "2022-04-28T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php",
+      "product"
+    ],
+    "url": "https://events.drupal.org"
+  },
+  {
+    "name": "Devopsdays Denver",
+    "location_name": "Denver, CO, USA",
+    "latitude": 39.741681,
+    "longitude": -104.986109,
+    "start_date": "2022-04-25T00:00:00.000Z",
+    "end_date": "2022-04-26T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-denver/welcome"
+  },
+  {
+    "name": "Midwest PHP",
+    "location_name": "Minneapolis, MN, USA",
+    "latitude": 44.976106,
+    "longitude": -93.266096,
+    "start_date": "2022-04-21T00:00:00.000Z",
+    "end_date": "2022-04-23T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "php"
+    ],
+    "url": "https://midwestphp.org"
+  },
+  {
+    "name": "ODSC East",
+    "location_name": "Boston, MA, USA",
+    "latitude": 42.35888,
+    "longitude": -71.056804,
+    "start_date": "2022-04-19T00:00:00.000Z",
+    "end_date": "2022-04-21T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "data"
+    ],
+    "url": "https://odsc.com/boston"
+  },
+  {
+    "name": "Devopsdays Birmingham",
+    "location_name": "Birmingham, AL, USA",
+    "latitude": 33.522217,
+    "longitude": -86.809079,
+    "start_date": "2022-04-18T00:00:00.000Z",
+    "end_date": "2022-04-19T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-birmingham-al/welcome"
+  },
+  {
+    "name": "Devopsdays Raleigh",
+    "location_name": "Raleigh, NC, USA",
+    "latitude": 35.779557,
+    "longitude": -78.638148,
+    "start_date": "2022-04-13T00:00:00.000Z",
+    "end_date": "2022-04-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-raleigh/welcome"
+  },
+  {
+    "name": "LeadingEng New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2022-04-07T00:00:00.000Z",
+    "end_date": "2022-04-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://leaddev.com/leadingeng-new-york"
+  },
+  {
+    "name": "CodeStock",
+    "location_name": "Knoxville, TN, USA",
+    "latitude": 35.961762,
+    "longitude": -83.916251,
+    "start_date": "2022-04-07T00:00:00.000Z",
+    "end_date": "2022-04-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.codestock.org"
+  },
+  {
+    "name": "LeadDev New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2022-04-05T00:00:00.000Z",
+    "end_date": "2022-04-07T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://leaddev.com/leaddev-new-york"
+  },
+  {
+    "name": "DEVintersection",
+    "location_name": "Las Vegas, NV, USA",
+    "latitude": 36.169213,
+    "longitude": -115.14062,
+    "start_date": "2022-04-05T00:00:00.000Z",
+    "end_date": "2022-04-08T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "dotnet"
+    ],
+    "url": "https://devintersection.com"
+  },
+  {
+    "name": "StaffPlus New York",
+    "location_name": "New York, NY, USA",
+    "latitude": 40.712749,
+    "longitude": -74.005994,
+    "start_date": "2022-04-04T00:00:00.000Z",
+    "end_date": "2022-04-05T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://leaddev.com/staffplus-new-york"
+  },
+  {
+    "name": "SREcon Americas",
+    "location_name": "San Francisco, CA, USA",
+    "latitude": 37.779238,
+    "longitude": -122.419359,
+    "start_date": "2022-03-14T00:00:00.000Z",
+    "end_date": "2022-03-16T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://usenix.org/conference/srecon22americas"
+  },
+  {
+    "name": "Tech Intersections: Women of Color in Computing",
+    "location_name": "Oakland, CA, USA",
+    "latitude": 37.805306,
+    "longitude": -122.27058,
+    "start_date": "2022-01-29T00:00:00.000Z",
+    "end_date": "2022-01-29T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://techintersections.org"
+  },
+  {
+    "name": "Devopsdays Atlanta",
+    "location_name": "Atlanta, GA, USA",
+    "latitude": 33.750801,
+    "longitude": -84.389855,
+    "start_date": "2022-01-26T00:00:00.000Z",
+    "end_date": "2022-01-27T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "devops"
+    ],
+    "url": "https://devopsdays.org/events/2022-atlanta/welcome"
+  },
+  {
+    "name": "CodeMash",
+    "location_name": "Sandusky, OH, USA",
+    "latitude": 41.454919,
+    "longitude": -82.710989,
+    "start_date": "2022-01-11T00:00:00.000Z",
+    "end_date": "2022-01-14T23:59:59.000Z",
+    "source": "confs.tech",
+    "topics": [
+      "general"
+    ],
+    "url": "https://www.codemash.org"
+  }
+]
