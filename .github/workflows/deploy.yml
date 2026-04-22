@@ -49,28 +49,14 @@ jobs:
           VITE_MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
         run: npm run build
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Diagnose credentials
-        env:
-          GOOGLE_CLOUD_PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
-        run: |
-          echo "--- service account identity ---"
-          python3 -c "import json,os; d=json.load(open(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])); print('client_email:', d.get('client_email')); print('project_id:', d.get('project_id'))"
-          echo "--- gcloud auth list ---"
-          gcloud auth list || true
-          echo "--- gcloud projects describe ---"
-          gcloud projects describe "$GOOGLE_CLOUD_PROJECT" || true
-
       - name: Deploy to Firebase
         env:
-          GOOGLE_CLOUD_PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
           npx firebase-tools deploy \
-            --project "$GOOGLE_CLOUD_PROJECT" \
+            --project "$FIREBASE_PROJECT" \
+            --token "$FIREBASE_TOKEN" \
             --non-interactive \
             --force \
             --only hosting,functions,firestore,storage
