@@ -40,9 +40,11 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
   }, [onRoot]);
 
   useEffect(() => {
+    // bump on every q change so responses from any superseded request are
+    // dropped — even ones already in flight from a prior query.
+    const seq = ++requestSeq.current;
+
     if (!q.trim()) {
-      // bump sequence so any in-flight request is ignored when it returns
-      requestSeq.current += 1;
       setConfs([]);
       setPeople([]);
       setLoading(false);
@@ -50,13 +52,12 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
     }
     setLoading(true);
     const handle = setTimeout(async () => {
-      const seq = ++requestSeq.current;
       const enc = encodeURIComponent(q.trim());
       const [confRes, userRes] = await Promise.allSettled([
         apiFetch<{ conferences: Conference[] }>(`/conferences?q=${enc}`),
         apiFetch<{ users: PublicUser[] }>(`/users?q=${enc}`),
       ]);
-      // ignore stale responses — only the most recent request gets to write
+      // ignore stale responses — only the most recent query's request wins
       if (seq !== requestSeq.current) return;
       if (confRes.status === "fulfilled") setConfs(confRes.value.conferences);
       else console.error(confRes.reason);
