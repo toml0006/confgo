@@ -176,14 +176,14 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
       <style>{`
         .settings-panel {
           position: fixed;
-          top: 92px;
+          top: 68px;
           right: 18px;
           width: min(400px, calc(100vw - 36px));
           padding: 18px;
           display: flex;
           flex-direction: column;
           gap: 18px;
-          max-height: calc(100vh - 110px);
+          max-height: calc(100vh - 86px);
           overflow-y: auto;
           z-index: 40;
         }
@@ -226,6 +226,7 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
         .avatar-cell.selected {
           border-color: var(--signal-dim);
           box-shadow: 0 0 0 2px rgba(94, 231, 217, 0.12) inset;
+          box-shadow: 0 0 0 2px color(display-p3 0.369 0.906 0.851 / 0.12) inset;
         }
         .auth-buttons {
           display: flex;
@@ -264,7 +265,7 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
         }
         .auth-error {
           font-size: 0.8rem;
-          color: var(--signal-warning, #ff8a8a);
+          color: var(--signal-warning);
         }
       `}</style>
     </div>

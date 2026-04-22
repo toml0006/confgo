@@ -39,22 +39,24 @@ export function Toolbar({
       </button>
       {/* TODO: Co-attendance toggle slot — added when feature ships. */}
       <div className="toolbar-divider" />
-      <label className="filter-row">
-        <input
-          type="checkbox"
-          checked={showFuture}
-          onChange={(e) => onToggleFuture(e.target.checked)}
-        />
-        <span>{showFuture ? "☑" : "☐"} Future</span>
-      </label>
-      <label className="filter-row">
-        <input
-          type="checkbox"
-          checked={showPast}
-          onChange={(e) => onTogglePast(e.target.checked)}
-        />
-        <span>{showPast ? "☑" : "☐"} Past</span>
-      </label>
+      <div className="filter-row" role="group" aria-label="Time range filter">
+        <button
+          type="button"
+          className={`chip-toggle chip-toggle--past ${showPast ? "is-on" : ""}`}
+          aria-pressed={showPast}
+          onClick={() => onTogglePast(!showPast)}
+        >
+          Past
+        </button>
+        <button
+          type="button"
+          className={`chip-toggle chip-toggle--future ${showFuture ? "is-on" : ""}`}
+          aria-pressed={showFuture}
+          onClick={() => onToggleFuture(!showFuture)}
+        >
+          Future
+        </button>
+      </div>
       <style>{`
         .toolbar {
           position: fixed;
@@ -94,17 +96,43 @@ export function Toolbar({
         }
         .filter-row {
           display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          font-size: 0.7rem;
+          gap: 8px;
+          justify-content: stretch;
+        }
+        .chip-toggle {
+          flex: 1;
+          font-size: 0.72rem;
           text-transform: uppercase;
           letter-spacing: 0.14em;
+          padding: 0.5rem 0.75rem;
+          border-radius: 999px;
+          border: 1px solid var(--mist);
           color: var(--text-muted);
-          justify-content: center;
+          background: transparent;
           cursor: pointer;
+          transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
         }
-        .filter-row input {
-          display: none;
+        .chip-toggle:hover {
+          border-color: var(--mist-strong);
+          color: var(--text);
+        }
+        .chip-toggle:focus-visible {
+          outline: 2px solid var(--signal-dim);
+          outline-offset: 2px;
+        }
+        .chip-toggle--past.is-on {
+          border-color: rgba(232, 121, 177, 0.65);
+          border-color: color(display-p3 0.91 0.475 0.694 / 0.65);
+          background: rgba(232, 121, 177, 0.14);
+          background: color(display-p3 0.91 0.475 0.694 / 0.14);
+          color: var(--past-ember);
+        }
+        .chip-toggle--future.is-on {
+          border-color: rgba(255, 181, 71, 0.65);
+          border-color: color(display-p3 1 0.71 0.278 / 0.65);
+          background: rgba(255, 181, 71, 0.14);
+          background: color(display-p3 1 0.71 0.278 / 0.14);
+          color: var(--ember);
         }
       `}</style>
     </div>

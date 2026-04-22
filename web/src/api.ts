@@ -44,6 +44,13 @@ export type MeUser = {
   photoURL: string | null;
 };
 
+export type PublicUser = {
+  id: string;
+  avatarId: number;
+  displayName: string | null;
+  photoURL: string | null;
+};
+
 export type AttendanceIntent = "been" | "going";
 
 export type Attendee = {

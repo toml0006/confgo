@@ -86,10 +86,10 @@ export function LocationSheet({
       <style>{`
         .loc-sheet {
           position: fixed;
-          top: 92px;
+          top: 68px;
           left: 18px;
           width: min(420px, calc(100vw - 36px));
-          max-height: calc(100vh - 110px);
+          max-height: calc(100vh - 86px);
           padding: 18px;
           display: flex;
           flex-direction: column;
@@ -145,6 +145,7 @@ export function LocationSheet({
         .loc-row:hover {
           border-color: var(--mist);
           background: rgba(232, 240, 255, 0.03);
+          background: color(display-p3 0.91 0.941 1 / 0.03);
         }
         .loc-row.past {
           color: var(--text-muted);

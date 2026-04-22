@@ -73,10 +73,10 @@ export function MyConferencesPanel({
       <style>{`
         .my-panel {
           position: fixed;
-          top: 92px;
+          top: 68px;
           right: 18px;
           width: min(360px, calc(100vw - 36px));
-          max-height: calc(100vh - 110px);
+          max-height: calc(100vh - 86px);
           overflow-y: auto;
           padding: 18px;
           display: flex;
@@ -120,6 +120,7 @@ export function MyConferencesPanel({
         .my-row:hover {
           border-color: var(--mist);
           background: rgba(232, 240, 255, 0.03);
+          background: color(display-p3 0.91 0.941 1 / 0.03);
         }
         .my-row-date {
           font-size: 0.62rem;

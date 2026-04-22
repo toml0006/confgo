@@ -1,22 +1,29 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { apiFetch, type Conference, type MeUser } from "./api";
+import { useLocation, useMatch, useNavigate } from "react-router-dom";
+import { apiFetch, type Conference, type MeUser, type PublicUser } from "./api";
 import { useAuth } from "./auth/AuthContext";
 import { useMyAttendances } from "./hooks/useMyAttendances";
 import { useConferenceUpdates } from "./hooks/useConferenceUpdates";
 import { MapView } from "./components/map/MapView";
 import { Toolbar } from "./components/Toolbar";
-import { ConferenceSearch } from "./components/ConferenceSearch";
+import { GlobalSearch } from "./components/GlobalSearch";
 import { ConferenceSheet } from "./components/ConferenceSheet";
 import { LocationSheet } from "./components/LocationSheet";
+import { UserSheet } from "./components/UserSheet";
 import { MyConferencesPanel } from "./components/MyConferencesPanel";
 import { SettingsPanel } from "./components/SettingsPanel";
 
-type Selection =
-  | { kind: "single"; conference: Conference; backTo: Conference[] | null }
-  | { kind: "location"; conferences: Conference[]; locationName: string }
-  | null;
+type LocationSelection = {
+  conferences: Conference[];
+  locationName: string;
+};
 
 export function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const confMatch = useMatch("/c/:id");
+  const userMatch = useMatch("/u/:id");
+
   const { user, ready } = useAuth();
   const myAttendances = useMyAttendances(user?.uid ?? null);
 
@@ -24,7 +31,8 @@ export function App() {
   const [conferences, setConferences] = useState<Conference[]>([]);
   const [showPast, setShowPast] = useState(true);
   const [showFuture, setShowFuture] = useState(true);
-  const [selection, setSelection] = useState<Selection>(null);
+  const [locationSel, setLocationSel] = useState<LocationSelection | null>(null);
+  const [userCache, setUserCache] = useState<PublicUser | null>(null);
   const [panel, setPanel] = useState<"none" | "settings" | "mine">("none");
   const [flyTo, setFlyTo] = useState<{
     longitude: number;
@@ -57,78 +65,161 @@ export function App() {
 
   useConferenceUpdates(reloadConferences);
 
+  // derive active conference from URL
+  const activeConference = useMemo<Conference | null>(() => {
+    if (!confMatch) return null;
+    return conferences.find((c) => c.id === confMatch.params.id) ?? null;
+  }, [confMatch, conferences]);
+
+  // fly the map when a conference route becomes active
+  useEffect(() => {
+    if (activeConference) {
+      setFlyTo({
+        longitude: activeConference.longitude,
+        latitude: activeConference.latitude,
+        zoom: 7,
+      });
+    }
+  }, [activeConference]);
+
+  // fetch user on /u/:id; prefer state passed from search.
+  // Wait for auth readiness so cold deep-links don't fire an unauthed request.
+  useEffect(() => {
+    if (!userMatch) {
+      setUserCache(null);
+      return;
+    }
+    const targetId = userMatch.params.id;
+    // drop any cache from a previous user so we don't flash their profile
+    setUserCache((prev) => (prev && prev.id === targetId ? prev : null));
+
+    const passed = (location.state as { user?: PublicUser } | null)?.user;
+    if (passed && passed.id === targetId) {
+      setUserCache(passed);
+      return;
+    }
+
+    if (!ready || !user) return; // wait for auth; effect will rerun when ready
+
+    let cancelled = false;
+    apiFetch<PublicUser>(`/users/${targetId}`)
+      .then((u) => {
+        if (!cancelled) setUserCache(u);
+      })
+      .catch((err) => {
+        console.error("[user]", err);
+        if (!cancelled) setUserCache(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [userMatch, location.state, ready, user]);
+
   const myCount = myAttendances.size;
 
   const handleMapSelect = useCallback(
     (confs: Conference[], _lngLat: [number, number]) => {
       if (confs.length === 1) {
-        setSelection({ kind: "single", conference: confs[0], backTo: null });
+        navigate(`/c/${confs[0].id}`);
       } else {
-        setSelection({
-          kind: "location",
+        setLocationSel({
           conferences: confs,
           locationName: confs[0].locationName,
         });
       }
     },
-    [],
+    [navigate],
   );
 
-  const openFromSearch = useCallback((conf: Conference) => {
-    setFlyTo({ longitude: conf.longitude, latitude: conf.latitude, zoom: 7 });
-    setSelection({ kind: "single", conference: conf, backTo: null });
-    setPanel("none");
-  }, []);
+  const openFromSearch = useCallback(
+    (conf: Conference) => {
+      navigate(`/c/${conf.id}`);
+      setPanel("none");
+    },
+    [navigate],
+  );
 
-  const openFromMine = useCallback((conf: Conference) => {
-    setFlyTo({ longitude: conf.longitude, latitude: conf.latitude, zoom: 7 });
-    setSelection({ kind: "single", conference: conf, backTo: null });
-  }, []);
+  const openUserFromSearch = useCallback(
+    (u: PublicUser) => {
+      navigate(`/u/${u.id}`, { state: { user: u } });
+      setPanel("none");
+    },
+    [navigate],
+  );
 
-  const closeSelection = useCallback(() => setSelection(null), []);
+  const openFromMine = useCallback(
+    (conf: Conference) => {
+      navigate(`/c/${conf.id}`);
+    },
+    [navigate],
+  );
+
+  // Back if there's app history, else home. location.key === "default"
+  // means we landed directly and have no prior in-app history.
+  const closeSheet = useCallback(() => {
+    if (location.key && location.key !== "default") {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
+  }, [navigate, location.key]);
+
+  const closeLocationSheet = useCallback(() => setLocationSel(null), []);
 
   const hasToken = Boolean(import.meta.env.VITE_MAPBOX_ACCESS_TOKEN);
 
   const sheet = useMemo(() => {
-    if (!selection) return null;
-    if (selection.kind === "single") {
+    if (confMatch) {
+      if (!activeConference) return null; // conferences still loading
       return (
         <ConferenceSheet
-          conference={selection.conference}
-          myIntent={myAttendances.get(selection.conference.id)}
-          onBack={
-            selection.backTo
-              ? () =>
-                  setSelection({
-                    kind: "location",
-                    conferences: selection.backTo!,
-                    locationName: selection.backTo![0].locationName,
-                  })
-              : undefined
-          }
-          onClose={closeSelection}
+          conference={activeConference}
+          myIntent={myAttendances.get(activeConference.id)}
+          onBack={locationSel ? () => navigate(-1) : undefined}
+          onClose={closeSheet}
           onMarked={() => {
             // onSnapshot will update myAttendances; no manual refresh needed.
           }}
         />
       );
     }
-    return (
-      <LocationSheet
-        conferences={selection.conferences}
-        locationName={selection.locationName}
-        myAttendances={myAttendances}
-        onClose={closeSelection}
-        onPick={(conf) =>
-          setSelection({
-            kind: "single",
-            conference: conf,
-            backTo: selection.conferences,
-          })
-        }
-      />
-    );
-  }, [selection, myAttendances, closeSelection]);
+    if (userMatch) {
+      // Guard: id must match to avoid flashing a stale profile mid-transition.
+      if (!userCache || userCache.id !== userMatch.params.id) return null;
+      return (
+        <UserSheet
+          user={userCache}
+          conferences={conferences}
+          onClose={closeSheet}
+          onPickConference={openFromSearch}
+        />
+      );
+    }
+    if (locationSel) {
+      return (
+        <LocationSheet
+          conferences={locationSel.conferences}
+          locationName={locationSel.locationName}
+          myAttendances={myAttendances}
+          onClose={closeLocationSheet}
+          onPick={(conf) => navigate(`/c/${conf.id}`)}
+        />
+      );
+    }
+    return null;
+  }, [
+    confMatch,
+    activeConference,
+    userMatch,
+    userCache,
+    locationSel,
+    myAttendances,
+    conferences,
+    closeSheet,
+    closeLocationSheet,
+    openFromSearch,
+    navigate,
+  ]);
 
   return (
     <>
@@ -145,7 +236,10 @@ export function App() {
         <MissingTokenNotice />
       )}
 
-      <ConferenceSearch onPick={openFromSearch} />
+      <GlobalSearch
+        onPickConference={openFromSearch}
+        onPickUser={openUserFromSearch}
+      />
 
       <Toolbar
         myCount={myCount}
