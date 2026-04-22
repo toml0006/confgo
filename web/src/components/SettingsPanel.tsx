@@ -176,14 +176,14 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
       <style>{`
         .settings-panel {
           position: fixed;
-          top: 92px;
+          top: 68px;
           right: 18px;
           width: min(400px, calc(100vw - 36px));
           padding: 18px;
           display: flex;
           flex-direction: column;
           gap: 18px;
-          max-height: calc(100vh - 110px);
+          max-height: calc(100vh - 86px);
           overflow-y: auto;
           z-index: 40;
         }

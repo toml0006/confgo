@@ -76,18 +76,21 @@ export function ConferenceSheet({
 
   return (
     <div className="conf-sheet glass-panel sheet-in">
-      <div className="conf-sheet-head">
-        {onBack ? (
-          <button className="soft-button soft-button--quiet" onClick={onBack}>
-            ← Back
-          </button>
-        ) : (
-          <span />
-        )}
-        <button className="close-x" onClick={onClose} aria-label="Close">
-          ×
+      {onBack ? (
+        <button
+          className="soft-button soft-button--quiet conf-sheet-back"
+          onClick={onBack}
+        >
+          ← Back
         </button>
-      </div>
+      ) : null}
+      <button
+        className="close-x conf-sheet-close"
+        onClick={onClose}
+        aria-label="Close"
+      >
+        ×
+      </button>
 
       <div className="stack-sm">
         <div className="section-label">{conference.source ?? "conference"}</div>
@@ -193,10 +196,10 @@ export function ConferenceSheet({
       <style>{`
         .conf-sheet {
           position: fixed;
-          top: 92px;
+          top: 68px;
           left: 18px;
           width: min(420px, calc(100vw - 36px));
-          max-height: calc(100vh - 110px);
+          max-height: calc(100vh - 86px);
           overflow-y: auto;
           padding: 18px;
           display: flex;
@@ -204,10 +207,17 @@ export function ConferenceSheet({
           gap: 18px;
           z-index: 40;
         }
-        .conf-sheet-head {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+        .conf-sheet-close {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          z-index: 2;
+        }
+        .conf-sheet-back {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          z-index: 2;
         }
         .conf-name {
           margin: 0;

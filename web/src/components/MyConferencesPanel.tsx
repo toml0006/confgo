@@ -73,10 +73,10 @@ export function MyConferencesPanel({
       <style>{`
         .my-panel {
           position: fixed;
-          top: 92px;
+          top: 68px;
           right: 18px;
           width: min(360px, calc(100vw - 36px));
-          max-height: calc(100vh - 110px);
+          max-height: calc(100vh - 86px);
           overflow-y: auto;
           padding: 18px;
           display: flex;

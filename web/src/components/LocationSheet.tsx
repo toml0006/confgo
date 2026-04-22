@@ -86,10 +86,10 @@ export function LocationSheet({
       <style>{`
         .loc-sheet {
           position: fixed;
-          top: 92px;
+          top: 68px;
           left: 18px;
           width: min(420px, calc(100vw - 36px));
-          max-height: calc(100vh - 110px);
+          max-height: calc(100vh - 86px);
           padding: 18px;
           display: flex;
           flex-direction: column;
