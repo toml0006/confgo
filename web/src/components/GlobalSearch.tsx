@@ -40,9 +40,10 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
   }, [onRoot]);
 
   useEffect(() => {
-    // bump on every q change so responses from any superseded request are
-    // dropped — even ones already in flight from a prior query.
-    const seq = ++requestSeq.current;
+    // requestSeq is bumped synchronously in the input onChange, so by the
+    // time this passive effect runs the seq already reflects the latest
+    // user intent. Capture it to compare against when responses return.
+    const seq = requestSeq.current;
 
     if (!q.trim()) {
       setConfs([]);
@@ -118,6 +119,9 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
           placeholder="Search conferences or people…"
           value={q}
           onChange={(e) => {
+            // invalidate any prior in-flight request synchronously so a late
+            // response from a previous query cannot clobber the new state.
+            requestSeq.current += 1;
             setQ(e.target.value);
             setOpen(true);
           }}
