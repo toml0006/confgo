@@ -56,29 +56,56 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
-      - name: Diagnose SA permissions
+      - name: Diagnose — compare SA token vs Firebase CI token
         env:
           PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
           set +e
-          echo "--- SA identity ---"
-          python3 -c "import json,os; d=json.load(open(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])); print('client_email:', d.get('client_email')); print('project_id:', d.get('project_id'))"
-          TOKEN=$(gcloud auth print-access-token)
-          echo "--- token info (scopes) ---"
-          curl -s "https://oauth2.googleapis.com/tokeninfo?access_token=$TOKEN" | python3 -c "import sys,json; d=json.load(sys.stdin); print('scope:', d.get('scope')); print('email:', d.get('email')); print('aud:', d.get('aud'))"
-          echo "--- 1. resourcemanager.projects.get ---"
-          curl -s -o /tmp/a.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $TOKEN" "https://cloudresourcemanager.googleapis.com/v1/projects/$PROJECT_ID"
-          head -c 400 /tmp/a.json; echo
-          echo "--- 2. serviceusage.services.get (firebasehosting) ---"
-          curl -s -o /tmp/b.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $TOKEN" "https://serviceusage.googleapis.com/v1/projects/$PROJECT_ID/services/firebasehosting.googleapis.com"
-          head -c 400 /tmp/b.json; echo
-          echo "--- 3. firestore databases.list ---"
-          curl -s -o /tmp/c.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $TOKEN" "https://firestore.googleapis.com/v1/projects/$PROJECT_ID/databases"
-          head -c 400 /tmp/c.json; echo
-          echo "--- 4. IAM policy: list bindings for this SA ---"
-          SA_EMAIL=$(python3 -c "import json,os; print(json.load(open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']))['client_email'])")
-          curl -s -o /tmp/d.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -X POST -d "{}" "https://cloudresourcemanager.googleapis.com/v1/projects/$PROJECT_ID:getIamPolicy"
-          python3 -c "import json; d=json.load(open('/tmp/d.json')); bindings=d.get('bindings',[]); me='$SA_EMAIL'; print('total bindings:',len(bindings)); [print(' ',b['role']) for b in bindings if f'serviceAccount:{me}' in b.get('members',[])]" 2>/dev/null || head -c 400 /tmp/d.json
+          echo "=== SA TOKEN (firebase-adminsdk-fbsvc@confgo-dev) ==="
+          SA_TOKEN=$(gcloud auth print-access-token)
+          echo "--- scopes ---"
+          curl -s "https://oauth2.googleapis.com/tokeninfo?access_token=$SA_TOKEN" | python3 -c "import sys,json; d=json.load(sys.stdin); print('email:', d.get('email')); print('scope:', d.get('scope'))"
+          for ep in "cloudresourcemanager.googleapis.com/v1/projects/$PROJECT_ID" "serviceusage.googleapis.com/v1/projects/$PROJECT_ID/services/firebasehosting.googleapis.com"; do
+            echo "--- GET $ep ---"
+            curl -s -o /tmp/sa.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $SA_TOKEN" "https://$ep"
+          done
+
+          echo ""
+          echo "=== USER TOKEN (via Firebase CI refresh token → jackson@middleout.dev) ==="
+          # Firebase CLI official OAuth client (public; same creds firebase-tools uses)
+          USER_TOKEN=$(curl -s -X POST "https://oauth2.googleapis.com/token" \
+            -d "client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com" \
+            -d "client_secret=j9iVZfS8kkCEFUPaAeJX0Lp8" \
+            -d "refresh_token=$FIREBASE_TOKEN" \
+            -d "grant_type=refresh_token" \
+            | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))")
+          if [ -z "$USER_TOKEN" ]; then
+            echo "FAILED to exchange refresh token"
+          else
+            echo "--- scopes ---"
+            curl -s "https://oauth2.googleapis.com/tokeninfo?access_token=$USER_TOKEN" | python3 -c "import sys,json; d=json.load(sys.stdin); print('email:', d.get('email')); print('scope:', d.get('scope'))"
+            for ep in "cloudresourcemanager.googleapis.com/v1/projects/$PROJECT_ID" "serviceusage.googleapis.com/v1/projects/$PROJECT_ID/services/firebasehosting.googleapis.com"; do
+              echo "--- GET $ep ---"
+              curl -s -o /tmp/u.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $USER_TOKEN" "https://$ep"
+            done
+            echo "--- USER: list IAM bindings for SA ---"
+            curl -s -o /tmp/iam.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $USER_TOKEN" -H "Content-Type: application/json" -X POST -d "{}" "https://cloudresourcemanager.googleapis.com/v1/projects/$PROJECT_ID:getIamPolicy"
+            python3 <<PY
+          import json
+          try:
+              d=json.load(open('/tmp/iam.json'))
+              sa='firebase-adminsdk-fbsvc@confgo-dev.iam.gserviceaccount.com'
+              bindings=d.get('bindings',[])
+              print('total bindings:', len(bindings))
+              for b in bindings:
+                  if f'serviceAccount:{sa}' in b.get('members',[]):
+                      print('  SA binding:', b['role'])
+          except Exception as e:
+              print('parse error:', e)
+              print(open('/tmp/iam.json').read()[:600])
+          PY
+          fi
           set -e
 
       - name: Deploy to Firebase
