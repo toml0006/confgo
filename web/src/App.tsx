@@ -82,19 +82,27 @@ export function App() {
     }
   }, [activeConference]);
 
-  // fetch user on /u/:id; prefer state passed from search
+  // fetch user on /u/:id; prefer state passed from search.
+  // Wait for auth readiness so cold deep-links don't fire an unauthed request.
   useEffect(() => {
     if (!userMatch) {
       setUserCache(null);
       return;
     }
+    const targetId = userMatch.params.id;
+    // drop any cache from a previous user so we don't flash their profile
+    setUserCache((prev) => (prev && prev.id === targetId ? prev : null));
+
     const passed = (location.state as { user?: PublicUser } | null)?.user;
-    if (passed && passed.id === userMatch.params.id) {
+    if (passed && passed.id === targetId) {
       setUserCache(passed);
       return;
     }
+
+    if (!ready || !user) return; // wait for auth; effect will rerun when ready
+
     let cancelled = false;
-    apiFetch<PublicUser>(`/users/${userMatch.params.id}`)
+    apiFetch<PublicUser>(`/users/${targetId}`)
       .then((u) => {
         if (!cancelled) setUserCache(u);
       })
@@ -105,7 +113,7 @@ export function App() {
     return () => {
       cancelled = true;
     };
-  }, [userMatch, location.state]);
+  }, [userMatch, location.state, ready, user]);
 
   const myCount = myAttendances.size;
 
@@ -176,7 +184,8 @@ export function App() {
       );
     }
     if (userMatch) {
-      if (!userCache) return null; // fetching
+      // Guard: id must match to avoid flashing a stale profile mid-transition.
+      if (!userCache || userCache.id !== userMatch.params.id) return null;
       return (
         <UserSheet
           user={userCache}

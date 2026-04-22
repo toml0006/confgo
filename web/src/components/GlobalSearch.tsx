@@ -24,6 +24,7 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("all");
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  const requestSeq = useRef(0);
   const location = useLocation();
   const onRoot = location.pathname === "/";
 
@@ -40,17 +41,23 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
 
   useEffect(() => {
     if (!q.trim()) {
+      // bump sequence so any in-flight request is ignored when it returns
+      requestSeq.current += 1;
       setConfs([]);
       setPeople([]);
+      setLoading(false);
       return;
     }
     setLoading(true);
     const handle = setTimeout(async () => {
+      const seq = ++requestSeq.current;
       const enc = encodeURIComponent(q.trim());
       const [confRes, userRes] = await Promise.allSettled([
         apiFetch<{ conferences: Conference[] }>(`/conferences?q=${enc}`),
         apiFetch<{ users: PublicUser[] }>(`/users?q=${enc}`),
       ]);
+      // ignore stale responses — only the most recent request gets to write
+      if (seq !== requestSeq.current) return;
       if (confRes.status === "fulfilled") setConfs(confRes.value.conferences);
       else console.error(confRes.reason);
       if (userRes.status === "fulfilled") setPeople(userRes.value.users);
@@ -73,8 +80,15 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
     const userItems: Item[] = people.map((u) => ({ kind: "user", user: u }));
     if (tab === "confs") return confItems.slice(0, 40);
     if (tab === "people") return userItems.slice(0, 40);
-    // interleave people first (usually fewer), then conferences
-    return [...userItems, ...confItems].slice(0, 40);
+    // All: round-robin so the 40-cap never starves one type when the other
+    // has many matches. People first per pair (usually the scarcer type).
+    const out: Item[] = [];
+    const maxLen = Math.max(userItems.length, confItems.length);
+    for (let i = 0; i < maxLen && out.length < 40; i += 1) {
+      if (i < userItems.length && out.length < 40) out.push(userItems[i]);
+      if (i < confItems.length && out.length < 40) out.push(confItems[i]);
+    }
+    return out;
   }, [confs, people, tab]);
 
   const show = open && (loading || items.length > 0 || q.trim().length > 0);
@@ -257,6 +271,7 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
         .global-search-tab--active {
           border-color: var(--mist);
           background: rgba(232, 240, 255, 0.06);
+          background: color(display-p3 0.91 0.941 1 / 0.06);
           color: var(--text);
         }
         .global-search-tab .tab-count {
@@ -283,6 +298,7 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
         .global-search-result:hover {
           border-color: var(--mist);
           background: rgba(232, 240, 255, 0.04);
+          background: color(display-p3 0.91 0.941 1 / 0.04);
         }
         .result-icon {
           display: inline-flex;

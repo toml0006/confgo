@@ -55,6 +55,15 @@ userRoutes.get("/users/:id", requireAuth, async (c) => {
 
 userRoutes.get("/users/:id/attendances", requireAuth, async (c) => {
   const id = c.req.param("id");
+  // same visibility gate as /users and /users/:id — hidden users' attendance
+  // shouldn't be reachable by UID guessing.
+  const userSnap = await users().doc(id).get();
+  if (!userSnap.exists) return c.json({ error: "not_found" }, 404);
+  const data = userSnap.data()!;
+  if (typeof data.display_name !== "string" || data.display_name.length === 0) {
+    return c.json({ error: "not_found" }, 404);
+  }
+
   const snap = await attendances().where("user_id", "==", id).get();
   const out = snap.docs.map((d) => ({
     conferenceId: d.get("conference_id") as string,
