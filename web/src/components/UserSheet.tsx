@@ -153,6 +153,7 @@ export function UserSheet({ user, conferences, onClose, onPickConference }: Prop
         }
         .user-conf-row:hover {
           background: rgba(232, 240, 255, 0.04);
+          background: color(display-p3 0.91 0.941 1 / 0.04);
         }
         .user-conf-row .name {
           font-size: 0.85rem;

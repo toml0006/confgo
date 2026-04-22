@@ -1,21 +1,41 @@
 :root {
   --void: #03040a;
+  --void: color(display-p3 0.012 0.016 0.039);
   --haze: #0c1020;
+  --haze: color(display-p3 0.047 0.063 0.125);
   --mist: rgba(232, 240, 255, 0.08);
+  --mist: color(display-p3 0.91 0.941 1 / 0.08);
   --mist-strong: rgba(232, 240, 255, 0.16);
-  --ember: #f6d4a3;
+  --mist-strong: color(display-p3 0.91 0.941 1 / 0.16);
+  --ember: #ffb547;
+  --ember: color(display-p3 1 0.71 0.278);
   --ember-hot: #fff4e0;
+  --ember-hot: color(display-p3 1 0.957 0.878);
   --signal: #5ee7d9;
+  --signal: color(display-p3 0.369 0.906 0.851);
   --signal-dim: rgba(94, 231, 217, 0.35);
+  --signal-dim: color(display-p3 0.369 0.906 0.851 / 0.35);
   --past-signal: #8ca0dc;
-  --past-ember: #c3a0b4;
+  --past-signal: color(display-p3 0.549 0.627 0.863);
+  --past-ember: #e879b1;
+  --past-ember: color(display-p3 0.91 0.475 0.694);
   --danger: #ff6b8a;
+  --danger: color(display-p3 1 0.42 0.541);
+  --signal-warning: #ff8a8a;
+  --signal-warning: color(display-p3 1 0.541 0.541);
   --text: #e8f0ff;
+  --text: color(display-p3 0.91 0.941 1);
   --text-muted: rgba(232, 240, 255, 0.55);
+  --text-muted: color(display-p3 0.91 0.941 1 / 0.55);
   --panel-gradient: linear-gradient(
     180deg,
     rgba(16, 20, 40, 0.78) 0%,
     rgba(6, 8, 20, 0.82) 100%
+  );
+  --panel-gradient: linear-gradient(
+    180deg,
+    color(display-p3 0.063 0.078 0.157 / 0.78) 0%,
+    color(display-p3 0.024 0.031 0.078 / 0.82) 100%
   );
 }
 
@@ -72,6 +92,7 @@ input:focus {
   border-radius: 18px;
   color: var(--text);
   box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 10px 40px -15px color(display-p3 0 0 0 / 0.9);
 }
 
 .soft-button {
@@ -88,6 +109,7 @@ input:focus {
 .soft-button:hover {
   border-color: var(--mist-strong);
   background: rgba(232, 240, 255, 0.04);
+  background: color(display-p3 0.91 0.941 1 / 0.04);
 }
 .soft-button--primary {
   border-color: var(--signal-dim);
@@ -96,13 +118,16 @@ input:focus {
 .soft-button--primary:hover {
   border-color: var(--signal);
   background: rgba(94, 231, 217, 0.06);
+  background: color(display-p3 0.369 0.906 0.851 / 0.06);
 }
 .soft-button--danger {
   border-color: rgba(255, 107, 138, 0.35);
+  border-color: color(display-p3 1 0.42 0.541 / 0.35);
   color: var(--danger);
 }
 .soft-button--danger:hover {
   background: rgba(255, 107, 138, 0.06);
+  background: color(display-p3 1 0.42 0.541 / 0.06);
 }
 .soft-button--quiet {
   border-color: transparent;
@@ -146,7 +171,12 @@ input:focus {
   border-radius: 999px;
   font-family: "Lexend Exa", sans-serif;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  box-shadow: 0 0 0 1px color(display-p3 1 1 1 / 0.04) inset;
   flex-shrink: 0;
+  background: var(--glyph-bg, transparent);
+  background: var(--glyph-bg-p3, var(--glyph-bg, transparent));
+  color: var(--glyph-color, inherit);
+  color: var(--glyph-color-p3, var(--glyph-color, inherit));
 }
 .avatar-photo {
   display: inline-block;

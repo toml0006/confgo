@@ -34,8 +34,8 @@ export const coreColor: ExpressionSpecification = [
   "past-mine",
   "#8ca0dc", // past-signal muted blue
   "past",
-  "#c3a0b4", // past-ember muted rose
-  /* default */ "#f6d4a3", // ember warm amber
+  "#e879b1", // past-ember vivid rose
+  /* default */ "#ffb547", // ember vivid amber
 ];
 
 export const coreOpacity: ExpressionSpecification = [

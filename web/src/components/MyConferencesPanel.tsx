@@ -120,6 +120,7 @@ export function MyConferencesPanel({
         .my-row:hover {
           border-color: var(--mist);
           background: rgba(232, 240, 255, 0.03);
+          background: color(display-p3 0.91 0.941 1 / 0.03);
         }
         .my-row-date {
           font-size: 0.62rem;

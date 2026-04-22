@@ -145,6 +145,7 @@ export function LocationSheet({
         .loc-row:hover {
           border-color: var(--mist);
           background: rgba(232, 240, 255, 0.03);
+          background: color(display-p3 0.91 0.941 1 / 0.03);
         }
         .loc-row.past {
           color: var(--text-muted);
