@@ -54,22 +54,32 @@ jobs:
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-      - name: Diagnose credentials
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Diagnose SA permissions
         env:
-          GOOGLE_CLOUD_PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
+          PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
-          echo "--- service account identity ---"
+          set +e
+          echo "--- SA identity ---"
           python3 -c "import json,os; d=json.load(open(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])); print('client_email:', d.get('client_email')); print('project_id:', d.get('project_id'))"
-          echo "--- access token serviceusage GET (should be 200) ---"
-          TOKEN=$(gcloud auth print-access-token 2>/dev/null || curl -s -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/service-accounts/default/token | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
-          if [ -n "$TOKEN" ]; then
-            curl -s -o /tmp/su.json -w "HTTP %{http_code}\n" \
-              -H "Authorization: Bearer $TOKEN" \
-              "https://serviceusage.googleapis.com/v1/projects/$GOOGLE_CLOUD_PROJECT/services/firebasestorage.googleapis.com"
-            head -c 600 /tmp/su.json; echo
-          else
-            echo "no token obtained"
-          fi
+          TOKEN=$(gcloud auth print-access-token)
+          echo "--- token info (scopes) ---"
+          curl -s "https://oauth2.googleapis.com/tokeninfo?access_token=$TOKEN" | python3 -c "import sys,json; d=json.load(sys.stdin); print('scope:', d.get('scope')); print('email:', d.get('email')); print('aud:', d.get('aud'))"
+          echo "--- 1. resourcemanager.projects.get ---"
+          curl -s -o /tmp/a.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $TOKEN" "https://cloudresourcemanager.googleapis.com/v1/projects/$PROJECT_ID"
+          head -c 400 /tmp/a.json; echo
+          echo "--- 2. serviceusage.services.get (firebasehosting) ---"
+          curl -s -o /tmp/b.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $TOKEN" "https://serviceusage.googleapis.com/v1/projects/$PROJECT_ID/services/firebasehosting.googleapis.com"
+          head -c 400 /tmp/b.json; echo
+          echo "--- 3. firestore databases.list ---"
+          curl -s -o /tmp/c.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $TOKEN" "https://firestore.googleapis.com/v1/projects/$PROJECT_ID/databases"
+          head -c 400 /tmp/c.json; echo
+          echo "--- 4. IAM policy: list bindings for this SA ---"
+          SA_EMAIL=$(python3 -c "import json,os; print(json.load(open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']))['client_email'])")
+          curl -s -o /tmp/d.json -w "HTTP %{http_code}\n" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -X POST -d "{}" "https://cloudresourcemanager.googleapis.com/v1/projects/$PROJECT_ID:getIamPolicy"
+          python3 -c "import json; d=json.load(open('/tmp/d.json')); bindings=d.get('bindings',[]); me='$SA_EMAIL'; print('total bindings:',len(bindings)); [print(' ',b['role']) for b in bindings if f'serviceAccount:{me}' in b.get('members',[])]" 2>/dev/null || head -c 400 /tmp/d.json
+          set -e
 
       - name: Deploy to Firebase
         env:
