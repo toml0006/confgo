@@ -4,6 +4,7 @@ import { apiFetch, type Conference, type MeUser, type PublicUser } from "./api";
 import { useAuth } from "./auth/AuthContext";
 import { useMyAttendances } from "./hooks/useMyAttendances";
 import { useConferenceUpdates } from "./hooks/useConferenceUpdates";
+import { useIncomingPingCount } from "./hooks/useIncomingPingCount";
 import { MapView } from "./components/map/MapView";
 import { Toolbar } from "./components/Toolbar";
 import { GlobalSearch } from "./components/GlobalSearch";
@@ -11,6 +12,7 @@ import { ConferenceSheet } from "./components/ConferenceSheet";
 import { LocationSheet } from "./components/LocationSheet";
 import { UserSheet } from "./components/UserSheet";
 import { MyConferencesPanel } from "./components/MyConferencesPanel";
+import { PingInbox } from "./components/PingInbox";
 import { SettingsPanel } from "./components/SettingsPanel";
 
 type LocationSelection = {
@@ -26,6 +28,7 @@ export function App() {
 
   const { user, ready } = useAuth();
   const myAttendances = useMyAttendances(user?.uid ?? null);
+  const signalsCount = useIncomingPingCount(user?.uid ?? null);
 
   const [me, setMe] = useState<MeUser | null>(null);
   const [conferences, setConferences] = useState<Conference[]>([]);
@@ -33,7 +36,7 @@ export function App() {
   const [showFuture, setShowFuture] = useState(true);
   const [locationSel, setLocationSel] = useState<LocationSelection | null>(null);
   const [userCache, setUserCache] = useState<PublicUser | null>(null);
-  const [panel, setPanel] = useState<"none" | "settings" | "mine">("none");
+  const [panel, setPanel] = useState<"none" | "settings" | "mine" | "signals">("none");
   const [flyTo, setFlyTo] = useState<{
     longitude: number;
     latitude: number;
@@ -154,6 +157,13 @@ export function App() {
     [navigate],
   );
 
+  const openPeerFromAttendee = useCallback(
+    (userId: string) => {
+      navigate(`/u/${userId}`);
+    },
+    [navigate],
+  );
+
   // Back if there's app history, else home. location.key === "default"
   // means we landed directly and have no prior in-app history.
   const closeSheet = useCallback(() => {
@@ -180,6 +190,7 @@ export function App() {
           onMarked={() => {
             // onSnapshot will update myAttendances; no manual refresh needed.
           }}
+          onOpenPeer={openPeerFromAttendee}
         />
       );
     }
@@ -218,6 +229,7 @@ export function App() {
     closeSheet,
     closeLocationSheet,
     openFromSearch,
+    openPeerFromAttendee,
     navigate,
   ]);
 
@@ -243,6 +255,7 @@ export function App() {
 
       <Toolbar
         myCount={myCount}
+        signalsCount={signalsCount}
         showPast={showPast}
         showFuture={showFuture}
         onTogglePast={setShowPast}
@@ -252,6 +265,9 @@ export function App() {
         }
         onOpenMyConferences={() =>
           setPanel((p) => (p === "mine" ? "none" : "mine"))
+        }
+        onOpenSignals={() =>
+          setPanel((p) => (p === "signals" ? "none" : "signals"))
         }
       />
 
@@ -275,6 +291,10 @@ export function App() {
           onClose={() => setPanel("none")}
           onUpdated={setMe}
         />
+      ) : null}
+
+      {panel === "signals" ? (
+        <PingInbox onClose={() => setPanel("none")} />
       ) : null}
     </>
   );

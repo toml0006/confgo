@@ -7,6 +7,7 @@ import {
   getUsersByIds,
   nowIso,
 } from "../lib/firestore";
+import { loadPingState } from "../lib/pings";
 import { AppEnv, getUserId, maybeUserId, optionalAuth, requireAuth } from "../auth";
 
 export const conferenceRoutes = new Hono<AppEnv>();
@@ -149,6 +150,18 @@ conferenceRoutes.get("/conferences/:id/attendees", optionalAuth, async (c) => {
   const attendanceSnap = await attendances().where("conference_id", "==", id).get();
   const userIds = Array.from(new Set(attendanceSnap.docs.map((d) => d.get("user_id") as string)));
   const usersById = await getUsersByIds(userIds);
+
+  // Build viewer's active ping state once so we can stamp each attendee row.
+  // Includes mutual peers in both sets — UI uses both flags to render the
+  // "matched" indicator.
+  let pingedByMe = new Set<string>();
+  let pingedMe = new Set<string>();
+  if (viewer) {
+    const state = await loadPingState(viewer);
+    pingedByMe = new Set(state.activeOutgoing.map((p) => p.toUserId));
+    pingedMe = new Set(state.activeIncoming.map((p) => p.fromUserId));
+  }
+
   const out = attendanceSnap.docs.map((d) => {
     const uid = d.get("user_id") as string;
     const u = usersById.get(uid);
@@ -159,8 +172,8 @@ conferenceRoutes.get("/conferences/:id/attendees", optionalAuth, async (c) => {
       displayName: u?.display_name ?? null,
       photoURL: u?.photo_url ?? null,
       isYou: viewer === uid,
-      youPinged: false,
-      hasPingedYou: false,
+      youPinged: pingedByMe.has(uid),
+      hasPingedYou: pingedMe.has(uid),
     };
   });
   return c.json({ attendees: out });

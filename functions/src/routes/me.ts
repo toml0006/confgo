@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { users, attendances } from "../lib/firestore";
+import { savedContactsArraySchema } from "../lib/contacts";
 import { AppEnv, getUserId, requireAuth } from "../auth";
 
 export const me = new Hono<AppEnv>();
@@ -55,4 +56,27 @@ me.get("/me/attendances", requireAuth, async (c) => {
     intent: d.get("intent"),
   }));
   return c.json({ attendances: out });
+});
+
+// Contact cards the user picks from when sending a ping. Stored on the user
+// doc; never disclosed to anyone except via explicit selection on a ping.
+// Anon-allowed: anon users can prepare cards even if they can't ping yet.
+me.get("/me/contacts", requireAuth, async (c) => {
+  const userId = getUserId(c);
+  const snap = await users().doc(userId).get();
+  const saved = (snap.get("saved_contacts") as unknown[] | undefined) ?? [];
+  return c.json({ contacts: saved });
+});
+
+const putContactsSchema = z.object({ contacts: savedContactsArraySchema });
+
+me.put("/me/contacts", requireAuth, async (c) => {
+  const userId = getUserId(c);
+  const body = await c.req.json().catch(() => null);
+  const parsed = putContactsSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: "bad_request", details: parsed.error.flatten() }, 400);
+  }
+  await users().doc(userId).update({ saved_contacts: parsed.data.contacts });
+  return c.json({ contacts: parsed.data.contacts });
 });

@@ -19,8 +19,24 @@ service cloud.firestore {
       allow read, write: if isSignedIn();
     }
 
+    // Pings: metadata only. Clients can read their own sides (sender or
+    // recipient) to power the Signals badge + direct lookups. All writes
+    // go through the API (Admin SDK bypasses rules), so client writes
+    // are blocked.
     match /pings/{pingId} {
-      allow read, write: if isSignedIn();
+      allow read: if isSignedIn() &&
+        (request.auth.uid == resource.data.from_user_id ||
+         request.auth.uid == resource.data.to_user_id);
+      allow write: if false;
+    }
+
+    // Ping disclosures: only the sender (owner) can read. Recipients
+    // receive the disclosure only via the API's /pings/mutual-contacts
+    // endpoint, which runs with Admin privileges and returns the payload
+    // only after a mutual ping exists.
+    match /ping_contacts/{pingId} {
+      allow read: if isSignedIn() && request.auth.uid == resource.data.owner_id;
+      allow write: if false;
     }
   }
 }

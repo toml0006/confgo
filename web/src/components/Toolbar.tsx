@@ -1,26 +1,39 @@
 type Props = {
   myCount: number;
+  signalsCount: number;
   showPast: boolean;
   showFuture: boolean;
   onTogglePast: (next: boolean) => void;
   onToggleFuture: (next: boolean) => void;
   onOpenSettings: () => void;
   onOpenMyConferences: () => void;
+  onOpenSignals: () => void;
 };
 
 export function Toolbar({
   myCount,
+  signalsCount,
   showPast,
   showFuture,
   onTogglePast,
   onToggleFuture,
   onOpenSettings,
   onOpenMyConferences,
+  onOpenSignals,
 }: Props) {
   return (
     <div className="toolbar glass-panel">
       <div className="toolbar-row">
-        {/* TODO: Signals (ping) icon slot — wired when pings are built. */}
+        <button
+          className="soft-button soft-button--quiet signals-button"
+          onClick={onOpenSignals}
+          aria-label={signalsCount > 0 ? `Signals (${signalsCount} unread)` : "Signals"}
+        >
+          <span aria-hidden="true">◈</span>
+          {signalsCount > 0 ? (
+            <span className="count-badge signals-badge">{signalsCount}</span>
+          ) : null}
+        </button>
         <button
           className="soft-button soft-button--quiet"
           onClick={onOpenSettings}
@@ -88,6 +101,16 @@ export function Toolbar({
           padding: 0.12rem 0.55rem;
           border-radius: 999px;
           letter-spacing: 0.08em;
+        }
+        .signals-button {
+          position: relative;
+        }
+        .signals-badge {
+          position: absolute;
+          top: -4px;
+          right: -4px;
+          padding: 0.05rem 0.4rem;
+          font-size: 0.6rem;
         }
         .toolbar-divider {
           height: 1px;

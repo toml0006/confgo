@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { apiFetch, type MeUser } from "../api";
 import { AVATAR_COUNT, AvatarGlyph } from "./AvatarGlyph";
+import { ContactsEditor } from "./ContactsEditor";
 import { useAuth, type AuthProviderId } from "../auth/AuthContext";
 
 type Props = {
@@ -118,6 +119,14 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
             ))}
           </div>
         ) : null}
+      </div>
+
+      <div className="stack-sm">
+        <label className="section-label">Contact cards</label>
+        <ContactsEditor />
+        <div className="caption">
+          Picked per ping. Only revealed when someone matches back.
+        </div>
       </div>
 
       <div className="stack-sm">

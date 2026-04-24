@@ -63,3 +63,44 @@ export type Attendee = {
   youPinged: boolean;
   hasPingedYou: boolean;
 };
+
+import type { ContactEntry } from "./lib/contacts";
+
+export type UserSummary = {
+  id: string;
+  avatarId: number;
+  displayName: string | null;
+  photoURL: string | null;
+};
+
+export type IncomingPing = {
+  pingId: string;
+  fromUser: UserSummary;
+  createdAt: string;
+  // contacts intentionally omitted — only revealed on mutual.
+};
+
+export type OutgoingPing = {
+  pingId: string;
+  toUser: UserSummary;
+  createdAt: string;
+  contacts: ContactEntry[];
+};
+
+export type MutualContact = {
+  peer: UserSummary;
+  theirContacts: ContactEntry[];
+  yourContacts: ContactEntry[];
+  matchedAt: string;
+};
+
+export type PingPairState = {
+  youPinged: boolean;
+  hasPingedYou: boolean;
+};
+
+export type UserProfile = {
+  user: UserSummary;
+  shared: Conference[];
+  pingState: PingPairState | null;
+};

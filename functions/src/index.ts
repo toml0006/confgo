@@ -8,8 +8,9 @@ import { health } from "./routes/health";
 import { authRoutes } from "./routes/auth";
 import { me } from "./routes/me";
 import { conferenceRoutes } from "./routes/conferences";
+import { pingRoutes } from "./routes/pings";
 import { userRoutes } from "./routes/users";
-// TODO: peers, pings, co-attendance — add in later phases.
+// TODO: co-attendance — add in later phase.
 
 const routes = new Hono<AppEnv>();
 routes.use(
@@ -26,6 +27,7 @@ routes.route("/", health);
 routes.route("/", authRoutes);
 routes.route("/", me);
 routes.route("/", conferenceRoutes);
+routes.route("/", pingRoutes);
 routes.route("/", userRoutes);
 
 routes.notFound((c) => c.json({ error: "not_found", path: c.req.path }, 404));
