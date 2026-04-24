@@ -14,7 +14,6 @@ import { UserSheet } from "./components/UserSheet";
 import { MyConferencesPanel } from "./components/MyConferencesPanel";
 import { PingInbox } from "./components/PingInbox";
 import { SettingsPanel } from "./components/SettingsPanel";
-import { VersionBadge } from "./components/VersionBadge";
 
 type LocationSelection = {
   conferences: Conference[];
@@ -297,8 +296,6 @@ export function App() {
       {panel === "signals" ? (
         <PingInbox onClose={() => setPanel("none")} />
       ) : null}
-
-      <VersionBadge />
     </>
   );
 }
