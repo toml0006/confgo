@@ -14,6 +14,7 @@ pubsub-debug.log
 web/.env
 web/.env.local
 functions/lib/
+*.tsbuildinfo
 .firebase/
 .playwright-mcp/
 confgo-*.png
