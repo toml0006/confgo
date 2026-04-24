@@ -42,16 +42,105 @@ const rand = mulberry32(0x5eedc0de);
 const pick = (arr) => arr[Math.floor(rand() * arr.length)];
 
 const NAMED_USERS = [
-  { id: "seed_alex_stark", displayName: "Alex Stark", email: "alex@example.com" },
-  { id: "seed_priya_rao", displayName: "Priya Rao", email: "priya@example.com" },
-  { id: "seed_jordan_kim", displayName: "Jordan Kim", email: "jordan@example.com" },
-  { id: "seed_sam_ortega", displayName: "Sam Ortega", email: "sam@example.com" },
-  { id: "seed_lena_chen", displayName: "Lena Chen", email: "lena@example.com" },
-  { id: "seed_devon_walsh", displayName: "Devon Walsh", email: "devon@example.com" },
-  { id: "seed_mira_okafor", displayName: "Mira Okafor", email: "mira@example.com" },
-  { id: "seed_ruby_vance", displayName: "Ruby Vance", email: "ruby@example.com" },
-  { id: "seed_kai_lin", displayName: "Kai Lin", email: "kai@example.com" },
-  { id: "seed_tess_moreno", displayName: "Tess Moreno", email: "tess@example.com" },
+  {
+    id: "seed_alex_stark",
+    displayName: "Alex Stark",
+    email: "alex@example.com",
+    savedContacts: [
+      { type: "email", value: "alex@example.com" },
+      { type: "twitter", value: "alexstark" },
+      { type: "github", value: "alexs" },
+    ],
+  },
+  {
+    id: "seed_priya_rao",
+    displayName: "Priya Rao",
+    email: "priya@example.com",
+    savedContacts: [
+      { type: "email", value: "priya@example.com" },
+      { type: "linkedin", value: "priyarao" },
+      { type: "website", value: "priyarao.dev" },
+    ],
+  },
+  {
+    id: "seed_jordan_kim",
+    displayName: "Jordan Kim",
+    email: "jordan@example.com",
+    savedContacts: [
+      { type: "email", value: "jordan@example.com" },
+      { type: "instagram", value: "jordankim" },
+    ],
+  },
+  {
+    id: "seed_sam_ortega",
+    displayName: "Sam Ortega",
+    email: "sam@example.com",
+    savedContacts: [
+      { type: "email", value: "sam@example.com" },
+      { type: "phone", value: "+1 415 555 0123" },
+      { type: "tiktok", value: "samortega" },
+    ],
+  },
+  {
+    id: "seed_lena_chen",
+    displayName: "Lena Chen",
+    email: "lena@example.com",
+    savedContacts: [
+      { type: "email", value: "lena@example.com" },
+      { type: "twitter", value: "lenachen" },
+      { type: "github", value: "lchen" },
+    ],
+  },
+  {
+    id: "seed_devon_walsh",
+    displayName: "Devon Walsh",
+    email: "devon@example.com",
+    savedContacts: [
+      { type: "email", value: "devon@example.com" },
+      { type: "linkedin", value: "devonwalsh" },
+      { type: "website", value: "devonwalsh.me" },
+    ],
+  },
+  {
+    id: "seed_mira_okafor",
+    displayName: "Mira Okafor",
+    email: "mira@example.com",
+    savedContacts: [
+      { type: "email", value: "mira@example.com" },
+      { type: "instagram", value: "miraok" },
+      { type: "twitter", value: "miraok" },
+    ],
+  },
+  {
+    id: "seed_ruby_vance",
+    displayName: "Ruby Vance",
+    email: "ruby@example.com",
+    savedContacts: [
+      { type: "email", value: "ruby@example.com" },
+      { type: "github", value: "rubyv" },
+      { type: "website", value: "rubyvance.io" },
+    ],
+  },
+  {
+    id: "seed_kai_lin",
+    displayName: "Kai Lin",
+    email: "kai@example.com",
+    savedContacts: [
+      { type: "email", value: "kai@example.com" },
+      { type: "linkedin", value: "kailin" },
+      { type: "phone", value: "+1 212 555 0199" },
+    ],
+  },
+  {
+    id: "seed_tess_moreno",
+    displayName: "Tess Moreno",
+    email: "tess@example.com",
+    savedContacts: [
+      { type: "email", value: "tess@example.com" },
+      { type: "instagram", value: "tessmoreno" },
+      { type: "tiktok", value: "tessm" },
+    ],
+  },
 ];
 
 const FIRST = ["Rowan", "Imani", "Haru", "Sage", "Nico", "Emi", "Theo", "Mika", "Ola", "Noor", "Iris", "Leo", "Ada", "Ben", "Cleo", "Finn", "Gus", "Hana"];
@@ -86,6 +175,7 @@ async function main() {
       id: `seed_u${String(i).padStart(3, "0")}`,
       displayName: `${first} ${last}`,
       email: null,
+      savedContacts: [],
     });
   }
 
@@ -109,6 +199,7 @@ async function main() {
         display_name: u.displayName,
         photo_url: null,
         created_at: now,
+        saved_contacts: u.savedContacts ?? [],
       },
       { merge: true },
     );
@@ -151,7 +242,69 @@ async function main() {
     await batch.commit();
     console.log(`  committed ${written} attendances`);
   }
-  console.log(`Seed complete. ${users.length} users, ${written} attendances.`);
+
+  console.log("Seeding pings…");
+  // Emulator-only: wipe any stale pings/ping_contacts before re-seeding so
+  // previously created in-session pings (rejected, dematched, ping-back'd,
+  // or pre-split inline-contacts docs) don't mix with the deterministic
+  // seed set. Guarded so we never wipe production.
+  if (!PRODUCTION) {
+    for (const coll of ["pings", "ping_contacts"]) {
+      const snap = await db.collection(coll).get();
+      if (snap.empty) continue;
+      const wipeBatch = db.batch();
+      for (const d of snap.docs) wipeBatch.delete(d.ref);
+      await wipeBatch.commit();
+      console.log(`  wiped ${snap.size} stale ${coll}`);
+    }
+  }
+  const usersById = new Map(users.map((u) => [u.id, u]));
+  const pickContacts = (userId, n) => {
+    const saved = usersById.get(userId)?.savedContacts ?? [];
+    return saved.slice(0, Math.min(n, saved.length));
+  };
+  const daysAgoIso = (d) => new Date(Date.now() - d * 86_400_000).toISOString();
+  // PDD: 3 mutual pairs (6 docs) + 2 one-way + 1 rejected = 9 ping records.
+  const pingPlan = [
+    // mutual: alex ↔ priya
+    { from: "seed_alex_stark", to: "seed_priya_rao", daysAgo: 4, contacts: 2 },
+    { from: "seed_priya_rao", to: "seed_alex_stark", daysAgo: 3, contacts: 2 },
+    // mutual: jordan ↔ sam
+    { from: "seed_jordan_kim", to: "seed_sam_ortega", daysAgo: 10, contacts: 2 },
+    { from: "seed_sam_ortega", to: "seed_jordan_kim", daysAgo: 9, contacts: 2 },
+    // mutual: lena ↔ devon
+    { from: "seed_lena_chen", to: "seed_devon_walsh", daysAgo: 1, contacts: 3 },
+    { from: "seed_devon_walsh", to: "seed_lena_chen", daysAgo: 1, contacts: 2 },
+    // one-way (unanswered)
+    { from: "seed_mira_okafor", to: "seed_ruby_vance", daysAgo: 2, contacts: 2 },
+    { from: "seed_kai_lin", to: "seed_tess_moreno", daysAgo: 6, contacts: 2 },
+    // rejected
+    {
+      from: "seed_ruby_vance",
+      to: "seed_kai_lin",
+      daysAgo: 14,
+      contacts: 2,
+      rejectedDaysAgo: 12,
+    },
+  ];
+  let pingBatch = db.batch();
+  for (const p of pingPlan) {
+    const id = `${p.from}__${p.to}`;
+    pingBatch.set(db.collection("pings").doc(id), {
+      from_user_id: p.from,
+      to_user_id: p.to,
+      created_at: daysAgoIso(p.daysAgo),
+      rejected_at: p.rejectedDaysAgo != null ? daysAgoIso(p.rejectedDaysAgo) : null,
+    });
+    pingBatch.set(db.collection("ping_contacts").doc(id), {
+      owner_id: p.from,
+      contacts: pickContacts(p.from, p.contacts),
+    });
+  }
+  await pingBatch.commit();
+  console.log(`  committed ${pingPlan.length} pings + ${pingPlan.length} disclosures`);
+
+  console.log(`Seed complete. ${users.length} users, ${written} attendances, ${pingPlan.length} pings.`);
 }
 
 main().catch((err) => {

@@ -3,29 +3,36 @@ import { apiFetch, type Conference, type MeUser } from "./api";
 import { useAuth } from "./auth/AuthContext";
 import { useMyAttendances } from "./hooks/useMyAttendances";
 import { useConferenceUpdates } from "./hooks/useConferenceUpdates";
+import { useIncomingPingCount } from "./hooks/useIncomingPingCount";
 import { MapView } from "./components/map/MapView";
 import { Toolbar } from "./components/Toolbar";
 import { ConferenceSearch } from "./components/ConferenceSearch";
 import { ConferenceSheet } from "./components/ConferenceSheet";
 import { LocationSheet } from "./components/LocationSheet";
 import { MyConferencesPanel } from "./components/MyConferencesPanel";
+import { PeerSheet } from "./components/PeerSheet";
+import { PingInbox } from "./components/PingInbox";
 import { SettingsPanel } from "./components/SettingsPanel";
 
+type SingleBack = Conference[] | { kind: "peer"; userId: string } | null;
+
 type Selection =
-  | { kind: "single"; conference: Conference; backTo: Conference[] | null }
+  | { kind: "single"; conference: Conference; backTo: SingleBack }
   | { kind: "location"; conferences: Conference[]; locationName: string }
+  | { kind: "peer"; userId: string; backTo: Conference | null }
   | null;
 
 export function App() {
   const { user, ready } = useAuth();
   const myAttendances = useMyAttendances(user?.uid ?? null);
+  const signalsCount = useIncomingPingCount(user?.uid ?? null);
 
   const [me, setMe] = useState<MeUser | null>(null);
   const [conferences, setConferences] = useState<Conference[]>([]);
   const [showPast, setShowPast] = useState(true);
   const [showFuture, setShowFuture] = useState(true);
   const [selection, setSelection] = useState<Selection>(null);
-  const [panel, setPanel] = useState<"none" | "settings" | "mine">("none");
+  const [panel, setPanel] = useState<"none" | "settings" | "mine" | "signals">("none");
   const [flyTo, setFlyTo] = useState<{
     longitude: number;
     latitude: number;
@@ -92,24 +99,63 @@ export function App() {
   const sheet = useMemo(() => {
     if (!selection) return null;
     if (selection.kind === "single") {
+      const back = selection.backTo;
+      const onBack = !back
+        ? undefined
+        : Array.isArray(back)
+          ? () =>
+              setSelection({
+                kind: "location",
+                conferences: back,
+                locationName: back[0].locationName,
+              })
+          : () =>
+              setSelection({
+                kind: "peer",
+                userId: back.userId,
+                backTo: selection.conference,
+              });
       return (
         <ConferenceSheet
           conference={selection.conference}
           myIntent={myAttendances.get(selection.conference.id)}
-          onBack={
-            selection.backTo
-              ? () =>
-                  setSelection({
-                    kind: "location",
-                    conferences: selection.backTo!,
-                    locationName: selection.backTo![0].locationName,
-                  })
-              : undefined
-          }
+          onBack={onBack}
           onClose={closeSelection}
           onMarked={() => {
             // onSnapshot will update myAttendances; no manual refresh needed.
           }}
+          onOpenPeer={(userId) =>
+            setSelection({
+              kind: "peer",
+              userId,
+              backTo: selection.conference,
+            })
+          }
+        />
+      );
+    }
+    if (selection.kind === "peer") {
+      return (
+        <PeerSheet
+          userId={selection.userId}
+          onBack={
+            selection.backTo
+              ? () =>
+                  setSelection({
+                    kind: "single",
+                    conference: selection.backTo!,
+                    backTo: null,
+                  })
+              : undefined
+          }
+          onClose={closeSelection}
+          onOpenConference={(conf) =>
+            setSelection({
+              kind: "single",
+              conference: conf,
+              backTo: { kind: "peer", userId: selection.userId },
+            })
+          }
         />
       );
     }
@@ -149,6 +195,7 @@ export function App() {
 
       <Toolbar
         myCount={myCount}
+        signalsCount={signalsCount}
         showPast={showPast}
         showFuture={showFuture}
         onTogglePast={setShowPast}
@@ -158,6 +205,9 @@ export function App() {
         }
         onOpenMyConferences={() =>
           setPanel((p) => (p === "mine" ? "none" : "mine"))
+        }
+        onOpenSignals={() =>
+          setPanel((p) => (p === "signals" ? "none" : "signals"))
         }
       />
 
@@ -181,6 +231,10 @@ export function App() {
           onClose={() => setPanel("none")}
           onUpdated={setMe}
         />
+      ) : null}
+
+      {panel === "signals" ? (
+        <PingInbox onClose={() => setPanel("none")} />
       ) : null}
     </>
   );
