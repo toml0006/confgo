@@ -14,10 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
+      # Check out with the release PAT so the post-deploy push back to main
+      # bypasses branch protection. fetch-depth: 0 gives `git pull --rebase`
+      # full history to work with.
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RELEASE_PAT }}
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -60,3 +66,27 @@ jobs:
             --non-interactive \
             --force \
             --only hosting,functions,firestore,storage
+
+      # The build step above runs `npm run build`, which fires `prebuild`
+      # → bump-version.mjs, mutating web/package.json. Persist that change
+      # back to main so the version monotonically advances across deploys.
+      # Authenticated via RELEASE_PAT (set on the checkout step), which
+      # must have Contents: Write on this repo and bypass branch protection.
+      # `[skip ci]` keeps this from re-triggering the workflow.
+      - name: Commit version bump back to main
+        if: success()
+        run: |
+          if git diff --quiet web/package.json; then
+            echo "No version change to commit"
+            exit 0
+          fi
+          git config user.name "confgo-release-bot"
+          git config user.email "release-bot@users.noreply.github.com"
+          VERSION=$(node -p "require('./web/package.json').version")
+          BUILD=$(node -p "require('./web/package.json').buildNumber")
+          git add web/package.json
+          git commit -m "chore: bump web to v${VERSION} (${BUILD}) [skip ci]"
+          # Rebase in case main moved while we deployed (concurrency group
+          # serializes deploys, but humans can merge between runs).
+          git pull --rebase origin main
+          git push origin HEAD:main

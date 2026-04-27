@@ -36,6 +36,12 @@ me.patch("/me", requireAuth, async (c) => {
   if (!parsed.success) {
     return c.json({ error: "bad_request", details: parsed.error.flatten() }, 400);
   }
+  // Anonymous users can change avatarId / displayName but not photoURL.
+  // Photos are tied to a linked identity; falling back to the glyph for
+  // anon keeps the surface area of orphaned uploads small.
+  if (parsed.data.photoURL !== undefined && c.get("signInProvider") === "anonymous") {
+    return c.json({ error: "linked_account_required" }, 403);
+  }
   const patch: Record<string, unknown> = {};
   if (parsed.data.avatarId !== undefined) patch.avatar_id = parsed.data.avatarId;
   if (parsed.data.displayName !== undefined) patch.display_name = parsed.data.displayName;

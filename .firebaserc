@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "demo-confgo"
-  }
+    "default": "demo-confgo",
+    "dev": "confgo-dev"
+  },
+  "targets": {},
+  "etags": {}
 }

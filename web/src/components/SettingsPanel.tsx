@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { apiFetch, type MeUser } from "../api";
 import { AVATAR_COUNT, AvatarGlyph } from "./AvatarGlyph";
+import { UserAvatar } from "./UserAvatar";
 import { ContactsEditor } from "./ContactsEditor";
+import { PhotoCropper } from "./PhotoCropper";
 import { useAuth, type AuthProviderId } from "../auth/AuthContext";
 
 type Props = {
@@ -14,8 +16,11 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
   const { user, isAnonymous, linkProvider, signOutUser } = useAuth();
   const [displayName, setDisplayName] = useState(me.displayName ?? "");
   const [avatarId, setAvatarId] = useState(me.avatarId);
+  const [photoURL, setPhotoURL] = useState(me.photoURL);
   const [saving, setSaving] = useState(false);
   const [showGrid, setShowGrid] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [signingIn, setSigningIn] = useState<AuthProviderId | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
 
@@ -41,7 +46,9 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
     }
   }
 
-  async function save(patch: Partial<Pick<MeUser, "displayName" | "avatarId">>) {
+  async function save(
+    patch: Partial<Pick<MeUser, "displayName" | "avatarId" | "photoURL">>,
+  ) {
     setSaving(true);
     try {
       const updated = await apiFetch<MeUser>("/me", {
@@ -56,11 +63,38 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
     }
   }
 
+  function handleFilePicked(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    e.target.value = ""; // allow re-picking the same file later
+    if (!f) return;
+    if (!f.type.startsWith("image/")) {
+      console.warn("[photo] not an image:", f.type);
+      return;
+    }
+    setPendingFile(f);
+  }
+
+  async function handleCropSaved(url: string) {
+    setPendingFile(null);
+    setPhotoURL(url);
+    await save({ photoURL: url });
+  }
+
+  async function handleRemovePhoto() {
+    setPhotoURL(null);
+    await save({ photoURL: null });
+  }
+
   return (
     <div className="settings-panel glass-panel sheet-in">
       <div className="settings-head">
         <div className="settings-identity">
-          <AvatarGlyph avatarId={avatarId} size="xl" />
+          <UserAvatar
+            avatarId={avatarId}
+            photoURL={photoURL}
+            displayName={me.displayName}
+            size="xl"
+          />
           <div>
             <div className="settings-name">
               {me.displayName ?? "Unnamed"}
@@ -93,6 +127,42 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
           </button>
         </div>
       </div>
+
+      {!isAnonymous ? (
+        <div className="stack-sm">
+          <label className="section-label">Photo</label>
+          <div className="photo-actions">
+            <button
+              className="soft-button"
+              disabled={saving}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {photoURL ? "Replace photo" : "Upload photo"}
+            </button>
+            {photoURL ? (
+              <button
+                className="soft-button"
+                disabled={saving}
+                onClick={handleRemovePhoto}
+              >
+                Remove
+              </button>
+            ) : null}
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFilePicked}
+            style={{ display: "none" }}
+          />
+          <div className="caption">
+            {photoURL
+              ? "Your photo replaces the avatar everywhere."
+              : "Optional. Falls back to the avatar below."}
+          </div>
+        </div>
+      ) : null}
 
       <div className="stack-sm">
         <label className="section-label">Avatar</label>
@@ -237,6 +307,10 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
           box-shadow: 0 0 0 2px rgba(94, 231, 217, 0.12) inset;
           box-shadow: 0 0 0 2px color(display-p3 0.369 0.906 0.851 / 0.12) inset;
         }
+        .photo-actions {
+          display: flex;
+          gap: 0.45rem;
+        }
         .auth-buttons {
           display: flex;
           flex-direction: column;
@@ -277,6 +351,14 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
           color: var(--signal-warning);
         }
       `}</style>
+
+      {pendingFile ? (
+        <PhotoCropper
+          file={pendingFile}
+          onCancel={() => setPendingFile(null)}
+          onSave={handleCropSaved}
+        />
+      ) : null}
     </div>
   );
 }

@@ -1,6 +1,11 @@
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
+
+const pkg = JSON.parse(
+  readFileSync(fileURLToPath(new URL("./package.json", import.meta.url)), "utf8"),
+) as { version: string; buildNumber?: number };
 
 // Guard: refuse to produce a production bundle with emulator / placeholder
 // config. The symptom of slipping through is Firebase Auth throwing
@@ -48,6 +53,10 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     plugins: [react()],
+    define: {
+      __APP_VERSION__: JSON.stringify(pkg.version),
+      __APP_BUILD__: JSON.stringify(pkg.buildNumber ?? 0),
+    },
     server: {
       port: 5173,
       proxy: {

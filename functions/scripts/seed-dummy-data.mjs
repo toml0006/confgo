@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 /**
- * Seed 100 users + ~3500 attendances against conferences already present in Firestore.
+ * Seed ~300 users + ~11k attendances against conferences already present in Firestore.
  * Emulator by default. `--production` for live.
+ *
+ * Attendance distribution is shaped so the demo feels lived-in:
+ *   - each user attends 5–10 *future* confs and 20–40 *past* confs (the
+ *     app's matching UX leans on future overlap, so we densify there)
+ *   - each user has 1–3 favorite topics; conferences whose topics overlap
+ *     get a 3× weight when picking, so the social graph clusters by interest
+ *     instead of looking like white noise.
  *
  * Usage:
  *   node functions/scripts/seed-dummy-data.mjs
@@ -146,6 +153,25 @@ const NAMED_USERS = [
 const FIRST = ["Rowan", "Imani", "Haru", "Sage", "Nico", "Emi", "Theo", "Mika", "Ola", "Noor", "Iris", "Leo", "Ada", "Ben", "Cleo", "Finn", "Gus", "Hana"];
 const LAST = ["Park", "Singh", "Morgan", "Vega", "Nilsson", "Khan", "Iwasaki", "Rios", "Barak", "Osei", "Lang", "Durand"];
 
+// Topics drawn from the real-conferences.json topic vocabulary.
+// Used for per-user affinity weighting only — not stored on the user doc.
+const AFFINITY_TOPICS = [
+  "general", "devops", "data", "javascript", "security", "java",
+  "ux", "networking", "testing", "python",
+];
+
+// Efraimidis–Spirakis weighted reservoir sample without replacement.
+// Each item gets a key u^(1/weight); take the top `count` keys.
+function pickWeighted(pool, count, weightOf) {
+  if (count >= pool.length) return [...pool];
+  const scored = pool.map((item) => ({
+    item,
+    key: Math.pow(rand() || 1e-9, 1 / Math.max(0.0001, weightOf(item))),
+  }));
+  scored.sort((a, b) => b.key - a.key);
+  return scored.slice(0, count).map((s) => s.item);
+}
+
 async function main() {
   const projectId = await loadProjectId();
   if (!PRODUCTION) {
@@ -166,9 +192,9 @@ async function main() {
   const conferences = confSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
   console.log(`Loaded ${conferences.length} conferences.`);
 
-  // Build user list
+  // Build user list (10 named + 290 anon = 300 total).
   const users = [...NAMED_USERS];
-  for (let i = 0; i < 90; i += 1) {
+  for (let i = 0; i < 290; i += 1) {
     const first = FIRST[Math.floor(rand() * FIRST.length)];
     const last = LAST[Math.floor(rand() * LAST.length)];
     users.push({
@@ -178,6 +204,24 @@ async function main() {
       savedContacts: [],
     });
   }
+
+  // Assign 1–3 favorite topics per user (deterministic via shared rand).
+  for (const u of users) {
+    const n = 1 + Math.floor(rand() * 3);
+    const shuffled = [...AFFINITY_TOPICS];
+    for (let i = shuffled.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(rand() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    u.favoriteTopics = new Set(shuffled.slice(0, n));
+  }
+
+  // Split conferences into future / past so we can densify the future
+  // bucket — that's where matching/pings actually matter.
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const futureConfs = conferences.filter((c) => c.start_date > todayIso);
+  const pastConfs = conferences.filter((c) => c.start_date <= todayIso);
+  console.log(`  ${futureConfs.length} future / ${pastConfs.length} past conferences`);
 
   console.log(`Seeding ${users.length} users…`);
   const now = new Date().toISOString();
@@ -209,24 +253,27 @@ async function main() {
   let written = 0;
   let batch = db.batch();
   let pending = 0;
+  const nowMs = Date.now();
+  const nowIso = new Date().toISOString();
   for (const user of users) {
-    // each user attends 20–60 conferences
-    const target = 20 + Math.floor(rand() * 40);
-    const picks = new Set();
-    while (picks.size < target && picks.size < conferences.length) {
-      picks.add(Math.floor(rand() * conferences.length));
-    }
-    for (const idx of picks) {
-      const conf = conferences[idx];
-      const now = Date.now();
+    const weightOf = (conf) => {
+      const topics = conf.topics ?? [];
+      return topics.some((t) => user.favoriteTopics.has(t)) ? 3 : 1;
+    };
+    const futureTarget = 5 + Math.floor(rand() * 6); // 5–10
+    const pastTarget = 20 + Math.floor(rand() * 21); // 20–40
+    const futurePicks = pickWeighted(futureConfs, futureTarget, weightOf);
+    const pastPicks = pickWeighted(pastConfs, pastTarget, weightOf);
+
+    for (const conf of [...futurePicks, ...pastPicks]) {
       const confStart = new Date(conf.start_date).getTime();
-      const intent = confStart > now ? (rand() < 0.5 ? "going" : "been") : "been";
+      const intent = confStart > nowMs ? (rand() < 0.5 ? "going" : "been") : "been";
       const id = `${user.id}__${conf.id}`;
       batch.set(db.collection("attendances").doc(id), {
         user_id: user.id,
         conference_id: conf.id,
         intent,
-        created_at: new Date().toISOString(),
+        created_at: nowIso,
       });
       pending += 1;
       written += 1;

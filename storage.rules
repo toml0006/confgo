@@ -4,7 +4,11 @@ service firebase.storage {
   match /b/{bucket}/o {
     match /profile-images/{userId}/{allPaths=**} {
       allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == userId;
+      // Anon users can browse photos but can't upload — photos require a
+      // linked identity. Mirrors the PATCH /me photoURL guard.
+      allow write: if request.auth != null
+                   && request.auth.uid == userId
+                   && request.auth.token.firebase.sign_in_provider != "anonymous";
     }
   }
 }
