@@ -33,12 +33,27 @@ export type Conference = {
   endDate: string;
   source: string | null;
   topics: string[];
+  tags?: string[];
+  categories?: string[];
+  subgroups?: string[];
   url: string | null;
   premium?: boolean;
   premiumImage?: string | null;
   premiumHeader?: string | null;
   premiumSubtitle?: string | null;
   premiumBody?: string | null;
+};
+
+export type TagDoc = {
+  tag: string;
+  category: string;
+  subgroup: string;
+  count: number;
+};
+
+export type TagsResponse = {
+  tags: TagDoc[];
+  groups: Record<string, Record<string, TagDoc[]>>;
 };
 
 export type MeUser = {

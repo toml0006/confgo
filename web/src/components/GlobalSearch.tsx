@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { apiFetch, type Conference, type PublicUser } from "../api";
+import { apiFetch, type Conference, type PublicUser, type TagsResponse } from "../api";
 import { UserAvatar } from "./UserAvatar";
+import { VennEgg } from "./VennEgg";
+
+// 3 Escape presses within this window arms the Venn easter egg, but only
+// when the user has 2+ tags selected. Non-Escape keys reset the streak.
+const VENN_EGG_WINDOW_MS = 1500;
 
 const DEBOUNCE_MS = 260;
 
@@ -16,6 +21,22 @@ type Props = {
   onPickUser: (user: PublicUser) => void;
 };
 
+// Cache the /tags fetch across mounts so the autocomplete dropdown is instant
+// after the first time the search bar opens. Tags rarely change.
+let tagsCache: TagsResponse | null = null;
+let tagsInflight: Promise<TagsResponse> | null = null;
+async function loadTags(): Promise<TagsResponse> {
+  if (tagsCache) return tagsCache;
+  if (!tagsInflight) {
+    tagsInflight = apiFetch<TagsResponse>("/tags").then((r) => {
+      tagsCache = r;
+      tagsInflight = null;
+      return r;
+    });
+  }
+  return tagsInflight;
+}
+
 export function GlobalSearch({ onPickConference, onPickUser }: Props) {
   const [q, setQ] = useState("");
   const [confs, setConfs] = useState<Conference[]>([]);
@@ -23,10 +44,52 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("all");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [tagQuery, setTagQuery] = useState("");
+  const [tagPickerOpen, setTagPickerOpen] = useState(false);
+  const [tagsData, setTagsData] = useState<TagsResponse | null>(tagsCache);
+  const [vennOpen, setVennOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const requestSeq = useRef(0);
+  const escStreak = useRef<{ count: number; last: number }>({ count: 0, last: 0 });
   const location = useLocation();
   const onRoot = location.pathname === "/";
+
+  // Window-level keydown: detect 3 Escape presses within the streak window
+  // while 2+ tags are selected. Anything else (or expiry) resets the streak.
+  // Stored on a ref so we don't bind/unbind the listener as state churns.
+  const selectedTagsRef = useRef(selectedTags);
+  selectedTagsRef.current = selectedTags;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") {
+        escStreak.current = { count: 0, last: 0 };
+        return;
+      }
+      const now = Date.now();
+      if (now - escStreak.current.last > VENN_EGG_WINDOW_MS) {
+        escStreak.current = { count: 1, last: now };
+      } else {
+        escStreak.current = { count: escStreak.current.count + 1, last: now };
+      }
+      if (
+        escStreak.current.count >= 3 &&
+        selectedTagsRef.current.length >= 2
+      ) {
+        escStreak.current = { count: 0, last: 0 };
+        setVennOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Lazy-load /tags the first time the user focuses the bar or opens the picker.
+  useEffect(() => {
+    if (!tagsData && (open || tagPickerOpen)) {
+      loadTags().then(setTagsData).catch((err) => console.error("load tags", err));
+    }
+  }, [open, tagPickerOpen, tagsData]);
 
   // collapse dropdown when a sheet route takes over, reopen on return to /
   // only fire on path transitions — typing opens the dropdown via onChange
@@ -45,7 +108,9 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
     // user intent. Capture it to compare against when responses return.
     const seq = requestSeq.current;
 
-    if (!q.trim()) {
+    const hasQuery = q.trim().length > 0;
+    const hasTags = selectedTags.length > 0;
+    if (!hasQuery && !hasTags) {
       setConfs([]);
       setPeople([]);
       setLoading(false);
@@ -53,11 +118,18 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
     }
     setLoading(true);
     const handle = setTimeout(async () => {
-      const enc = encodeURIComponent(q.trim());
-      const [confRes, userRes] = await Promise.allSettled([
-        apiFetch<{ conferences: Conference[] }>(`/conferences?q=${enc}`),
-        apiFetch<{ users: PublicUser[] }>(`/users?q=${enc}`),
-      ]);
+      const params = new URLSearchParams();
+      if (hasQuery) params.set("q", q.trim());
+      if (hasTags) params.set("tags", selectedTags.join(","));
+      const confPromise = apiFetch<{ conferences: Conference[] }>(
+        `/conferences?${params.toString()}`,
+      );
+      // People search is text-only for now (tag-based people search is the
+      // next milestone). Skip the request entirely when there's no text.
+      const userPromise = hasQuery
+        ? apiFetch<{ users: PublicUser[] }>(`/users?q=${encodeURIComponent(q.trim())}`)
+        : Promise.resolve({ users: [] });
+      const [confRes, userRes] = await Promise.allSettled([confPromise, userPromise]);
       // ignore stale responses — only the most recent query's request wins
       if (seq !== requestSeq.current) return;
       if (confRes.status === "fulfilled") setConfs(confRes.value.conferences);
@@ -67,11 +139,14 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
       setLoading(false);
     }, DEBOUNCE_MS);
     return () => clearTimeout(handle);
-  }, [q]);
+  }, [q, selectedTags]);
 
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
-      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+      if (!wrapRef.current?.contains(e.target as Node)) {
+        setOpen(false);
+        setTagPickerOpen(false);
+      }
     };
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
@@ -93,8 +168,48 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
     return out;
   }, [confs, people, tab]);
 
-  const show = open && (loading || items.length > 0 || q.trim().length > 0);
+  const show =
+    open &&
+    (loading || items.length > 0 || q.trim().length > 0 || selectedTags.length > 0);
   const totalCount = confs.length + people.length;
+
+  // Tag picker dropdown: filter the grouped vocab by tagQuery substring,
+  // hide already-selected tags. Show top N per category to keep it tight.
+  const filteredGroups = useMemo(() => {
+    if (!tagsData) return null;
+    const needle = tagQuery.trim().toLowerCase();
+    const selected = new Set(selectedTags);
+    const out: Array<{ category: string; tags: { tag: string; count: number; subgroup: string }[] }> = [];
+    for (const [cat, subs] of Object.entries(tagsData.groups)) {
+      const flat = Object.entries(subs).flatMap(([sub, ts]) =>
+        ts.map((t) => ({ tag: t.tag, count: t.count, subgroup: sub })),
+      );
+      const filtered = flat
+        .filter((t) => !selected.has(t.tag))
+        .filter((t) => (needle ? t.tag.includes(needle) : true))
+        .sort((a, b) => b.count - a.count);
+      if (filtered.length > 0) {
+        out.push({ category: cat, tags: needle ? filtered.slice(0, 8) : filtered.slice(0, 6) });
+      }
+    }
+    // When there's a search needle, sort categories by number of matches for relevance.
+    if (needle) out.sort((a, b) => b.tags.length - a.tags.length);
+    return out;
+  }, [tagsData, tagQuery, selectedTags]);
+
+  function addTag(tag: string) {
+    if (selectedTags.includes(tag)) return;
+    requestSeq.current += 1;
+    setSelectedTags([...selectedTags, tag]);
+    setTagQuery("");
+    setTagPickerOpen(false);
+    setOpen(true);
+  }
+
+  function removeTag(tag: string) {
+    requestSeq.current += 1;
+    setSelectedTags(selectedTags.filter((t) => t !== tag));
+  }
 
   return (
     <div className="global-search" ref={wrapRef}>
@@ -114,9 +229,25 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
           <circle cx="11" cy="11" r="7" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
+        {selectedTags.map((tag) => (
+          <button
+            key={`chip:${tag}`}
+            type="button"
+            className="tag-chip"
+            onClick={() => removeTag(tag)}
+            title="Remove tag"
+          >
+            {tag}
+            <span className="tag-chip-x" aria-hidden>×</span>
+          </button>
+        ))}
         <input
           className="global-search-input"
-          placeholder="Search conferences or people…"
+          placeholder={
+            selectedTags.length > 0
+              ? "Refine by name or location…"
+              : "Search conferences, people, or tags…"
+          }
           value={q}
           onChange={(e) => {
             // invalidate any prior in-flight request synchronously so a late
@@ -126,8 +257,72 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
+          onKeyDown={(e) => {
+            // Backspace on empty input pops the last tag, keyboard-friendly removal.
+            if (e.key === "Backspace" && q.length === 0 && selectedTags.length > 0) {
+              removeTag(selectedTags[selectedTags.length - 1]);
+            }
+          }}
         />
+        <button
+          type="button"
+          className={`tag-add${tagPickerOpen ? " tag-add--open" : ""}`}
+          onClick={() => {
+            setTagPickerOpen((v) => !v);
+            setOpen(true);
+          }}
+          title="Filter by tag"
+          aria-label="Filter by tag"
+        >
+          # tag
+        </button>
       </label>
+      {tagPickerOpen ? (
+        <div className="glass-panel tag-picker">
+          <input
+            autoFocus
+            className="tag-picker-input"
+            placeholder="Search tags…"
+            value={tagQuery}
+            onChange={(e) => setTagQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                setTagPickerOpen(false);
+              } else if (e.key === "Enter" && filteredGroups && filteredGroups.length > 0) {
+                // Pick top match across all categories on Enter.
+                const top = filteredGroups[0]?.tags[0]?.tag;
+                if (top) addTag(top);
+              }
+            }}
+          />
+          <div className="tag-picker-list">
+            {filteredGroups === null ? (
+              <div className="muted row">Loading tags…</div>
+            ) : filteredGroups.length === 0 ? (
+              <div className="muted row">No matching tags</div>
+            ) : (
+              filteredGroups.map((g) => (
+                <div key={g.category} className="tag-picker-group">
+                  <div className="tag-picker-group-label">{g.category}</div>
+                  <div className="tag-picker-tags">
+                    {g.tags.map((t) => (
+                      <button
+                        key={t.tag}
+                        type="button"
+                        className="tag-picker-tag"
+                        onClick={() => addTag(t.tag)}
+                      >
+                        {t.tag}
+                        <span className="tag-picker-tag-count">{t.count}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      ) : null}
       {show ? (
         <div className="glass-panel global-search-results">
           {q.trim() ? (
@@ -232,11 +427,112 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
         .global-search-input-wrap {
           display: flex;
           align-items: center;
-          gap: 0.55rem;
+          flex-wrap: wrap;
+          gap: 0.4rem;
           width: 100%;
-          padding: 0.7rem 1rem;
+          padding: 0.55rem 0.7rem;
           border-radius: 18px;
           cursor: text;
+        }
+        .tag-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 2px 8px;
+          border-radius: 999px;
+          border: 1px solid var(--mist);
+          background: rgba(232, 240, 255, 0.06);
+          background: color(display-p3 0.91 0.941 1 / 0.06);
+          color: var(--text);
+          font-size: 0.72rem;
+          cursor: pointer;
+          flex-shrink: 0;
+        }
+        .tag-chip:hover {
+          border-color: var(--aurora-dim, var(--mist));
+          background: var(--aurora-wash, rgba(232, 240, 255, 0.1));
+        }
+        .tag-chip-x {
+          opacity: 0.7;
+          font-size: 0.85rem;
+          line-height: 1;
+        }
+        .tag-add {
+          display: inline-flex;
+          align-items: center;
+          padding: 2px 8px;
+          border-radius: 999px;
+          border: 1px dashed var(--mist);
+          background: transparent;
+          color: var(--text-muted);
+          font-size: 0.7rem;
+          cursor: pointer;
+          flex-shrink: 0;
+        }
+        .tag-add:hover, .tag-add--open {
+          border-style: solid;
+          color: var(--text);
+        }
+        .tag-picker {
+          margin-top: 8px;
+          padding: 8px;
+          max-height: 360px;
+          overflow-y: auto;
+          z-index: 51;
+        }
+        .tag-picker-input {
+          width: 100%;
+          padding: 0.45rem 0.6rem;
+          border-radius: 10px;
+          border: 1px solid var(--mist);
+          background: transparent;
+          color: inherit;
+          font: inherit;
+          font-size: 0.78rem;
+          outline: none;
+          margin-bottom: 6px;
+        }
+        .tag-picker-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .tag-picker-group {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .tag-picker-group-label {
+          font-size: 0.62rem;
+          text-transform: uppercase;
+          letter-spacing: 0.16em;
+          color: var(--text-muted);
+          padding: 0 4px;
+        }
+        .tag-picker-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+        }
+        .tag-picker-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 3px 8px;
+          border-radius: 999px;
+          border: 1px solid var(--mist);
+          background: transparent;
+          color: var(--text);
+          font-size: 0.72rem;
+          cursor: pointer;
+        }
+        .tag-picker-tag:hover {
+          background: rgba(232, 240, 255, 0.06);
+          background: color(display-p3 0.91 0.941 1 / 0.06);
+        }
+        .tag-picker-tag-count {
+          opacity: 0.55;
+          font-size: 0.62rem;
         }
         .global-search-icon {
           color: var(--text-muted);
@@ -367,6 +663,9 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
           box-sizing: border-box;
         }
       `}</style>
+      {vennOpen && selectedTags.length >= 2 ? (
+        <VennEgg tags={selectedTags} onClose={() => setVennOpen(false)} />
+      ) : null}
     </div>
   );
 }

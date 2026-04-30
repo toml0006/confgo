@@ -1,0 +1,1496 @@
+[
+  {
+    "tag": "in-person",
+    "category": "format",
+    "subgroup": "mode",
+    "count": 483
+  },
+  {
+    "tag": "devops",
+    "category": "devops-sre",
+    "subgroup": "ops",
+    "count": 187
+  },
+  {
+    "tag": "web-development",
+    "category": "web",
+    "subgroup": "core",
+    "count": 129
+  },
+  {
+    "tag": "ai",
+    "category": "ai",
+    "subgroup": "core",
+    "count": 129
+  },
+  {
+    "tag": "security",
+    "category": "security",
+    "subgroup": "general",
+    "count": 98
+  },
+  {
+    "tag": "hybrid",
+    "category": "format",
+    "subgroup": "mode",
+    "count": 85
+  },
+  {
+    "tag": "javascript",
+    "category": "language",
+    "subgroup": "js-ts",
+    "count": 75
+  },
+  {
+    "tag": "community",
+    "category": "audience",
+    "subgroup": "community",
+    "count": 75
+  },
+  {
+    "tag": "research",
+    "category": "audience",
+    "subgroup": "academic",
+    "count": 67
+  },
+  {
+    "tag": "cloud",
+    "category": "cloud-infra",
+    "subgroup": "cloud",
+    "count": 66
+  },
+  {
+    "tag": "machine-learning",
+    "category": "ai",
+    "subgroup": "core",
+    "count": 66
+  },
+  {
+    "tag": "kubernetes",
+    "category": "cloud-infra",
+    "subgroup": "containers",
+    "count": 60
+  },
+  {
+    "tag": "infrastructure",
+    "category": "cloud-infra",
+    "subgroup": "infra",
+    "count": 56
+  },
+  {
+    "tag": "architecture",
+    "category": "architecture",
+    "subgroup": "patterns",
+    "count": 54
+  },
+  {
+    "tag": "frontend",
+    "category": "web",
+    "subgroup": "core",
+    "count": 50
+  },
+  {
+    "tag": "enterprise",
+    "category": "audience",
+    "subgroup": "org",
+    "count": 50
+  },
+  {
+    "tag": "java",
+    "category": "language",
+    "subgroup": "jvm",
+    "count": 40
+  },
+  {
+    "tag": "ci-cd",
+    "category": "devops-sre",
+    "subgroup": "pipeline",
+    "count": 40
+  },
+  {
+    "tag": "react",
+    "category": "framework",
+    "subgroup": "js-frontend",
+    "count": 37
+  },
+  {
+    "tag": "cloud-native",
+    "category": "cloud-infra",
+    "subgroup": "cloud",
+    "count": 37
+  },
+  {
+    "tag": "open-source",
+    "category": "audience",
+    "subgroup": "community",
+    "count": 37
+  },
+  {
+    "tag": "databases",
+    "category": "data",
+    "subgroup": "general",
+    "count": 28
+  },
+  {
+    "tag": "data-science",
+    "category": "data",
+    "subgroup": "analytics",
+    "count": 27
+  },
+  {
+    "tag": "ux",
+    "category": "people",
+    "subgroup": "design",
+    "count": 27
+  },
+  {
+    "tag": "python",
+    "category": "language",
+    "subgroup": "scripting",
+    "count": 26
+  },
+  {
+    "tag": "data",
+    "category": "data",
+    "subgroup": "general",
+    "count": 26
+  },
+  {
+    "tag": "academic",
+    "category": "audience",
+    "subgroup": "academic",
+    "count": 26
+  },
+  {
+    "tag": "data-engineering",
+    "category": "data",
+    "subgroup": "pipelines",
+    "count": 24
+  },
+  {
+    "tag": "dotnet",
+    "category": "language",
+    "subgroup": "dotnet",
+    "count": 22
+  },
+  {
+    "tag": "generative-ai",
+    "category": "ai",
+    "subgroup": "generative",
+    "count": 21
+  },
+  {
+    "tag": "systems",
+    "category": "architecture",
+    "subgroup": "patterns",
+    "count": 21
+  },
+  {
+    "tag": "microsoft",
+    "category": "vendor",
+    "subgroup": "hyperscaler",
+    "count": 20
+  },
+  {
+    "tag": "mobile",
+    "category": "platform",
+    "subgroup": "mobile",
+    "count": 19
+  },
+  {
+    "tag": "networking",
+    "category": "platform",
+    "subgroup": "networking",
+    "count": 19
+  },
+  {
+    "tag": "platform-engineering",
+    "category": "devops-sre",
+    "subgroup": "ops",
+    "count": 18
+  },
+  {
+    "tag": "distributed-systems",
+    "category": "architecture",
+    "subgroup": "patterns",
+    "count": 18
+  },
+  {
+    "tag": "php",
+    "category": "language",
+    "subgroup": "scripting",
+    "count": 17
+  },
+  {
+    "tag": "it-ops",
+    "category": "devops-sre",
+    "subgroup": "ops",
+    "count": 17
+  },
+  {
+    "tag": "apis",
+    "category": "web",
+    "subgroup": "apis",
+    "count": 16
+  },
+  {
+    "tag": "typescript",
+    "category": "language",
+    "subgroup": "js-ts",
+    "count": 15
+  },
+  {
+    "tag": "ios",
+    "category": "platform",
+    "subgroup": "mobile",
+    "count": 15
+  },
+  {
+    "tag": "android",
+    "category": "platform",
+    "subgroup": "mobile",
+    "count": 15
+  },
+  {
+    "tag": "analytics",
+    "category": "data",
+    "subgroup": "analytics",
+    "count": 15
+  },
+  {
+    "tag": "llm",
+    "category": "ai",
+    "subgroup": "generative",
+    "count": 15
+  },
+  {
+    "tag": "ai-agents",
+    "category": "ai",
+    "subgroup": "agentic",
+    "count": 15
+  },
+  {
+    "tag": "product",
+    "category": "people",
+    "subgroup": "product",
+    "count": 15
+  },
+  {
+    "tag": "css",
+    "category": "web",
+    "subgroup": "styling",
+    "count": 14
+  },
+  {
+    "tag": "design",
+    "category": "people",
+    "subgroup": "design",
+    "count": 14
+  },
+  {
+    "tag": "jvm",
+    "category": "language",
+    "subgroup": "jvm",
+    "count": 13
+  },
+  {
+    "tag": "linux",
+    "category": "platform",
+    "subgroup": "os",
+    "count": 13
+  },
+  {
+    "tag": "backend",
+    "category": "web",
+    "subgroup": "core",
+    "count": 13
+  },
+  {
+    "tag": "sre",
+    "category": "devops-sre",
+    "subgroup": "ops",
+    "count": 13
+  },
+  {
+    "tag": "observability",
+    "category": "devops-sre",
+    "subgroup": "observe",
+    "count": 13
+  },
+  {
+    "tag": "hacking",
+    "category": "security",
+    "subgroup": "offensive",
+    "count": 13
+  },
+  {
+    "tag": "leadership",
+    "category": "people",
+    "subgroup": "leadership",
+    "count": 13
+  },
+  {
+    "tag": "devtools",
+    "category": "people",
+    "subgroup": "career",
+    "count": 13
+  },
+  {
+    "tag": "swift",
+    "category": "language",
+    "subgroup": "apple",
+    "count": 12
+  },
+  {
+    "tag": "nodejs",
+    "category": "framework",
+    "subgroup": "js-backend",
+    "count": 12
+  },
+  {
+    "tag": "microservices",
+    "category": "architecture",
+    "subgroup": "patterns",
+    "count": 12
+  },
+  {
+    "tag": "tech-community",
+    "category": "audience",
+    "subgroup": "community",
+    "count": 12
+  },
+  {
+    "tag": "spring",
+    "category": "framework",
+    "subgroup": "jvm",
+    "count": 11
+  },
+  {
+    "tag": "mlops",
+    "category": "ai",
+    "subgroup": "ops",
+    "count": 11
+  },
+  {
+    "tag": "startups",
+    "category": "audience",
+    "subgroup": "org",
+    "count": 11
+  },
+  {
+    "tag": "csharp",
+    "category": "language",
+    "subgroup": "dotnet",
+    "count": 10
+  },
+  {
+    "tag": "apple-platforms",
+    "category": "platform",
+    "subgroup": "mobile",
+    "count": 10
+  },
+  {
+    "tag": "full-stack",
+    "category": "web",
+    "subgroup": "core",
+    "count": 10
+  },
+  {
+    "tag": "agile",
+    "category": "people",
+    "subgroup": "method",
+    "count": 10
+  },
+  {
+    "tag": "virtual",
+    "category": "format",
+    "subgroup": "mode",
+    "count": 9
+  },
+  {
+    "tag": "graphql",
+    "category": "web",
+    "subgroup": "apis",
+    "count": 9
+  },
+  {
+    "tag": "graph-databases",
+    "category": "data",
+    "subgroup": "graph",
+    "count": 9
+  },
+  {
+    "tag": "app-security",
+    "category": "security",
+    "subgroup": "general",
+    "count": 9
+  },
+  {
+    "tag": "devsecops",
+    "category": "security",
+    "subgroup": "defensive",
+    "count": 9
+  },
+  {
+    "tag": "engineering-leadership",
+    "category": "people",
+    "subgroup": "leadership",
+    "count": 9
+  },
+  {
+    "tag": "postgresql",
+    "category": "data",
+    "subgroup": "engines",
+    "count": 8
+  },
+  {
+    "tag": "vulnerability-research",
+    "category": "security",
+    "subgroup": "offensive",
+    "count": 8
+  },
+  {
+    "tag": "testing",
+    "category": "people",
+    "subgroup": "method",
+    "count": 8
+  },
+  {
+    "tag": "kotlin",
+    "category": "language",
+    "subgroup": "jvm",
+    "count": 7
+  },
+  {
+    "tag": "hardware",
+    "category": "platform",
+    "subgroup": "hardware",
+    "count": 7
+  },
+  {
+    "tag": "gpu",
+    "category": "platform",
+    "subgroup": "hardware",
+    "count": 7
+  },
+  {
+    "tag": "containers",
+    "category": "cloud-infra",
+    "subgroup": "containers",
+    "count": 7
+  },
+  {
+    "tag": "sql",
+    "category": "data",
+    "subgroup": "general",
+    "count": 7
+  },
+  {
+    "tag": "ctf",
+    "category": "security",
+    "subgroup": "offensive",
+    "count": 7
+  },
+  {
+    "tag": "crm",
+    "category": "vertical",
+    "subgroup": "enterprise-apps",
+    "count": 7
+  },
+  {
+    "tag": "salesforce",
+    "category": "vertical",
+    "subgroup": "enterprise-apps",
+    "count": 7
+  },
+  {
+    "tag": "workshops",
+    "category": "format",
+    "subgroup": "structure",
+    "count": 6
+  },
+  {
+    "tag": "rust",
+    "category": "language",
+    "subgroup": "systems",
+    "count": 6
+  },
+  {
+    "tag": "cpp",
+    "category": "language",
+    "subgroup": "systems",
+    "count": 6
+  },
+  {
+    "tag": "aws",
+    "category": "platform",
+    "subgroup": "vendor-cloud",
+    "count": 6
+  },
+  {
+    "tag": "oracle",
+    "category": "data",
+    "subgroup": "engines",
+    "count": 6
+  },
+  {
+    "tag": "neo4j",
+    "category": "data",
+    "subgroup": "engines",
+    "count": 6
+  },
+  {
+    "tag": "computer-vision",
+    "category": "ai",
+    "subgroup": "domains",
+    "count": 6
+  },
+  {
+    "tag": "career",
+    "category": "people",
+    "subgroup": "career",
+    "count": 6
+  },
+  {
+    "tag": "windows",
+    "category": "platform",
+    "subgroup": "os",
+    "count": 5
+  },
+  {
+    "tag": "macos",
+    "category": "platform",
+    "subgroup": "os",
+    "count": 5
+  },
+  {
+    "tag": "azure",
+    "category": "platform",
+    "subgroup": "vendor-cloud",
+    "count": 5
+  },
+  {
+    "tag": "automation",
+    "category": "devops-sre",
+    "subgroup": "pipeline",
+    "count": 5
+  },
+  {
+    "tag": "polyglot",
+    "category": "architecture",
+    "subgroup": "research",
+    "count": 5
+  },
+  {
+    "tag": "tech-management",
+    "category": "people",
+    "subgroup": "leadership",
+    "count": 5
+  },
+  {
+    "tag": "customer-experience",
+    "category": "people",
+    "subgroup": "product",
+    "count": 5
+  },
+  {
+    "tag": "diversity",
+    "category": "people",
+    "subgroup": "inclusion",
+    "count": 5
+  },
+  {
+    "tag": "google",
+    "category": "vendor",
+    "subgroup": "hyperscaler",
+    "count": 5
+  },
+  {
+    "tag": "cisco",
+    "category": "vendor",
+    "subgroup": "enterprise",
+    "count": 5
+  },
+  {
+    "tag": "vue",
+    "category": "framework",
+    "subgroup": "js-frontend",
+    "count": 4
+  },
+  {
+    "tag": "drupal",
+    "category": "framework",
+    "subgroup": "php",
+    "count": 4
+  },
+  {
+    "tag": "operating-systems",
+    "category": "platform",
+    "subgroup": "os",
+    "count": 4
+  },
+  {
+    "tag": "github",
+    "category": "devops-sre",
+    "subgroup": "pipeline",
+    "count": 4
+  },
+  {
+    "tag": "data-warehouse",
+    "category": "data",
+    "subgroup": "pipelines",
+    "count": 4
+  },
+  {
+    "tag": "storage",
+    "category": "data",
+    "subgroup": "storage",
+    "count": 4
+  },
+  {
+    "tag": "nlp",
+    "category": "ai",
+    "subgroup": "domains",
+    "count": 4
+  },
+  {
+    "tag": "privacy",
+    "category": "security",
+    "subgroup": "defensive",
+    "count": 4
+  },
+  {
+    "tag": "systems-research",
+    "category": "architecture",
+    "subgroup": "research",
+    "count": 4
+  },
+  {
+    "tag": "compilers",
+    "category": "architecture",
+    "subgroup": "research",
+    "count": 4
+  },
+  {
+    "tag": "animation",
+    "category": "people",
+    "subgroup": "design",
+    "count": 4
+  },
+  {
+    "tag": "computer-graphics",
+    "category": "people",
+    "subgroup": "design",
+    "count": 4
+  },
+  {
+    "tag": "saas",
+    "category": "audience",
+    "subgroup": "org",
+    "count": 4
+  },
+  {
+    "tag": "tech-general",
+    "category": "audience",
+    "subgroup": "community",
+    "count": 4
+  },
+  {
+    "tag": "functional-programming",
+    "category": "language",
+    "subgroup": "functional",
+    "count": 3
+  },
+  {
+    "tag": "nextjs",
+    "category": "framework",
+    "subgroup": "js-frontend",
+    "count": 3
+  },
+  {
+    "tag": "nuxt",
+    "category": "framework",
+    "subgroup": "js-frontend",
+    "count": 3
+  },
+  {
+    "tag": "django",
+    "category": "framework",
+    "subgroup": "python",
+    "count": 3
+  },
+  {
+    "tag": "web-design",
+    "category": "web",
+    "subgroup": "styling",
+    "count": 3
+  },
+  {
+    "tag": "accessibility",
+    "category": "web",
+    "subgroup": "a11y",
+    "count": 3
+  },
+  {
+    "tag": "terraform",
+    "category": "cloud-infra",
+    "subgroup": "iac",
+    "count": 3
+  },
+  {
+    "tag": "infrastructure-as-code",
+    "category": "cloud-infra",
+    "subgroup": "iac",
+    "count": 3
+  },
+  {
+    "tag": "open-compute",
+    "category": "cloud-infra",
+    "subgroup": "cloud",
+    "count": 3
+  },
+  {
+    "tag": "jenkins",
+    "category": "devops-sre",
+    "subgroup": "pipeline",
+    "count": 3
+  },
+  {
+    "tag": "production",
+    "category": "devops-sre",
+    "subgroup": "ops",
+    "count": 3
+  },
+  {
+    "tag": "dbt",
+    "category": "data",
+    "subgroup": "pipelines",
+    "count": 3
+  },
+  {
+    "tag": "kafka",
+    "category": "data",
+    "subgroup": "pipelines",
+    "count": 3
+  },
+  {
+    "tag": "data-streaming",
+    "category": "data",
+    "subgroup": "pipelines",
+    "count": 3
+  },
+  {
+    "tag": "ai-integration",
+    "category": "ai",
+    "subgroup": "core",
+    "count": 3
+  },
+  {
+    "tag": "enterprise-ai",
+    "category": "ai",
+    "subgroup": "ops",
+    "count": 3
+  },
+  {
+    "tag": "neural-networks",
+    "category": "ai",
+    "subgroup": "domains",
+    "count": 3
+  },
+  {
+    "tag": "supply-chain-security",
+    "category": "security",
+    "subgroup": "offensive",
+    "count": 3
+  },
+  {
+    "tag": "policy",
+    "category": "security",
+    "subgroup": "defensive",
+    "count": 3
+  },
+  {
+    "tag": "programming-language",
+    "category": "architecture",
+    "subgroup": "research",
+    "count": 3
+  },
+  {
+    "tag": "workflow-orchestration",
+    "category": "architecture",
+    "subgroup": "workflow",
+    "count": 3
+  },
+  {
+    "tag": "developer-experience",
+    "category": "people",
+    "subgroup": "career",
+    "count": 3
+  },
+  {
+    "tag": "diversity-inclusion",
+    "category": "people",
+    "subgroup": "inclusion",
+    "count": 3
+  },
+  {
+    "tag": "vendor-neutral",
+    "category": "audience",
+    "subgroup": "community",
+    "count": 3
+  },
+  {
+    "tag": "web3",
+    "category": "web3",
+    "subgroup": "web3",
+    "count": 3
+  },
+  {
+    "tag": "clojure",
+    "category": "language",
+    "subgroup": "jvm",
+    "count": 2
+  },
+  {
+    "tag": "powershell",
+    "category": "language",
+    "subgroup": "dotnet",
+    "count": 2
+  },
+  {
+    "tag": "cfml",
+    "category": "language",
+    "subgroup": "legacy",
+    "count": 2
+  },
+  {
+    "tag": "coldfusion",
+    "category": "language",
+    "subgroup": "legacy",
+    "count": 2
+  },
+  {
+    "tag": "symfony",
+    "category": "framework",
+    "subgroup": "php",
+    "count": 2
+  },
+  {
+    "tag": "cms",
+    "category": "framework",
+    "subgroup": "cms",
+    "count": 2
+  },
+  {
+    "tag": "wasm",
+    "category": "framework",
+    "subgroup": "webassembly",
+    "count": 2
+  },
+  {
+    "tag": "webassembly",
+    "category": "framework",
+    "subgroup": "webassembly",
+    "count": 2
+  },
+  {
+    "tag": "embedded-systems",
+    "category": "platform",
+    "subgroup": "hardware",
+    "count": 2
+  },
+  {
+    "tag": "robotics",
+    "category": "platform",
+    "subgroup": "hardware",
+    "count": 2
+  },
+  {
+    "tag": "design-systems",
+    "category": "web",
+    "subgroup": "styling",
+    "count": 2
+  },
+  {
+    "tag": "figma",
+    "category": "web",
+    "subgroup": "styling",
+    "count": 2
+  },
+  {
+    "tag": "web-performance",
+    "category": "web",
+    "subgroup": "performance",
+    "count": 2
+  },
+  {
+    "tag": "performance",
+    "category": "web",
+    "subgroup": "performance",
+    "count": 2
+  },
+  {
+    "tag": "performance-optimization",
+    "category": "web",
+    "subgroup": "performance",
+    "count": 2
+  },
+  {
+    "tag": "docker",
+    "category": "cloud-infra",
+    "subgroup": "containers",
+    "count": 2
+  },
+  {
+    "tag": "sql-server",
+    "category": "data",
+    "subgroup": "engines",
+    "count": 2
+  },
+  {
+    "tag": "ai-development",
+    "category": "ai",
+    "subgroup": "core",
+    "count": 2
+  },
+  {
+    "tag": "agents",
+    "category": "ai",
+    "subgroup": "agentic",
+    "count": 2
+  },
+  {
+    "tag": "autonomous-systems",
+    "category": "ai",
+    "subgroup": "agentic",
+    "count": 2
+  },
+  {
+    "tag": "cryptography",
+    "category": "security",
+    "subgroup": "defensive",
+    "count": 2
+  },
+  {
+    "tag": "durable-execution",
+    "category": "architecture",
+    "subgroup": "workflow",
+    "count": 2
+  },
+  {
+    "tag": "no-code",
+    "category": "architecture",
+    "subgroup": "no-code",
+    "count": 2
+  },
+  {
+    "tag": "staff-plus",
+    "category": "people",
+    "subgroup": "leadership",
+    "count": 2
+  },
+  {
+    "tag": "team-management",
+    "category": "people",
+    "subgroup": "leadership",
+    "count": 2
+  },
+  {
+    "tag": "cto",
+    "category": "people",
+    "subgroup": "leadership",
+    "count": 2
+  },
+  {
+    "tag": "product-design",
+    "category": "people",
+    "subgroup": "product",
+    "count": 2
+  },
+  {
+    "tag": "strategy",
+    "category": "people",
+    "subgroup": "product",
+    "count": 2
+  },
+  {
+    "tag": "learning",
+    "category": "people",
+    "subgroup": "career",
+    "count": 2
+  },
+  {
+    "tag": "coding",
+    "category": "people",
+    "subgroup": "career",
+    "count": 2
+  },
+  {
+    "tag": "inclusion",
+    "category": "people",
+    "subgroup": "inclusion",
+    "count": 2
+  },
+  {
+    "tag": "women-in-tech",
+    "category": "people",
+    "subgroup": "inclusion",
+    "count": 2
+  },
+  {
+    "tag": "startup-ecosystem",
+    "category": "audience",
+    "subgroup": "org",
+    "count": 2
+  },
+  {
+    "tag": "government",
+    "category": "audience",
+    "subgroup": "org",
+    "count": 2
+  },
+  {
+    "tag": "developer-community",
+    "category": "audience",
+    "subgroup": "community",
+    "count": 2
+  },
+  {
+    "tag": "servicenow",
+    "category": "vertical",
+    "subgroup": "enterprise-apps",
+    "count": 2
+  },
+  {
+    "tag": "code-modernization",
+    "category": "vertical",
+    "subgroup": "enterprise-apps",
+    "count": 2
+  },
+  {
+    "tag": "it-improvement",
+    "category": "vertical",
+    "subgroup": "enterprise-apps",
+    "count": 2
+  },
+  {
+    "tag": "nvidia",
+    "category": "vendor",
+    "subgroup": "enterprise",
+    "count": 2
+  },
+  {
+    "tag": "visual-studio",
+    "category": "vendor",
+    "subgroup": "enterprise",
+    "count": 2
+  },
+  {
+    "tag": "scala",
+    "category": "language",
+    "subgroup": "jvm",
+    "count": 1
+  },
+  {
+    "tag": "go",
+    "category": "language",
+    "subgroup": "systems",
+    "count": 1
+  },
+  {
+    "tag": "angular",
+    "category": "framework",
+    "subgroup": "js-frontend",
+    "count": 1
+  },
+  {
+    "tag": "laravel",
+    "category": "framework",
+    "subgroup": "php",
+    "count": 1
+  },
+  {
+    "tag": "embedded",
+    "category": "platform",
+    "subgroup": "hardware",
+    "count": 1
+  },
+  {
+    "tag": "iot",
+    "category": "platform",
+    "subgroup": "hardware",
+    "count": 1
+  },
+  {
+    "tag": "gcp",
+    "category": "platform",
+    "subgroup": "vendor-cloud",
+    "count": 1
+  },
+  {
+    "tag": "cloud-infrastructure",
+    "category": "cloud-infra",
+    "subgroup": "cloud",
+    "count": 1
+  },
+  {
+    "tag": "streaming",
+    "category": "data",
+    "subgroup": "pipelines",
+    "count": 1
+  },
+  {
+    "tag": "real-time-data",
+    "category": "data",
+    "subgroup": "pipelines",
+    "count": 1
+  },
+  {
+    "tag": "ai-strategy",
+    "category": "ai",
+    "subgroup": "core",
+    "count": 1
+  },
+  {
+    "tag": "rag",
+    "category": "ai",
+    "subgroup": "generative",
+    "count": 1
+  },
+  {
+    "tag": "agentic-ai",
+    "category": "ai",
+    "subgroup": "agentic",
+    "count": 1
+  },
+  {
+    "tag": "ai-infrastructure",
+    "category": "ai",
+    "subgroup": "ops",
+    "count": 1
+  },
+  {
+    "tag": "web-security",
+    "category": "security",
+    "subgroup": "general",
+    "count": 1
+  },
+  {
+    "tag": "women-in-security",
+    "category": "security",
+    "subgroup": "community",
+    "count": 1
+  },
+  {
+    "tag": "executive",
+    "category": "people",
+    "subgroup": "leadership",
+    "count": 1
+  },
+  {
+    "tag": "product-dev",
+    "category": "people",
+    "subgroup": "product",
+    "count": 1
+  },
+  {
+    "tag": "product-development",
+    "category": "people",
+    "subgroup": "product",
+    "count": 1
+  },
+  {
+    "tag": "developer",
+    "category": "people",
+    "subgroup": "career",
+    "count": 1
+  },
+  {
+    "tag": "regional",
+    "category": "audience",
+    "subgroup": "org",
+    "count": 1
+  },
+  {
+    "tag": "local",
+    "category": "audience",
+    "subgroup": "org",
+    "count": 1
+  },
+  {
+    "tag": "scientific-computing",
+    "category": "audience",
+    "subgroup": "academic",
+    "count": 1
+  },
+  {
+    "tag": "fintech",
+    "category": "vertical",
+    "subgroup": "finance",
+    "count": 1
+  },
+  {
+    "tag": "ecommerce",
+    "category": "vertical",
+    "subgroup": "retail",
+    "count": 1
+  },
+  {
+    "tag": "single-track",
+    "category": "format",
+    "subgroup": "structure",
+    "count": 0
+  },
+  {
+    "tag": "multi-track",
+    "category": "format",
+    "subgroup": "structure",
+    "count": 0
+  },
+  {
+    "tag": "groovy",
+    "category": "language",
+    "subgroup": "jvm",
+    "count": 0
+  },
+  {
+    "tag": "coffeescript",
+    "category": "language",
+    "subgroup": "js-ts",
+    "count": 0
+  },
+  {
+    "tag": "c",
+    "category": "language",
+    "subgroup": "systems",
+    "count": 0
+  },
+  {
+    "tag": "zig",
+    "category": "language",
+    "subgroup": "systems",
+    "count": 0
+  },
+  {
+    "tag": "fsharp",
+    "category": "language",
+    "subgroup": "dotnet",
+    "count": 0
+  },
+  {
+    "tag": "vb-net",
+    "category": "language",
+    "subgroup": "dotnet",
+    "count": 0
+  },
+  {
+    "tag": "ruby",
+    "category": "language",
+    "subgroup": "scripting",
+    "count": 0
+  },
+  {
+    "tag": "perl",
+    "category": "language",
+    "subgroup": "scripting",
+    "count": 0
+  },
+  {
+    "tag": "objective-c",
+    "category": "language",
+    "subgroup": "apple",
+    "count": 0
+  },
+  {
+    "tag": "haskell",
+    "category": "language",
+    "subgroup": "functional",
+    "count": 0
+  },
+  {
+    "tag": "elixir",
+    "category": "language",
+    "subgroup": "functional",
+    "count": 0
+  },
+  {
+    "tag": "erlang",
+    "category": "language",
+    "subgroup": "functional",
+    "count": 0
+  },
+  {
+    "tag": "ocaml",
+    "category": "language",
+    "subgroup": "functional",
+    "count": 0
+  },
+  {
+    "tag": "svelte",
+    "category": "framework",
+    "subgroup": "js-frontend",
+    "count": 0
+  },
+  {
+    "tag": "deno",
+    "category": "framework",
+    "subgroup": "js-backend",
+    "count": 0
+  },
+  {
+    "tag": "bun",
+    "category": "framework",
+    "subgroup": "js-backend",
+    "count": 0
+  },
+  {
+    "tag": "wordpress",
+    "category": "framework",
+    "subgroup": "cms",
+    "count": 0
+  },
+  {
+    "tag": "rest",
+    "category": "web",
+    "subgroup": "apis",
+    "count": 0
+  },
+  {
+    "tag": "cloud-data",
+    "category": "cloud-infra",
+    "subgroup": "cloud",
+    "count": 0
+  },
+  {
+    "tag": "serverless",
+    "category": "cloud-infra",
+    "subgroup": "cloud",
+    "count": 0
+  },
+  {
+    "tag": "site-reliability",
+    "category": "devops-sre",
+    "subgroup": "ops",
+    "count": 0
+  },
+  {
+    "tag": "platform-eng",
+    "category": "devops-sre",
+    "subgroup": "ops",
+    "count": 0
+  },
+  {
+    "tag": "monitoring",
+    "category": "devops-sre",
+    "subgroup": "observe",
+    "count": 0
+  },
+  {
+    "tag": "data-analytics",
+    "category": "data",
+    "subgroup": "analytics",
+    "count": 0
+  },
+  {
+    "tag": "visualization",
+    "category": "data",
+    "subgroup": "analytics",
+    "count": 0
+  },
+  {
+    "tag": "graph-database",
+    "category": "data",
+    "subgroup": "graph",
+    "count": 0
+  },
+  {
+    "tag": "semantic-web",
+    "category": "data",
+    "subgroup": "graph",
+    "count": 0
+  },
+  {
+    "tag": "ai-engineering",
+    "category": "ai",
+    "subgroup": "core",
+    "count": 0
+  },
+  {
+    "tag": "deep-learning",
+    "category": "ai",
+    "subgroup": "domains",
+    "count": 0
+  },
+  {
+    "tag": "systems-programming",
+    "category": "architecture",
+    "subgroup": "patterns",
+    "count": 0
+  },
+  {
+    "tag": "product-management",
+    "category": "people",
+    "subgroup": "product",
+    "count": 0
+  },
+  {
+    "tag": "marketing-automation",
+    "category": "people",
+    "subgroup": "product",
+    "count": 0
+  },
+  {
+    "tag": "graphics",
+    "category": "people",
+    "subgroup": "design",
+    "count": 0
+  },
+  {
+    "tag": "creative-tools",
+    "category": "people",
+    "subgroup": "design",
+    "count": 0
+  },
+  {
+    "tag": "minnesota",
+    "category": "audience",
+    "subgroup": "org",
+    "count": 0
+  },
+  {
+    "tag": "healthcare",
+    "category": "vertical",
+    "subgroup": "health",
+    "count": 0
+  },
+  {
+    "tag": "retail",
+    "category": "vertical",
+    "subgroup": "retail",
+    "count": 0
+  },
+  {
+    "tag": "media",
+    "category": "vertical",
+    "subgroup": "media",
+    "count": 0
+  },
+  {
+    "tag": "gaming",
+    "category": "vertical",
+    "subgroup": "media",
+    "count": 0
+  },
+  {
+    "tag": "atlassian",
+    "category": "vertical",
+    "subgroup": "enterprise-apps",
+    "count": 0
+  },
+  {
+    "tag": "sap",
+    "category": "vendor",
+    "subgroup": "enterprise",
+    "count": 0
+  }
+]

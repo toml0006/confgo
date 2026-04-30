@@ -41,6 +41,9 @@ function toApiConference(id: string, data: FirebaseFirestore.DocumentData) {
     endDate: data.end_date,
     source: data.source ?? null,
     topics: data.topics ?? [],
+    tags: data.tags ?? [],
+    categories: data.categories ?? [],
+    subgroups: data.subgroups ?? [],
     url: data.url ?? null,
     premium: data.premium === true,
     premiumImage: data.premium_image_url ?? null,
@@ -53,17 +56,71 @@ function toApiConference(id: string, data: FirebaseFirestore.DocumentData) {
 const listQuery = z.object({
   q: z.string().trim().min(1).optional(),
   bbox: z.string().optional(),
+  // comma-separated tag slugs — AND filter (all must match)
+  tags: z.string().trim().min(1).optional(),
+  // comma-separated tag slugs — OR filter (any match). Used by the Venn-egg
+  // overlay which needs the union of conferences across the selected tags.
+  // Capped at 30 values (Firestore array-contains-any limit).
+  tagsAny: z.string().trim().min(1).optional(),
 });
 
 conferenceRoutes.get("/conferences", async (c) => {
   const parsed = listQuery.safeParse({
     q: c.req.query("q"),
     bbox: c.req.query("bbox"),
+    tags: c.req.query("tags"),
+    tagsAny: c.req.query("tagsAny"),
   });
   if (!parsed.success) {
     return c.json({ error: "bad_request" }, 400);
   }
-  const { q, bbox } = parsed.data;
+  const { q, bbox, tags: tagsParam, tagsAny: tagsAnyParam } = parsed.data;
+  const requiredTags = tagsParam
+    ? tagsParam.split(",").map((t) => t.trim().toLowerCase()).filter(Boolean)
+    : [];
+  const anyTags = tagsAnyParam
+    ? tagsAnyParam.split(",").map((t) => t.trim().toLowerCase()).filter(Boolean).slice(0, 30)
+    : [];
+
+  if (anyTags.length > 0) {
+    const snap = await conferences()
+      .where("tags", "array-contains-any", anyTags)
+      .orderBy("start_date", "desc")
+      .limit(2000)
+      .get();
+    const list = snap.docs
+      .slice(0, 1000)
+      .map((d) => toApiConference(d.id, d.data()));
+    return c.json({ conferences: list });
+  }
+
+  if (requiredTags.length > 0) {
+    // Use first tag as the indexed predicate (Firestore allows one
+    // array-contains per query); filter the remaining tags in memory.
+    const [firstTag, ...rest] = requiredTags;
+    const snap = await conferences()
+      .where("tags", "array-contains", firstTag)
+      .orderBy("start_date", "desc")
+      .limit(2000)
+      .get();
+    const needle = q?.toLowerCase();
+    const list = snap.docs
+      .filter((d) => {
+        const data = d.data();
+        const docTags: string[] = data.tags ?? [];
+        if (!rest.every((t) => docTags.includes(t))) return false;
+        if (needle) {
+          return (
+            (data.name ?? "").toLowerCase().includes(needle) ||
+            (data.location_name ?? "").toLowerCase().includes(needle)
+          );
+        }
+        return true;
+      })
+      .slice(0, 500)
+      .map((d) => toApiConference(d.id, d.data()));
+    return c.json({ conferences: list });
+  }
 
   if (q) {
     // in-memory text search, per PDD §13.3
