@@ -1,0 +1,432 @@
+{
+  "format": {
+    "mode": [
+      "in-person",
+      "virtual",
+      "hybrid"
+    ],
+    "structure": [
+      "workshops",
+      "single-track",
+      "multi-track"
+    ]
+  },
+  "language": {
+    "jvm": [
+      "java",
+      "jvm",
+      "kotlin",
+      "scala",
+      "clojure",
+      "groovy"
+    ],
+    "js-ts": [
+      "javascript",
+      "typescript",
+      "coffeescript"
+    ],
+    "systems": [
+      "rust",
+      "go",
+      "cpp",
+      "c",
+      "zig"
+    ],
+    "dotnet": [
+      "csharp",
+      "dotnet",
+      "fsharp",
+      "vb-net",
+      "powershell"
+    ],
+    "scripting": [
+      "python",
+      "ruby",
+      "php",
+      "perl"
+    ],
+    "apple": [
+      "swift",
+      "objective-c"
+    ],
+    "functional": [
+      "haskell",
+      "elixir",
+      "erlang",
+      "ocaml",
+      "functional-programming"
+    ],
+    "legacy": [
+      "cfml",
+      "coldfusion"
+    ]
+  },
+  "framework": {
+    "js-frontend": [
+      "react",
+      "vue",
+      "angular",
+      "svelte",
+      "nextjs",
+      "nuxt"
+    ],
+    "js-backend": [
+      "nodejs",
+      "deno",
+      "bun"
+    ],
+    "jvm": [
+      "spring"
+    ],
+    "php": [
+      "symfony",
+      "laravel",
+      "drupal"
+    ],
+    "python": [
+      "django"
+    ],
+    "cms": [
+      "cms",
+      "drupal",
+      "wordpress"
+    ],
+    "webassembly": [
+      "wasm",
+      "webassembly"
+    ]
+  },
+  "platform": {
+    "os": [
+      "linux",
+      "windows",
+      "macos",
+      "operating-systems"
+    ],
+    "mobile": [
+      "mobile",
+      "ios",
+      "android",
+      "apple-platforms"
+    ],
+    "hardware": [
+      "hardware",
+      "gpu",
+      "embedded",
+      "embedded-systems",
+      "iot",
+      "robotics"
+    ],
+    "networking": [
+      "networking"
+    ],
+    "vendor-cloud": [
+      "aws",
+      "azure",
+      "gcp"
+    ]
+  },
+  "web": {
+    "core": [
+      "web-development",
+      "frontend",
+      "backend",
+      "full-stack"
+    ],
+    "styling": [
+      "css",
+      "web-design",
+      "design-systems",
+      "figma"
+    ],
+    "performance": [
+      "web-performance",
+      "performance",
+      "performance-optimization"
+    ],
+    "a11y": [
+      "accessibility"
+    ],
+    "apis": [
+      "apis",
+      "graphql",
+      "rest"
+    ]
+  },
+  "cloud-infra": {
+    "containers": [
+      "kubernetes",
+      "containers",
+      "docker"
+    ],
+    "iac": [
+      "terraform",
+      "infrastructure-as-code"
+    ],
+    "cloud": [
+      "cloud",
+      "cloud-native",
+      "cloud-infrastructure",
+      "cloud-data",
+      "serverless",
+      "open-compute"
+    ],
+    "infra": [
+      "infrastructure"
+    ]
+  },
+  "devops-sre": {
+    "pipeline": [
+      "ci-cd",
+      "jenkins",
+      "github",
+      "automation"
+    ],
+    "ops": [
+      "devops",
+      "sre",
+      "site-reliability",
+      "platform-engineering",
+      "platform-eng",
+      "it-ops",
+      "production"
+    ],
+    "observe": [
+      "observability",
+      "monitoring"
+    ]
+  },
+  "data": {
+    "general": [
+      "data",
+      "databases",
+      "sql"
+    ],
+    "engines": [
+      "postgresql",
+      "oracle",
+      "sql-server",
+      "neo4j"
+    ],
+    "pipelines": [
+      "data-engineering",
+      "data-warehouse",
+      "dbt",
+      "kafka",
+      "streaming",
+      "data-streaming",
+      "real-time-data"
+    ],
+    "analytics": [
+      "analytics",
+      "data-analytics",
+      "data-science",
+      "visualization"
+    ],
+    "graph": [
+      "graph-databases",
+      "graph-database",
+      "semantic-web"
+    ],
+    "storage": [
+      "storage"
+    ]
+  },
+  "ai": {
+    "core": [
+      "ai",
+      "machine-learning",
+      "ai-development",
+      "ai-engineering",
+      "ai-integration",
+      "ai-strategy"
+    ],
+    "generative": [
+      "generative-ai",
+      "llm",
+      "rag"
+    ],
+    "agentic": [
+      "ai-agents",
+      "agents",
+      "agentic-ai",
+      "autonomous-systems"
+    ],
+    "ops": [
+      "mlops",
+      "ai-infrastructure",
+      "enterprise-ai"
+    ],
+    "domains": [
+      "computer-vision",
+      "nlp",
+      "neural-networks",
+      "deep-learning"
+    ]
+  },
+  "security": {
+    "general": [
+      "security",
+      "web-security",
+      "app-security"
+    ],
+    "offensive": [
+      "hacking",
+      "ctf",
+      "vulnerability-research",
+      "supply-chain-security"
+    ],
+    "defensive": [
+      "devsecops",
+      "cryptography",
+      "privacy",
+      "policy"
+    ],
+    "community": [
+      "women-in-security"
+    ]
+  },
+  "architecture": {
+    "patterns": [
+      "architecture",
+      "microservices",
+      "distributed-systems",
+      "systems",
+      "systems-programming"
+    ],
+    "research": [
+      "systems-research",
+      "compilers",
+      "programming-language",
+      "polyglot"
+    ],
+    "workflow": [
+      "workflow-orchestration",
+      "durable-execution"
+    ],
+    "no-code": [
+      "no-code"
+    ]
+  },
+  "people": {
+    "leadership": [
+      "leadership",
+      "engineering-leadership",
+      "staff-plus",
+      "team-management",
+      "tech-management",
+      "cto",
+      "executive"
+    ],
+    "product": [
+      "product",
+      "product-management",
+      "product-design",
+      "product-dev",
+      "product-development",
+      "strategy",
+      "customer-experience",
+      "marketing-automation"
+    ],
+    "design": [
+      "design",
+      "ux",
+      "animation",
+      "graphics",
+      "computer-graphics",
+      "creative-tools"
+    ],
+    "career": [
+      "career",
+      "learning",
+      "developer",
+      "developer-experience",
+      "coding",
+      "devtools"
+    ],
+    "inclusion": [
+      "diversity",
+      "diversity-inclusion",
+      "inclusion",
+      "women-in-tech"
+    ],
+    "method": [
+      "agile",
+      "testing"
+    ]
+  },
+  "audience": {
+    "org": [
+      "enterprise",
+      "startups",
+      "startup-ecosystem",
+      "saas",
+      "government",
+      "regional",
+      "local",
+      "minnesota"
+    ],
+    "community": [
+      "community",
+      "tech-community",
+      "developer-community",
+      "open-source",
+      "vendor-neutral",
+      "tech-general"
+    ],
+    "academic": [
+      "academic",
+      "research",
+      "scientific-computing"
+    ]
+  },
+  "vertical": {
+    "finance": [
+      "fintech"
+    ],
+    "health": [
+      "healthcare"
+    ],
+    "retail": [
+      "ecommerce",
+      "retail"
+    ],
+    "media": [
+      "media",
+      "gaming"
+    ],
+    "enterprise-apps": [
+      "crm",
+      "salesforce",
+      "servicenow",
+      "atlassian",
+      "code-modernization",
+      "it-improvement"
+    ]
+  },
+  "vendor": {
+    "hyperscaler": [
+      "aws",
+      "azure",
+      "gcp",
+      "microsoft",
+      "google"
+    ],
+    "enterprise": [
+      "oracle",
+      "salesforce",
+      "servicenow",
+      "sap",
+      "atlassian",
+      "cisco",
+      "nvidia",
+      "github",
+      "visual-studio"
+    ]
+  },
+  "web3": {
+    "web3": [
+      "web3"
+    ]
+  }
+}

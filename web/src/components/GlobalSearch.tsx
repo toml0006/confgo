@@ -2,6 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { apiFetch, type Conference, type PublicUser, type TagsResponse } from "../api";
 import { UserAvatar } from "./UserAvatar";
+import { VennEgg } from "./VennEgg";
+
+// 3 Escape presses within this window arms the Venn easter egg, but only
+// when the user has 2+ tags selected. Non-Escape keys reset the streak.
+const VENN_EGG_WINDOW_MS = 1500;
 
 const DEBOUNCE_MS = 260;
 
@@ -43,10 +48,41 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
   const [tagQuery, setTagQuery] = useState("");
   const [tagPickerOpen, setTagPickerOpen] = useState(false);
   const [tagsData, setTagsData] = useState<TagsResponse | null>(tagsCache);
+  const [vennOpen, setVennOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const requestSeq = useRef(0);
+  const escStreak = useRef<{ count: number; last: number }>({ count: 0, last: 0 });
   const location = useLocation();
   const onRoot = location.pathname === "/";
+
+  // Window-level keydown: detect 3 Escape presses within the streak window
+  // while 2+ tags are selected. Anything else (or expiry) resets the streak.
+  // Stored on a ref so we don't bind/unbind the listener as state churns.
+  const selectedTagsRef = useRef(selectedTags);
+  selectedTagsRef.current = selectedTags;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") {
+        escStreak.current = { count: 0, last: 0 };
+        return;
+      }
+      const now = Date.now();
+      if (now - escStreak.current.last > VENN_EGG_WINDOW_MS) {
+        escStreak.current = { count: 1, last: now };
+      } else {
+        escStreak.current = { count: escStreak.current.count + 1, last: now };
+      }
+      if (
+        escStreak.current.count >= 3 &&
+        selectedTagsRef.current.length >= 2
+      ) {
+        escStreak.current = { count: 0, last: 0 };
+        setVennOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   // Lazy-load /tags the first time the user focuses the bar or opens the picker.
   useEffect(() => {
@@ -627,6 +663,9 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
           box-sizing: border-box;
         }
       `}</style>
+      {vennOpen && selectedTags.length >= 2 ? (
+        <VennEgg tags={selectedTags} onClose={() => setVennOpen(false)} />
+      ) : null}
     </div>
   );
 }
