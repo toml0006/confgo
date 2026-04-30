@@ -9,6 +9,7 @@ import { authRoutes } from "./routes/auth";
 import { me } from "./routes/me";
 import { conferenceRoutes } from "./routes/conferences";
 import { pingRoutes } from "./routes/pings";
+import { tagRoutes } from "./routes/tags";
 import { userRoutes } from "./routes/users";
 // TODO: co-attendance — add in later phase.
 
@@ -28,6 +29,7 @@ routes.route("/", authRoutes);
 routes.route("/", me);
 routes.route("/", conferenceRoutes);
 routes.route("/", pingRoutes);
+routes.route("/", tagRoutes);
 routes.route("/", userRoutes);
 
 routes.notFound((c) => c.json({ error: "not_found", path: c.req.path }, 404));

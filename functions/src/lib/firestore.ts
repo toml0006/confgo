@@ -12,6 +12,8 @@ export const conferences = () => db.collection("conferences");
 export const attendances = () => db.collection("attendances");
 export const pings = () => db.collection("pings");
 export const pingContacts = () => db.collection("ping_contacts");
+export const tags = () => db.collection("tags");
+export const meta = () => db.collection("meta");
 
 // Collection shapes (documentation only — Firestore is schemaless).
 //

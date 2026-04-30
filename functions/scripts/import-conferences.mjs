@@ -73,6 +73,17 @@ async function main() {
   console.log(`Target: ${PRODUCTION ? "production" : "emulator"} (project ${projectId})`);
   if (DRY_RUN) console.log("(dry run — no writes)");
 
+  // Optional companion files (written by /tmp/apply-taxonomy.mjs)
+  const dataDir = path.resolve(__dirname, "..", "data");
+  let taxonomy = null;
+  let vocabulary = null;
+  try {
+    taxonomy = JSON.parse(await fs.readFile(path.join(dataDir, "tag-taxonomy.json"), "utf8"));
+  } catch {}
+  try {
+    vocabulary = JSON.parse(await fs.readFile(path.join(dataDir, "tag-vocabulary.json"), "utf8"));
+  } catch {}
+
   const now = new Date().toISOString();
   const docs = raw.map((c) => {
     const data = {
@@ -88,11 +99,18 @@ async function main() {
       created_at: now,
     };
     if (c.online === true) data.online = true;
+    // Taxonomy-derived fields (present when seed has been processed by apply-taxonomy.mjs)
+    if (Array.isArray(c.tags)) data.tags = c.tags;
+    if (Array.isArray(c.categories)) data.categories = c.categories;
+    if (Array.isArray(c.subgroups)) data.subgroups = c.subgroups;
+    if (c.tag_confidence) data.tag_confidence = c.tag_confidence;
     return { id: stableId(c.name, c.start_date), data };
   });
 
   if (DRY_RUN) {
     console.log("sample:", docs.slice(0, 2));
+    if (taxonomy) console.log(`taxonomy: ${Object.keys(taxonomy).length} categories`);
+    if (vocabulary) console.log(`vocabulary: ${vocabulary.length} tags`);
     return;
   }
 
@@ -106,6 +124,29 @@ async function main() {
     await batch.commit();
     console.log(`  committed ${Math.min(i + BATCH, docs.length)}/${docs.length}`);
   }
+
+  // Write taxonomy + vocabulary into Firestore for client-side faceting / autocomplete.
+  // - meta/tag-taxonomy: single doc with the nested category → subgroup → tags structure
+  // - tags/{tag}: per-tag doc { tag, category, subgroup, count } for cheap query/filter
+  if (taxonomy) {
+    await db.collection("meta").doc("tag-taxonomy").set(
+      { taxonomy, updated_at: now },
+      { merge: true },
+    );
+    console.log(`  wrote meta/tag-taxonomy (${Object.keys(taxonomy).length} categories)`);
+  }
+  if (vocabulary) {
+    for (let i = 0; i < vocabulary.length; i += BATCH) {
+      const slice = vocabulary.slice(i, i + BATCH);
+      const batch = db.batch();
+      for (const v of slice) {
+        batch.set(db.collection("tags").doc(v.tag), { ...v, updated_at: now }, { merge: true });
+      }
+      await batch.commit();
+      console.log(`  wrote tags ${Math.min(i + BATCH, vocabulary.length)}/${vocabulary.length}`);
+    }
+  }
+
   console.log("Done.");
 }
 
