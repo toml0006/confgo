@@ -126,6 +126,7 @@ export function MapView({
             confId: c.id,
             state: stateOf(c, mine, now),
             glow: conferenceGlow(c.startDate, c.endDate, now),
+            premium: c.premium === true,
           },
         };
       });

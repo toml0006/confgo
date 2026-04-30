@@ -34,6 +34,11 @@ export type Conference = {
   source: string | null;
   topics: string[];
   url: string | null;
+  premium?: boolean;
+  premiumImage?: string | null;
+  premiumHeader?: string | null;
+  premiumSubtitle?: string | null;
+  premiumBody?: string | null;
 };
 
 export type MeUser = {

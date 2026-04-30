@@ -19,6 +19,12 @@
   --past-signal: color(display-p3 0.549 0.627 0.863);
   --past-ember: #e879b1;
   --past-ember: color(display-p3 0.91 0.475 0.694);
+  --aurora: #b794f6;
+  --aurora: color(display-p3 0.718 0.58 0.965);
+  --aurora-dim: rgba(183, 148, 246, 0.35);
+  --aurora-dim: color(display-p3 0.718 0.58 0.965 / 0.35);
+  --aurora-wash: rgba(183, 148, 246, 0.12);
+  --aurora-wash: color(display-p3 0.718 0.58 0.965 / 0.12);
   --danger: #ff6b8a;
   --danger: color(display-p3 1 0.42 0.541);
   --signal-warning: #ff8a8a;
@@ -194,4 +200,24 @@ input:focus {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--text-muted);
+}
+
+.premium-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  color: var(--aurora);
+  background: var(--aurora-wash);
+  border: 1px solid var(--aurora-dim);
+  white-space: nowrap;
+}
+.premium-chip::before {
+  content: "★";
+  font-size: 0.7rem;
+  letter-spacing: 0;
 }

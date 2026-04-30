@@ -351,7 +351,48 @@ async function main() {
   await pingBatch.commit();
   console.log(`  committed ${pingPlan.length} pings + ${pingPlan.length} disclosures`);
 
-  console.log(`Seed complete. ${users.length} users, ${written} attendances, ${pingPlan.length} pings.`);
+  console.log("Applying premium overlays…");
+  // Demo set: Minnebar 20 fully populated (the live demo target), prior
+  // editions flipped premium-on with sparse fields so the UI's default
+  // fallbacks (name → header, location · date → subtitle, no image) can
+  // be eyeballed in one session.
+  const premiumSeeds = [
+    {
+      name: "Minnebar 20",
+      source: "minnestar",
+      fields: {
+        premium: true,
+        premium_image_url:
+          "https://minnestar.org/wp-content/themes/minnestar/assets/img/minnestar-logo.svg",
+        premium_header: "FOR TECH. BY TECH",
+        premium_body:
+          "First held in 2006, Minnebar is the nation's largest and longest-running technology unconference. Like other unconferences (or BarCamps), Minnebar is a user-generated conference that is participant-led. There are no keynote speakers or formal workshops, and all sessions are led by people from the tech and business communities. This event is free and open to anyone with a passion for technology.",
+      },
+    },
+    { name: "Minnebar 19", source: "minnestar", fields: { premium: true } },
+    { name: "Minnebar 18", source: "minnestar", fields: { premium: true } },
+    { name: "Minnebar 17", source: "minnestar", fields: { premium: true } },
+  ];
+  let premiumApplied = 0;
+  for (const seed of premiumSeeds) {
+    // Prefer the canonical source if multiple docs share the name (e.g.,
+    // doc-id drift from earlier imports). Falls back to first match if
+    // the canonical source isn't present.
+    const candidates = conferences.filter((c) => c.name === seed.name);
+    const match =
+      candidates.find((c) => c.source === seed.source) ?? candidates[0];
+    if (!match) {
+      console.warn(`  skip — no conference named "${seed.name}" found in Firestore`);
+      continue;
+    }
+    await db.collection("conferences").doc(match.id).set(seed.fields, { merge: true });
+    premiumApplied += 1;
+  }
+  console.log(`  ${premiumApplied}/${premiumSeeds.length} premium overlays applied`);
+
+  console.log(
+    `Seed complete. ${users.length} users, ${written} attendances, ${pingPlan.length} pings, ${premiumApplied} premium overlays.`,
+  );
 }
 
 main().catch((err) => {

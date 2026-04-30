@@ -23,6 +23,11 @@ type ConferenceData = {
   topics?: string[];
   url?: string | null;
   created_at: string;
+  premium?: boolean;
+  premium_image_url?: string | null;
+  premium_header?: string | null;
+  premium_subtitle?: string | null;
+  premium_body?: string | null;
 };
 
 function toApiConference(id: string, data: FirebaseFirestore.DocumentData) {
@@ -37,6 +42,11 @@ function toApiConference(id: string, data: FirebaseFirestore.DocumentData) {
     source: data.source ?? null,
     topics: data.topics ?? [],
     url: data.url ?? null,
+    premium: data.premium === true,
+    premiumImage: data.premium_image_url ?? null,
+    premiumHeader: data.premium_header ?? null,
+    premiumSubtitle: data.premium_subtitle ?? null,
+    premiumBody: data.premium_body ?? null,
   };
 }
 

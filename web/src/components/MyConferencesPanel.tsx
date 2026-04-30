@@ -44,11 +44,29 @@ export function MyConferencesPanel({
       ) : (
         <div className="my-list">
           {going.map((c) => (
-            <button key={c.id} className="my-row mine" onClick={() => onPick(c)}>
+            <button
+              key={c.id}
+              className={`my-row mine${c.premium ? " premium" : ""}`}
+              onClick={() => onPick(c)}
+            >
               <span className="my-row-date signal-tint">
                 {new Date(c.startDate).toLocaleDateString()}
               </span>
-              <span className="my-row-name">{c.name}</span>
+              <span className="my-row-name">
+                {c.name}
+                {c.premium ? (
+                  c.premiumImage ? (
+                    <img
+                      src={c.premiumImage}
+                      alt=""
+                      className="my-row-thumb"
+                      aria-hidden
+                    />
+                  ) : (
+                    <span className="my-row-star">★</span>
+                  )
+                ) : null}
+              </span>
             </button>
           ))}
         </div>
@@ -60,11 +78,29 @@ export function MyConferencesPanel({
       ) : (
         <div className="my-list">
           {been.map((c) => (
-            <button key={c.id} className="my-row mine past" onClick={() => onPick(c)}>
+            <button
+              key={c.id}
+              className={`my-row mine past${c.premium ? " premium" : ""}`}
+              onClick={() => onPick(c)}
+            >
               <span className="my-row-date rose-tint">
                 {new Date(c.startDate).toLocaleDateString()}
               </span>
-              <span className="my-row-name">{c.name}</span>
+              <span className="my-row-name">
+                {c.name}
+                {c.premium ? (
+                  c.premiumImage ? (
+                    <img
+                      src={c.premiumImage}
+                      alt=""
+                      className="my-row-thumb"
+                      aria-hidden
+                    />
+                  ) : (
+                    <span className="my-row-star">★</span>
+                  )
+                ) : null}
+              </span>
             </button>
           ))}
         </div>
@@ -131,6 +167,31 @@ export function MyConferencesPanel({
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+        .my-row-star {
+          color: var(--aurora);
+          margin-left: 0.4rem;
+          font-size: 0.78em;
+        }
+        .my-row-thumb {
+          display: inline-block;
+          width: 22px;
+          height: 22px;
+          margin-left: 0.45rem;
+          vertical-align: -7px;
+          border-radius: 5px;
+          object-fit: contain;
+          background: var(--aurora-wash);
+          padding: 1px;
+          box-sizing: border-box;
+        }
+        .my-row.premium {
+          border-color: var(--aurora-dim);
+          background: var(--aurora-wash);
+        }
+        .my-row.premium:hover {
+          border-color: var(--aurora);
+          background: var(--aurora-wash);
         }
       `}</style>
     </div>

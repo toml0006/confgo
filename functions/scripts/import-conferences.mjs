@@ -42,8 +42,12 @@ async function loadProjectId() {
 }
 
 function stableId(name, startDate) {
+  // Hash on the calendar date (YYYY-MM-DD) rather than the full ISO so
+  // re-imports across collectors/eras with different time-of-day encodings
+  // collide onto a single doc instead of producing sibling drifters.
+  const day = String(startDate).slice(0, 10);
   const h = crypto.createHash("sha256");
-  h.update(`${name.toLowerCase()}|${startDate}`);
+  h.update(`${name.toLowerCase()}|${day}`);
   return `rc_${h.digest("hex").slice(0, 16)}`;
 }
 
@@ -70,9 +74,8 @@ async function main() {
   if (DRY_RUN) console.log("(dry run — no writes)");
 
   const now = new Date().toISOString();
-  const docs = raw.map((c) => ({
-    id: stableId(c.name, c.start_date),
-    data: {
+  const docs = raw.map((c) => {
+    const data = {
       name: c.name,
       location_name: c.location_name,
       latitude: c.latitude,
@@ -83,8 +86,10 @@ async function main() {
       topics: c.topics ?? [],
       url: c.url ?? null,
       created_at: now,
-    },
-  }));
+    };
+    if (c.online === true) data.online = true;
+    return { id: stableId(c.name, c.start_date), data };
+  });
 
   if (DRY_RUN) {
     console.log("sample:", docs.slice(0, 2));

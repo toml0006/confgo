@@ -8,6 +8,7 @@ import {
 import { useAuth } from "../auth/AuthContext";
 import type { ContactEntry } from "../lib/contacts";
 import { PingComposer } from "./PingComposer";
+import { PremiumCard } from "./PremiumCard";
 import { UserAvatar } from "./UserAvatar";
 
 type Props = {
@@ -92,7 +93,9 @@ export function ConferenceSheet({
   const defaultAction: AttendanceIntent = isPast ? "been" : "going";
 
   return (
-    <div className="conf-sheet glass-panel sheet-in">
+    <div
+      className={`conf-sheet glass-panel sheet-in${conference.premium ? " conf-sheet--premium" : ""}`}
+    >
       {onBack ? (
         <button
           className="soft-button soft-button--quiet conf-sheet-back"
@@ -109,26 +112,30 @@ export function ConferenceSheet({
         ×
       </button>
 
-      <div className="stack-sm">
-        <div className="section-label">{conference.source ?? "conference"}</div>
-        <h2 className="conf-name">{conference.name}</h2>
-        <div className="muted">
-          {conference.locationName} ·{" "}
-          {new Date(conference.startDate).toLocaleDateString()}
-          {conference.endDate && conference.endDate !== conference.startDate
-            ? ` – ${new Date(conference.endDate).toLocaleDateString()}`
-            : ""}
-        </div>
-        {conference.topics.length > 0 ? (
-          <div className="topics">
-            {conference.topics.map((t) => (
-              <span key={t} className="topic-chip">
-                {t}
-              </span>
-            ))}
+      {conference.premium ? (
+        <PremiumCard conference={conference} />
+      ) : (
+        <div className="stack-sm">
+          <div className="section-label">{conference.source ?? "conference"}</div>
+          <h2 className="conf-name">{conference.name}</h2>
+          <div className="muted">
+            {conference.locationName} ·{" "}
+            {new Date(conference.startDate).toLocaleDateString()}
+            {conference.endDate && conference.endDate !== conference.startDate
+              ? ` – ${new Date(conference.endDate).toLocaleDateString()}`
+              : ""}
           </div>
-        ) : null}
-      </div>
+        </div>
+      )}
+      {conference.topics.length > 0 ? (
+        <div className="topics">
+          {conference.topics.map((t) => (
+            <span key={t} className="topic-chip">
+              {t}
+            </span>
+          ))}
+        </div>
+      ) : null}
 
       <div className="conf-actions">
         {myIntent === undefined ? (
@@ -256,6 +263,13 @@ export function ConferenceSheet({
           flex-direction: column;
           gap: 18px;
           z-index: 40;
+        }
+        .conf-sheet--premium {
+          border-color: var(--aurora-dim);
+          box-shadow:
+            0 10px 40px -15px rgba(0, 0, 0, 0.9),
+            0 0 0 1px var(--aurora-dim) inset,
+            0 0 60px -20px var(--aurora-dim);
         }
         .conf-sheet-close {
           position: absolute;

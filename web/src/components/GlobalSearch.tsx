@@ -168,14 +168,24 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
             it.kind === "conf" ? (
               <button
                 key={`c:${it.conf.id}`}
-                className="global-search-result"
+                className={`global-search-result${it.conf.premium ? " premium" : ""}`}
                 onClick={() => {
                   onPickConference(it.conf);
                   setOpen(false);
                 }}
               >
                 <span className="result-icon" aria-hidden>
-                  📍
+                  {it.conf.premium && it.conf.premiumImage ? (
+                    <img
+                      src={it.conf.premiumImage}
+                      alt=""
+                      className="result-thumb"
+                    />
+                  ) : it.conf.premium ? (
+                    "★"
+                  ) : (
+                    "📍"
+                  )}
                 </span>
                 <span className="result-body">
                   <span className="name">{it.conf.name}</span>
@@ -335,6 +345,26 @@ export function GlobalSearch({ onPickConference, onPickUser }: Props) {
           color: var(--text-muted);
           text-transform: uppercase;
           letter-spacing: 0.14em;
+        }
+        .global-search-result.premium {
+          border-color: var(--aurora-dim);
+          background: var(--aurora-wash);
+        }
+        .global-search-result.premium:hover {
+          border-color: var(--aurora);
+          background: var(--aurora-wash);
+        }
+        .global-search-result.premium .result-icon {
+          color: var(--aurora);
+        }
+        .result-thumb {
+          width: 22px;
+          height: 22px;
+          border-radius: 5px;
+          object-fit: contain;
+          background: var(--aurora-wash);
+          padding: 1px;
+          box-sizing: border-box;
         }
       `}</style>
     </div>

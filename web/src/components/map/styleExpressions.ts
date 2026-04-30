@@ -4,6 +4,8 @@ import type { ExpressionSpecification } from "mapbox-gl";
  * Map layer style helpers.
  * - `glow` is a feature property in [0, 1] set client-side via conferenceGlow().
  * - `state` is one of "default" | "mine" | "past" | "past-mine".
+ * - `premium` (boolean) overrides the state-based color so sponsored
+ *   conferences read as a single distinct hue regardless of attendance.
  */
 
 export const coreRadius: ExpressionSpecification = [
@@ -27,15 +29,20 @@ export const haloRadius: ExpressionSpecification = [
 ];
 
 export const coreColor: ExpressionSpecification = [
-  "match",
-  ["get", "state"],
-  "mine",
-  "#5ee7d9", // signal teal
-  "past-mine",
-  "#8ca0dc", // past-signal muted blue
-  "past",
-  "#e879b1", // past-ember vivid rose
-  /* default */ "#ffb547", // ember vivid amber
+  "case",
+  ["==", ["get", "premium"], true],
+  "#b794f6", // aurora violet — premium overrides state color
+  [
+    "match",
+    ["get", "state"],
+    "mine",
+    "#5ee7d9", // signal teal
+    "past-mine",
+    "#8ca0dc", // past-signal muted blue
+    "past",
+    "#e879b1", // past-ember vivid rose
+    /* default */ "#ffb547", // ember vivid amber
+  ],
 ];
 
 export const coreOpacity: ExpressionSpecification = [
