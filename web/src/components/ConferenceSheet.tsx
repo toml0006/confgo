@@ -127,15 +127,23 @@ export function ConferenceSheet({
           </div>
         </div>
       )}
-      {conference.topics.length > 0 ? (
-        <div className="topics">
-          {conference.topics.map((t) => (
-            <span key={t} className="topic-chip">
-              {t}
-            </span>
-          ))}
-        </div>
-      ) : null}
+      {(() => {
+        // Prefer the curated taxonomy tags; fall back to source topics for
+        // confs that pre-date the tagging pass.
+        const list = conference.tags && conference.tags.length > 0
+          ? conference.tags
+          : conference.topics;
+        if (list.length === 0) return null;
+        return (
+          <div className="topics">
+            {list.map((t) => (
+              <span key={t} className="topic-chip">
+                {t}
+              </span>
+            ))}
+          </div>
+        );
+      })()}
 
       <div className="conf-actions">
         {myIntent === undefined ? (

@@ -1352,7 +1352,11 @@
       "audience/org",
       "format/mode"
     ],
-    "tag_confidence": "high"
+    "tag_confidence": "high",
+    "premium": true,
+    "premium_image_url": "https://minnestar.org/wp-content/themes/minnestar/assets/img/minnestar-logo.svg",
+    "premium_header": "FOR TECH. BY TECH",
+    "premium_body": "First held in 2006, Minnebar is the nation's largest and longest-running technology unconference. Like other unconferences (or BarCamps), Minnebar is a user-generated conference that is participant-led. There are no keynote speakers or formal workshops, and all sessions are led by people from the tech and business communities. This event is free and open to anyone with a passion for technology."
   },
   {
     "name": "TokioConf",

@@ -104,6 +104,15 @@ async function main() {
     if (Array.isArray(c.categories)) data.categories = c.categories;
     if (Array.isArray(c.subgroups)) data.subgroups = c.subgroups;
     if (c.tag_confidence) data.tag_confidence = c.tag_confidence;
+    // Premium / sponsor fields. Seed only carries the boolean flag for free
+    // promo (Minnebar etc); paid sponsor copy/imagery is set in Firestore
+    // directly via the admin flow and shouldn't be clobbered by re-imports —
+    // so we only write what's present in the seed and leave the rest alone.
+    if (c.premium === true) data.premium = true;
+    if (typeof c.premium_image_url === "string") data.premium_image_url = c.premium_image_url;
+    if (typeof c.premium_header === "string") data.premium_header = c.premium_header;
+    if (typeof c.premium_subtitle === "string") data.premium_subtitle = c.premium_subtitle;
+    if (typeof c.premium_body === "string") data.premium_body = c.premium_body;
     return { id: stableId(c.name, c.start_date), data };
   });
 
