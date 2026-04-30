@@ -71,7 +71,7 @@ export function VennEgg({ tags, onClose }: Props) {
           <VennSvg tags={usedTags} buckets={buckets} />
         )}
         <div className="venn-egg-footer">
-          <span>Easter egg · esc to close</span>
+          <span>Venn Egg · esc to close</span>
           {overflow > 0 ? <span>+{overflow} extra tag{overflow === 1 ? "" : "s"} not shown</span> : null}
           <button className="venn-egg-close" onClick={onClose}>
             close
