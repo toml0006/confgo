@@ -11,7 +11,7 @@ import "./styles/animations.css";
 // ComingSoonPage. Flip to false + push to main when the real app
 // should come online — the deploy workflow on main rebuilds and
 // publishes automatically.
-const COMING_SOON_ONLY = true;
+const COMING_SOON_ONLY = false;
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
