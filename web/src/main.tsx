@@ -4,9 +4,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
 import { App } from "./App";
 import { ComingSoonPage } from "./components/ComingSoonPage";
+import { TopicsDemo } from "./components/TopicsDemo";
+import "./styles/app.css";
 import { ThemeProvider } from "./lib/theme";
 import "mapbox-gl/dist/mapbox-gl.css";
-import "./styles/app.css";
 
 // Pre-launch marketing gate. While true, every route serves the
 // ComingSoonPage. Flip to false + push to main when the real app
@@ -66,23 +67,37 @@ createRoot(document.getElementById("root")!).render(
     <VersionPoller />
     <ThemeProvider>
       <BrowserRouter>
-        {COMING_SOON_ONLY ? (
-          <ComingSoonPage />
-        ) : (
-          <Routes>
-            {/* Public marketing route — no auth, no map. */}
-            <Route path="/coming-soon" element={<ComingSoonPage />} />
-            {/* Everything else is the authenticated app. */}
-            <Route
-              path="*"
-              element={
-                <AuthProvider>
-                  <App />
-                </AuthProvider>
-              }
-            />
-          </Routes>
-        )}
+        <Routes>
+          {/* Always-on demo route — works regardless of the coming-soon gate
+              so it can be projected on a side screen during the talk.
+              Wrapped in AuthProvider so anonymous sign-in fires and the
+              live like-voting can attribute votes to a UID. */}
+          <Route
+            path="/demo/topics"
+            element={
+              <AuthProvider>
+                <TopicsDemo />
+              </AuthProvider>
+            }
+          />
+          {COMING_SOON_ONLY ? (
+            <Route path="*" element={<ComingSoonPage />} />
+          ) : (
+            <>
+              {/* Public marketing route — no auth, no map. */}
+              <Route path="/coming-soon" element={<ComingSoonPage />} />
+              {/* Everything else is the authenticated app. */}
+              <Route
+                path="*"
+                element={
+                  <AuthProvider>
+                    <App />
+                  </AuthProvider>
+                }
+              />
+            </>
+          )}
+        </Routes>
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>,
