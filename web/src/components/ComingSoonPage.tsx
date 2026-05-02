@@ -9,6 +9,7 @@
 
 import { Wordmark } from "@/components/ui/wordmark";
 import { Kicker } from "@/components/ui/kicker";
+import { Footer } from "./Footer";
 
 const MINNEBAR_URL = "https://sessions.minnestar.org/sessions/1903";
 
@@ -53,6 +54,7 @@ export function ComingSoonPage() {
 
         <Kicker className="mt-1.5">We'll be live shortly.</Kicker>
       </main>
+      <Footer />
     </div>
   );
 }
