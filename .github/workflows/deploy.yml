@@ -17,12 +17,14 @@ jobs:
       contents: write
       id-token: write
     steps:
-      # Check out with the release PAT so the post-deploy push back to main
-      # bypasses branch protection. fetch-depth: 0 gives `git pull --rebase`
-      # full history to work with.
+      # Check out with the release PAT (when set) so the post-deploy push
+      # back to main can bypass branch protection. Falls back to the
+      # default GITHUB_TOKEN when RELEASE_PAT isn't configured — the
+      # deploy still runs; the version-bump step below will skip itself.
+      # fetch-depth: 0 gives `git pull --rebase` full history to work with.
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.RELEASE_PAT }}
+          token: ${{ secrets.RELEASE_PAT || github.token }}
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
@@ -70,11 +72,14 @@ jobs:
       # The build step above runs `npm run build`, which fires `prebuild`
       # → bump-version.mjs, mutating web/package.json. Persist that change
       # back to main so the version monotonically advances across deploys.
-      # Authenticated via RELEASE_PAT (set on the checkout step), which
-      # must have Contents: Write on this repo and bypass branch protection.
+      # Requires RELEASE_PAT (Contents: Write, bypass branch protection)
+      # configured on the production environment — without it, this step
+      # silently no-ops and the version doesn't carry across deploys.
       # `[skip ci]` keeps this from re-triggering the workflow.
       - name: Commit version bump back to main
-        if: success()
+        if: success() && env.RELEASE_PAT != ''
+        env:
+          RELEASE_PAT: ${{ secrets.RELEASE_PAT }}
         run: |
           if git diff --quiet web/package.json; then
             echo "No version change to commit"

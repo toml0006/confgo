@@ -1,4 +1,11 @@
-// Public marketing page at /coming-soon. Auth not required.
+// Public marketing page at /coming-soon. Auth not required. Reuses the
+// site's atlas design tokens (paper / ink / brand) so it feels like the
+// rest of confgo, with one bright callout card pointing curious visitors
+// at the upcoming MinneBar talk.
+//
+// Live-refresh on deploy is handled at the app root by VersionPoller in
+// main.tsx — works in both gated→live and live→gated directions so the
+// audience flips together whenever a deploy lands.
 
 import { Wordmark } from "@/components/ui/wordmark";
 import { Kicker } from "@/components/ui/kicker";
