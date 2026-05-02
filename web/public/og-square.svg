@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbf9f4"/>
+      <stop offset="100%" stop-color="#f4f1ea"/>
+    </linearGradient>
+    <radialGradient id="accent-tl" cx="0.18" cy="0.18" r="0.55">
+      <stop offset="0%" stop-color="#c2410c" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#c2410c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="accent-br" cx="0.82" cy="0.82" r="0.5">
+      <stop offset="0%" stop-color="#b794f6" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#b794f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="1200" fill="url(#paper)"/>
+  <rect width="1200" height="1200" fill="url(#accent-tl)"/>
+  <rect width="1200" height="1200" fill="url(#accent-br)"/>
+
+  <!-- Editorial frame -->
+  <rect x="50" y="50" width="1100" height="1100" fill="none" stroke="#e2dccf" stroke-width="2"/>
+
+  <!-- Top kicker -->
+  <text x="600" y="220"
+        font-family="'JetBrains Mono', Menlo, ui-monospace, monospace"
+        font-size="16" text-anchor="middle" fill="#5a554c"
+        letter-spacing="3.52" font-weight="600">QUIET CONFERENCE NETWORKING</text>
+
+  <!-- Venn brand mark — sized larger for the square layout -->
+  <g transform="translate(518, 320)">
+    <circle cx="50" cy="60" r="50" fill="none" stroke="#1a1814" stroke-width="4"/>
+    <circle cx="100" cy="60" r="50" fill="none" stroke="#c2410c" stroke-width="4"/>
+  </g>
+
+  <!-- Wordmark — Venn·bar -->
+  <text x="600" y="640"
+        font-family="Fraunces, Iowan Old Style, Georgia, 'Times New Roman', serif"
+        font-size="156" font-weight="500" text-anchor="middle"
+        fill="#1a1814" letter-spacing="-4.68">
+    <tspan>Venn</tspan><tspan fill="#c2410c">·</tspan><tspan>bar</tspan>
+  </text>
+
+  <!-- Tagline — italic serif, three lines fit easier in square -->
+  <text x="600" y="780"
+        font-family="Fraunces, Iowan Old Style, Georgia, 'Times New Roman', serif"
+        font-size="36" font-style="italic" text-anchor="middle" fill="#5a554c">
+    A map of the conferences
+  </text>
+  <text x="600" y="830"
+        font-family="Fraunces, Iowan Old Style, Georgia, 'Times New Roman', serif"
+        font-size="36" font-style="italic" text-anchor="middle" fill="#5a554c">
+    worth showing up to —
+  </text>
+  <text x="600" y="880"
+        font-family="Fraunces, Iowan Old Style, Georgia, 'Times New Roman', serif"
+        font-size="36" font-style="italic" text-anchor="middle" fill="#5a554c">
+    and the people you'll see there.
+  </text>
+
+  <!-- Footer URL -->
+  <text x="600" y="1090"
+        font-family="'JetBrains Mono', Menlo, ui-monospace, monospace"
+        font-size="15" text-anchor="middle" fill="#1a1814"
+        letter-spacing="3.30" font-weight="600">VENN.BAR</text>
+</svg>
