@@ -83,7 +83,7 @@ export function Footer() {
               Source on GitHub ↗
             </a>
             <a
-              href="/demo/slides"
+              href="/demo/topics"
               className="font-mono text-[12px] uppercase tracking-[0.14em] text-ink2 hover:text-ink"
             >
               Talk slides →
