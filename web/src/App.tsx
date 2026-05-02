@@ -15,6 +15,7 @@ import { MyConferencesPanel } from "./components/MyConferencesPanel";
 import { PingInbox } from "./components/PingInbox";
 import { SettingsPanel } from "./components/SettingsPanel";
 import { VersionBadge } from "./components/VersionBadge";
+import { Footer } from "./components/Footer";
 
 type LocationSelection = {
   conferences: Conference[];
@@ -80,7 +81,9 @@ export function App() {
     return conferences.find((c) => c.id === confMatch.params.id) ?? null;
   }, [confMatch, conferences]);
 
-  // fly the map when a conference route becomes active
+  // fly the map when a conference route becomes active. Depend on the conf
+  // id (not the full object) so a fresh `conferences` array — same data,
+  // new identity from a refetch — doesn't re-fire flyTo and re-zoom.
   useEffect(() => {
     if (activeConference) {
       setFlyTo({
@@ -89,7 +92,8 @@ export function App() {
         zoom: 7,
       });
     }
-  }, [activeConference]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeConference?.id]);
 
   // fetch user on /u/:id; prefer state passed from search.
   // Wait for auth readiness so cold deep-links don't fire an unauthed request.
@@ -188,6 +192,29 @@ export function App() {
   const goBack = useCallback(() => navigate(-1), [navigate]);
 
   const closeLocationSheet = useCallback(() => setLocationSel(null), []);
+
+  // Esc anywhere closes the topmost overlay. Order: side panels first
+  // (settings / mine / signals), then the location list, then the route
+  // sheet (/c/:id, /u/:id). Modals (PingComposer, PhotoCropper, CommandK)
+  // already self-handle Esc via their own Dialog primitives.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (panel !== "none") {
+        setPanel("none");
+        return;
+      }
+      if (locationSel) {
+        setLocationSel(null);
+        return;
+      }
+      if (confMatch || userMatch) {
+        closeSheet();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [panel, locationSel, confMatch, userMatch, closeSheet]);
 
   const hasToken = Boolean(import.meta.env.VITE_MAPBOX_ACCESS_TOKEN);
 
@@ -324,6 +351,7 @@ export function App() {
         <PingInbox onClose={() => setPanel("none")} />
       ) : null}
 
+      <Footer />
       <VersionBadge />
     </>
   );
