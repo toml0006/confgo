@@ -5,11 +5,9 @@ import { AuthProvider } from "./auth/AuthContext";
 import { App } from "./App";
 import { ComingSoonPage } from "./components/ComingSoonPage";
 import { TopicsDemo } from "./components/TopicsDemo";
-import "./styles/tokens.css";
-import "./styles/animations.css";
+import "./styles/app.css";
 import { ThemeProvider } from "./lib/theme";
 import "mapbox-gl/dist/mapbox-gl.css";
-import "./styles/app.css";
 
 // Pre-launch marketing gate. While true, every route serves the
 // ComingSoonPage. Flip to false + push to main when the real app

@@ -7,11 +7,14 @@
 // topic. Likes are stored in Firestore under /topic_likes/{topicId} and
 // per-user state in /user_topic_likes/{uid}. Active likes:
 //   • Bias the spawn picker — weight = 1 + likeCount.
-//   • Extend on-screen lifetime — 40s base + 2.5s per like up to +60s.
+//   • Extend on-screen lifetime — 20s base + 1.5s per like up to +30s.
 // Likes are real-time across all viewers via onSnapshot.
 //
 // Layout: 4×3 cell grid, 10 active slots, so two cells are always free
 // — keeps cards from overlapping while still feeling random.
+//
+// Easter egg: 3× Esc within 1.5s pops the live leaderboard of all topics
+// ranked by total likes.
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -23,8 +26,14 @@ import {
   onSnapshot,
   writeBatch,
 } from "firebase/firestore";
+import { Heart, Search, X } from "lucide-react";
 import { db } from "../firebase";
 import { useAuth } from "../auth/AuthContext";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Kicker } from "./ui/kicker";
+import { Wordmark } from "./ui/wordmark";
+import { cn } from "../lib/utils";
 
 type Topic = {
   id: string;
@@ -46,10 +55,6 @@ type Slot = {
 const SLOT_COUNT = 10;
 const COLS = 4;
 const ROWS = 3;
-// Keyframe is 12.5% / 87.5% breakpoints, so fades scale with lifetime.
-// 20s base → ~2.5s fade in, ~15s hold, ~2.5s fade out. Hot topic at the
-// cap (~50s) → ~6s fade in, ~38s hold, ~6s fade out — still slow enough
-// to feel premium but cycles fast enough to keep the wall moving.
 const BASE_LIFETIME_MS = 20_000;
 const LIFETIME_PER_LIKE_MS = 1_500;
 const MAX_EXTRA_LIFETIME_MS = 30_000;
@@ -67,9 +72,9 @@ function cellKey(col: number, row: number) {
 }
 
 function cellCenter(col: number, row: number) {
-  // Center of cell within the central 80%×76% of the viewport (10% / 12%
-  // outer padding). Jitter ±30% of cell size keeps cards inside their
-  // own cells, so 4×3 grid → no overlap between active slots.
+  // Center of cell within central 80%×76% of viewport. Jitter ±30% of
+  // cell size keeps cards inside their own cells, so 4×3 grid → no
+  // overlap between active slots.
   const colWidth = 80 / COLS;
   const rowHeight = 76 / ROWS;
   const left = 10 + (col + 0.5) * colWidth + (Math.random() - 0.5) * (colWidth * 0.3);
@@ -86,6 +91,7 @@ export function TopicsDemo() {
   );
   const [popup, setPopup] = useState<Topic | null>(null);
   const [query, setQuery] = useState("");
+  const [leaderboard, setLeaderboard] = useState(false);
   const { user } = useAuth();
 
   const matches = useMemo(() => {
@@ -95,6 +101,16 @@ export function TopicsDemo() {
       .filter((t) => t.title.toLowerCase().includes(q))
       .slice(0, 8);
   }, [query, topics]);
+
+  const ranked = useMemo(() => {
+    if (!topics) return [] as { topic: Topic; count: number }[];
+    return topics
+      .map((t) => ({ topic: t, count: likes[t.id] ?? 0 }))
+      .sort((a, b) => {
+        if (b.count !== a.count) return b.count - a.count;
+        return a.topic.title.localeCompare(b.topic.title);
+      });
+  }, [topics, likes]);
 
   const likesRef = useRef(likes);
   likesRef.current = likes;
@@ -132,7 +148,7 @@ export function TopicsDemo() {
     return unsub;
   }, []);
 
-  // Subscribe to *this* viewer's liked-set (toggle state).
+  // Subscribe to *this* viewer's liked-set.
   useEffect(() => {
     if (!user?.uid) return;
     const unsub = onSnapshot(
@@ -148,9 +164,9 @@ export function TopicsDemo() {
     return unsub;
   }, [user?.uid]);
 
-  // Spawn loop. Re-runs only when the topic catalog first loads; the
-  // spawn closures read the latest likes/slots via refs so live vote
-  // updates bias future picks without restarting the loop.
+  // Spawn loop. Re-runs only when the catalog first loads; closures read
+  // the latest likes/slots via refs so live vote updates bias future
+  // picks without restarting the loop.
   useEffect(() => {
     if (!topics || topics.length === 0) return;
     let cancelled = false;
@@ -230,12 +246,36 @@ export function TopicsDemo() {
     };
   }, [topics]);
 
+  // Easter egg: 3× Esc within 1.5s opens the live leaderboard. Skipped
+  // when popup/leaderboard already open, or when typing in an input.
+  useEffect(() => {
+    const taps: number[] = [];
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (popup || leaderboard) return;
+      const target = document.activeElement;
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement
+      ) {
+        return;
+      }
+      const now = Date.now();
+      while (taps.length > 0 && now - taps[0] > 1500) taps.shift();
+      taps.push(now);
+      if (taps.length >= 3) {
+        taps.length = 0;
+        setLeaderboard(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [popup, leaderboard]);
+
   async function toggleLike(topic: Topic) {
     if (!user?.uid) return;
     const isLiked = myLikes.has(topic.id);
 
-    // Optimistic update — UI snaps immediately; the Firestore round-trip
-    // is invisible unless it fails (then we roll back below).
     setMyLikes((prev) => {
       const next = new Set(prev);
       if (isLiked) next.delete(topic.id);
@@ -283,20 +323,25 @@ export function TopicsDemo() {
   }
 
   return (
-    <div className="topics-demo">
-      <div className="topics-bg" aria-hidden />
-      {!topics ? <div className="topics-loading">Loading topics…</div> : null}
-      {slots.map((slot) =>
-        slot ? (
-          <Card
-            key={slot.spawnId}
-            slot={slot}
-            likeCount={likes[slot.topic.id] ?? 0}
-            iLike={myLikes.has(slot.topic.id)}
-            onClick={() => setPopup(slot.topic)}
-          />
-        ) : null,
-      )}
+    <div className="fixed inset-0 overflow-hidden bg-bg text-ink font-ui">
+      {/* Subtle paper texture — two soft tonal washes diagonally placed
+          to give the background depth without competing with the cards. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: `
+            radial-gradient(ellipse at 25% 18%, color(display-p3 0.761 0.255 0.047 / 0.05) 0%, transparent 55%),
+            radial-gradient(ellipse at 78% 82%, color(display-p3 0.718 0.580 0.965 / 0.05) 0%, transparent 55%)
+          `,
+        }}
+      />
+
+      <header className="absolute top-5 left-5 z-40 flex items-center gap-3">
+        <Wordmark size={18} dim />
+        <Kicker className="text-ink3 hidden sm:block">Topics · live</Kicker>
+      </header>
+
       <SearchBar
         query={query}
         onQuery={setQuery}
@@ -306,8 +351,33 @@ export function TopicsDemo() {
         onPick={openTopic}
       />
 
+      <p
+        aria-hidden
+        className="absolute bottom-4 right-5 z-30 select-none font-mono text-[10px] tracking-[0.18em] uppercase text-ink3/70"
+      >
+        esc · esc · esc
+      </p>
+
+      {!topics ? (
+        <div className="absolute inset-0 grid place-items-center">
+          <Kicker className="text-ink3">Loading topics…</Kicker>
+        </div>
+      ) : null}
+
+      {slots.map((slot) =>
+        slot ? (
+          <FloatingCard
+            key={slot.spawnId}
+            slot={slot}
+            likeCount={likes[slot.topic.id] ?? 0}
+            iLike={myLikes.has(slot.topic.id)}
+            onClick={() => setPopup(slot.topic)}
+          />
+        ) : null,
+      )}
+
       {popup ? (
-        <Popup
+        <TopicModal
           topic={popup}
           likeCount={likes[popup.id] ?? 0}
           iLike={myLikes.has(popup.id)}
@@ -315,341 +385,88 @@ export function TopicsDemo() {
           onClose={() => setPopup(null)}
         />
       ) : null}
+
+      {leaderboard ? (
+        <Leaderboard
+          ranked={ranked}
+          myLikes={myLikes}
+          onPick={(t) => {
+            setLeaderboard(false);
+            openTopic(t);
+          }}
+          onClose={() => setLeaderboard(false)}
+        />
+      ) : null}
+
+      {/* The single keyframe Tailwind doesn't already give us. The card's
+          opacity-0 / opacity-1 / opacity-1 / opacity-0 timeline scales
+          with `animation-duration` set inline per card. */}
       <style>{`
-        .topics-demo {
-          position: fixed;
-          inset: 0;
-          background: var(--void);
-          color: var(--text);
-          overflow: hidden;
-          font-family: "Lexend Exa", "SF Pro", system-ui, sans-serif;
-        }
-        .topics-bg {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background:
-            radial-gradient(
-              ellipse at 30% 20%,
-              color(display-p3 0.369 0.906 0.851 / 0.06) 0%,
-              transparent 55%
-            ),
-            radial-gradient(
-              ellipse at 70% 80%,
-              color(display-p3 0.718 0.58 0.965 / 0.05) 0%,
-              transparent 55%
-            );
-        }
-        .topics-loading {
-          position: absolute;
-          inset: 0;
-          display: grid;
-          place-items: center;
-          color: var(--text-muted);
-          font-size: 0.7rem;
-          text-transform: uppercase;
-          letter-spacing: 0.18em;
-        }
-        .topics-search {
-          position: fixed;
-          top: 18px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: min(380px, calc(100vw - 32px));
-          z-index: 50;
-          font-family: inherit;
-        }
-        .topics-search-input-wrap {
-          display: flex;
-          align-items: center;
-          gap: 0.55rem;
-          padding: 0.55rem 0.9rem;
-          border-radius: 999px;
-          border: 1px solid var(--mist);
-          background: var(--panel-gradient);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          color: var(--text);
-          cursor: text;
-          box-shadow: 0 8px 28px -16px rgba(0, 0, 0, 0.8);
-          box-shadow: 0 8px 28px -16px color(display-p3 0 0 0 / 0.8);
-        }
-        .topics-search-icon {
-          color: var(--text-muted);
-          flex-shrink: 0;
-        }
-        .topics-search-input {
-          flex: 1;
-          min-width: 0;
-          background: transparent;
-          border: none;
-          outline: none;
-          color: inherit;
-          font: inherit;
-          font-size: 0.78rem;
-          letter-spacing: 0.04em;
-          padding: 0;
-        }
-        .topics-search-input::placeholder {
-          color: var(--text-muted);
-        }
-        .topics-search-results {
-          margin-top: 8px;
-          padding: 6px;
-          border-radius: 14px;
-          border: 1px solid var(--mist);
-          background: var(--panel-gradient);
-          backdrop-filter: blur(18px);
-          -webkit-backdrop-filter: blur(18px);
-          box-shadow: 0 16px 48px -20px rgba(0, 0, 0, 0.85);
-          box-shadow: 0 16px 48px -20px color(display-p3 0 0 0 / 0.85);
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-        }
-        .topics-search-empty {
-          padding: 0.65rem 0.85rem;
-          font-size: 0.72rem;
-          letter-spacing: 0.06em;
-          color: var(--text-muted);
-        }
-        .topics-search-result {
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-          padding: 0.55rem 0.75rem;
-          border-radius: 10px;
-          border: 1px solid transparent;
-          background: transparent;
-          color: var(--text);
-          font-family: inherit;
-          text-align: left;
-          cursor: pointer;
-          transition: border-color 200ms ease, background 200ms ease;
-        }
-        .topics-search-result:hover {
-          border-color: var(--mist);
-          background: rgba(232, 240, 255, 0.04);
-          background: color(display-p3 0.91 0.941 1 / 0.04);
-        }
-        .topics-search-title {
-          font-size: 0.82rem;
-          line-height: 1.3;
-          letter-spacing: 0.02em;
-        }
-        .topics-search-meta {
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          font-size: 0.6rem;
-          text-transform: uppercase;
-          letter-spacing: 0.18em;
-          color: var(--text-muted);
-        }
-        .topics-search-section {
-          flex: 1;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .topics-search-likes {
-          font-variant-numeric: tabular-nums;
-          letter-spacing: 0.05em;
-        }
-        .topics-search-likes.liked { color: var(--ember); }
-        .topic-card {
-          position: absolute;
-          width: min(280px, calc(100vw - 48px));
-          padding: 16px 18px;
-          border-radius: 14px;
-          border: 1px solid var(--mist);
-          background: var(--panel-gradient);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          color: var(--text);
-          text-align: left;
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          gap: 0.45rem;
-          box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.9);
-          box-shadow: 0 10px 40px -15px color(display-p3 0 0 0 / 0.9);
-          transform-origin: center center;
-          opacity: 0;
-          animation-name: topic-life;
-          animation-timing-function: linear;
-          animation-fill-mode: forwards;
-          transition: border-color 200ms ease;
-          font-family: inherit;
-        }
-        .topic-card:hover {
-          border-color: var(--signal-dim);
-        }
-        .topic-section {
-          font-size: 0.58rem;
-          text-transform: uppercase;
-          letter-spacing: 0.2em;
-          color: var(--text-muted);
-        }
-        .topic-title {
-          font-size: 0.92rem;
-          line-height: 1.35;
-          font-weight: 400;
-          letter-spacing: 0.02em;
-          padding-right: 1.6rem;
-        }
-        .topic-like-badge {
-          position: absolute;
-          top: 10px;
-          right: 12px;
-          font-size: 0.7rem;
-          letter-spacing: 0.05em;
-          color: var(--text-muted);
-          font-variant-numeric: tabular-nums;
-        }
-        .topic-like-badge.liked { color: var(--ember); }
-        .topic-like-badge .heart { margin-right: 0.2rem; }
         @keyframes topic-life {
           0%    { opacity: 0; }
-          /* Fade-in finishes 5s in; lifetime varies, so this percentage
-             only matches when lifetime≈40s. With longer lifetimes the
-             fade-in stretches proportionally, which is fine — feels
-             slower-and-grander for hot topics. */
           12.5% { opacity: 1; }
           87.5% { opacity: 1; }
           100%  { opacity: 0; }
         }
-        .popup-backdrop {
-          position: fixed;
-          inset: 0;
-          background: rgba(3, 4, 10, 0.7);
-          background: color(display-p3 0.012 0.016 0.039 / 0.7);
-          backdrop-filter: blur(6px);
-          -webkit-backdrop-filter: blur(6px);
-          display: grid;
-          place-items: center;
-          z-index: 100;
-          padding: 20px;
-          animation: popup-in 200ms ease forwards;
-        }
-        @keyframes popup-in {
-          from { opacity: 0; }
-          to   { opacity: 1; }
-        }
-        .popup {
-          position: relative;
-          width: min(560px, calc(100vw - 40px));
-          padding: 28px 26px 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 0.85rem;
-          background: var(--panel-gradient);
-          backdrop-filter: blur(18px);
-          -webkit-backdrop-filter: blur(18px);
-          border: 1px solid var(--mist);
-          border-radius: 18px;
-          color: var(--text);
-          box-shadow: 0 16px 60px -20px rgba(0, 0, 0, 0.9);
-          box-shadow: 0 16px 60px -20px color(display-p3 0 0 0 / 0.9);
-        }
-        .popup .close-x {
-          position: absolute;
-          top: 14px;
-          right: 14px;
-          width: 32px;
-          height: 32px;
-          border-radius: 999px;
-          border: 1px solid var(--mist);
-          background: transparent;
-          color: var(--text-muted);
-          font-size: 1.1rem;
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          transition: color 180ms ease, border-color 180ms ease;
-        }
-        .popup .close-x:hover {
-          color: var(--text);
-          border-color: var(--mist-strong);
-        }
-        .popup-section {
-          font-size: 0.6rem;
-          text-transform: uppercase;
-          letter-spacing: 0.22em;
-          color: var(--text-muted);
-        }
-        .popup-title {
-          margin: 0;
-          font-size: 1.4rem;
-          font-weight: 400;
-          line-height: 1.3;
-          letter-spacing: 0.02em;
-          padding-right: 2rem;
-        }
-        .popup-body {
-          margin: 0;
-          font-family: "Newsreader", Georgia, serif;
-          font-size: 1rem;
-          line-height: 1.55;
-          color: var(--text);
-          letter-spacing: 0.01em;
-        }
-        .popup-actions {
-          display: flex;
-          gap: 0.55rem;
-          margin-top: 0.4rem;
-        }
-        .like-button {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.55rem;
-          padding: 0.55rem 1rem;
-          border-radius: 999px;
-          border: 1px solid var(--mist);
-          background: transparent;
-          color: var(--text);
-          font-family: inherit;
-          font-size: 0.72rem;
-          text-transform: uppercase;
-          letter-spacing: 0.16em;
-          cursor: pointer;
-          transition:
-            border-color 200ms ease,
-            color 200ms ease,
-            background 200ms ease;
-        }
-        .like-button .heart {
-          font-size: 1.05rem;
-          color: var(--text-muted);
-          transition: color 200ms ease, transform 200ms ease;
-        }
-        .like-button .like-count {
-          font-variant-numeric: tabular-nums;
-          color: var(--text-muted);
-          font-size: 0.78rem;
-          letter-spacing: 0.04em;
-        }
-        .like-button:hover {
-          border-color: var(--ember);
-          background: color(display-p3 1 0.71 0.278 / 0.04);
-        }
-        .like-button:hover .heart {
-          color: var(--ember);
-        }
-        .like-button.liked {
-          border-color: var(--ember);
-          color: var(--ember);
-        }
-        .like-button.liked .heart {
-          color: var(--ember);
-          transform: scale(1.15);
-        }
-        .like-button.liked .like-count {
-          color: var(--ember);
+        .topic-life {
+          opacity: 0;
+          animation-name: topic-life;
+          animation-timing-function: linear;
+          animation-fill-mode: forwards;
         }
       `}</style>
     </div>
+  );
+}
+
+function FloatingCard({
+  slot,
+  likeCount,
+  iLike,
+  onClick,
+}: {
+  slot: Slot;
+  likeCount: number;
+  iLike: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        top: `${slot.top}%`,
+        left: `${slot.left}%`,
+        transform: `translate(-50%, -50%) rotate(${slot.rotation}deg)`,
+        animationDuration: `${slot.lifetimeMs}ms`,
+      }}
+      className={cn(
+        "topic-life absolute z-10 w-[min(300px,calc(100vw-48px))]",
+        "flex flex-col gap-2 rounded-card border border-hair bg-paper px-5 py-4 text-left",
+        "shadow-card transition-[border-color,transform] duration-200",
+        "hover:border-ink/40 hover:[transform:translate(-50%,-50%)_rotate(0deg)_scale(1.02)]",
+        "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40",
+      )}
+    >
+      {slot.topic.section ? (
+        <Kicker className="text-ink3">{slot.topic.section}</Kicker>
+      ) : null}
+      <span className="font-display text-[1.05rem] leading-snug tracking-tight-1 text-ink pr-6">
+        {slot.topic.title}
+      </span>
+      {likeCount > 0 ? (
+        <span
+          aria-label={`${likeCount} likes`}
+          className={cn(
+            "absolute top-3 right-3 inline-flex items-center gap-1 font-mono text-[11px] tabular-nums",
+            iLike ? "text-brand" : "text-ink3",
+          )}
+        >
+          <Heart className={cn("size-3", iLike && "fill-brand")} aria-hidden />
+          {likeCount}
+        </span>
+      ) : null}
+    </button>
   );
 }
 
@@ -669,25 +486,10 @@ function SearchBar({
   onPick: (t: Topic) => void;
 }) {
   return (
-    <div className="topics-search">
-      <label className="topics-search-input-wrap">
-        <svg
-          className="topics-search-icon"
-          viewBox="0 0 24 24"
-          width="14"
-          height="14"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden
-        >
-          <circle cx="11" cy="11" r="7" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-        <input
-          className="topics-search-input"
+    <div className="fixed top-5 left-1/2 z-40 w-[min(420px,calc(100vw-32px))] -translate-x-1/2">
+      <label className="relative flex items-center gap-2 rounded-pill border border-hair bg-paper px-4 py-2 shadow-card">
+        <Search className="size-4 text-ink3 shrink-0" aria-hidden />
+        <Input
           type="search"
           value={query}
           placeholder="Search topics…"
@@ -696,10 +498,12 @@ function SearchBar({
             if (e.key === "Escape") onQuery("");
             if (e.key === "Enter" && matches.length > 0) onPick(matches[0]);
           }}
+          className="border-none bg-transparent p-0 text-[0.85rem] tracking-[0.02em] focus-visible:border-none focus-visible:ring-0 shadow-none"
         />
       </label>
+
       {query.trim() && matches.length > 0 ? (
-        <div className="topics-search-results">
+        <div className="mt-2 flex flex-col gap-px overflow-hidden rounded-card border border-hair bg-paper p-1.5 shadow-modal">
           {matches.map((t) => {
             const c = likes[t.id] ?? 0;
             const liked = myLikes.has(t.id);
@@ -707,15 +511,30 @@ function SearchBar({
               <button
                 key={t.id}
                 type="button"
-                className="topics-search-result"
                 onClick={() => onPick(t)}
+                className="group flex flex-col gap-1 rounded-md px-3 py-2 text-left transition-colors hover:bg-hair-soft"
               >
-                <span className="topics-search-title">{t.title}</span>
-                <span className="topics-search-meta">
-                  {t.section ? <span className="topics-search-section">{t.section}</span> : null}
+                <span className="font-display text-[0.9rem] leading-snug tracking-tight-1 text-ink">
+                  {t.title}
+                </span>
+                <span className="flex items-center justify-between gap-2">
+                  {t.section ? (
+                    <Kicker className="truncate text-ink3">{t.section}</Kicker>
+                  ) : (
+                    <span />
+                  )}
                   {c > 0 ? (
-                    <span className={`topics-search-likes${liked ? " liked" : ""}`}>
-                      ♥ {c}
+                    <span
+                      className={cn(
+                        "inline-flex items-center gap-1 font-mono text-[10px] tabular-nums",
+                        liked ? "text-brand" : "text-ink3",
+                      )}
+                    >
+                      <Heart
+                        className={cn("size-3", liked && "fill-brand")}
+                        aria-hidden
+                      />
+                      {c}
                     </span>
                   ) : null}
                 </span>
@@ -724,54 +543,55 @@ function SearchBar({
           })}
         </div>
       ) : null}
+
       {query.trim() && matches.length === 0 ? (
-        <div className="topics-search-results topics-search-empty">No topics match.</div>
+        <div className="mt-2 rounded-card border border-hair bg-paper px-4 py-3 shadow-modal">
+          <Kicker className="text-ink3">No topics match.</Kicker>
+        </div>
       ) : null}
     </div>
   );
 }
 
-function Card({
-  slot,
-  likeCount,
-  iLike,
-  onClick,
+function ModalShell({
+  className,
+  zIndex,
+  onClose,
+  children,
 }: {
-  slot: Slot;
-  likeCount: number;
-  iLike: boolean;
-  onClick: () => void;
+  className?: string;
+  zIndex: number;
+  onClose: () => void;
+  children: React.ReactNode;
 }) {
   return (
-    <button
-      type="button"
-      className="topic-card"
-      style={{
-        top: `${slot.top}%`,
-        left: `${slot.left}%`,
-        transform: `translate(-50%, -50%) rotate(${slot.rotation}deg)`,
-        animationDuration: `${slot.lifetimeMs}ms`,
-      }}
-      onClick={onClick}
+    <div
+      onClick={onClose}
+      style={{ zIndex }}
+      className="fixed inset-0 grid place-items-center bg-ink/40 p-5 backdrop-blur-sm animate-sheet-in"
     >
-      {slot.topic.section ? (
-        <span className="topic-section">{slot.topic.section}</span>
-      ) : null}
-      <span className="topic-title">{slot.topic.title}</span>
-      {likeCount > 0 ? (
-        <span
-          className={`topic-like-badge${iLike ? " liked" : ""}`}
-          aria-label={`${likeCount} likes`}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={cn(
+          "relative flex flex-col gap-4 rounded-card border border-hair bg-paper p-7 text-ink shadow-modal",
+          className,
+        )}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute top-4 right-4 grid size-8 place-items-center rounded-full border border-hair text-ink2 transition-colors hover:border-ink hover:text-ink"
         >
-          <span className="heart" aria-hidden>♥</span>
-          {likeCount}
-        </span>
-      ) : null}
-    </button>
+          <X className="size-4" aria-hidden />
+        </button>
+        {children}
+      </div>
+    </div>
   );
 }
 
-function Popup({
+function TopicModal({
   topic,
   likeCount,
   iLike,
@@ -793,34 +613,119 @@ function Popup({
   }, [onClose]);
 
   return (
-    <div className="popup-backdrop" onClick={onClose}>
-      <div className="popup" onClick={(e) => e.stopPropagation()}>
-        <button
+    <ModalShell
+      zIndex={100}
+      onClose={onClose}
+      className="w-[min(560px,calc(100vw-40px))]"
+    >
+      {topic.section ? <Kicker>{topic.section}</Kicker> : null}
+      <h2 className="font-display text-2xl leading-tight tracking-tight-1 text-ink pr-8">
+        {topic.title}
+      </h2>
+      <p className="font-display text-[1rem] leading-relaxed text-ink2">
+        {topic.body}
+      </p>
+      <div className="flex items-center pt-1">
+        <Button
           type="button"
-          className="close-x"
-          onClick={onClose}
-          aria-label="Close"
+          variant={iLike ? "atlas-primary" : "atlas"}
+          size="atlas"
+          onClick={onLike}
+          aria-pressed={iLike}
+          className="gap-2"
         >
-          ×
-        </button>
-        {topic.section ? (
-          <div className="popup-section">{topic.section}</div>
-        ) : null}
-        <h2 className="popup-title">{topic.title}</h2>
-        <p className="popup-body">{topic.body}</p>
-        <div className="popup-actions">
-          <button
-            type="button"
-            className={`like-button${iLike ? " liked" : ""}`}
-            onClick={onLike}
-            aria-pressed={iLike}
-          >
-            <span className="heart" aria-hidden>♥</span>
-            <span>{iLike ? "Liked" : "Like"}</span>
-            <span className="like-count">{likeCount}</span>
-          </button>
-        </div>
+          <Heart
+            className={cn("size-4", iLike && "fill-bg")}
+            aria-hidden
+          />
+          {iLike ? "Liked" : "Like"}
+          <span className="font-mono text-[12px] tabular-nums opacity-70">
+            {likeCount}
+          </span>
+        </Button>
       </div>
-    </div>
+    </ModalShell>
+  );
+}
+
+function Leaderboard({
+  ranked,
+  myLikes,
+  onPick,
+  onClose,
+}: {
+  ranked: { topic: Topic; count: number }[];
+  myLikes: Set<string>;
+  onPick: (t: Topic) => void;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <ModalShell
+      zIndex={110}
+      onClose={onClose}
+      className="w-[min(640px,calc(100vw-40px))] max-h-[calc(100vh-60px)]"
+    >
+      <div className="flex flex-col gap-1 pr-10">
+        <Kicker accent>Live leaderboard</Kicker>
+        <h2 className="font-display text-[1.7rem] leading-tight tracking-tight-1 text-ink">
+          Most-liked topics
+        </h2>
+        <Kicker className="text-ink3">
+          Real-time · Esc / click to dismiss
+        </Kicker>
+      </div>
+
+      <div className="flex flex-col gap-1 overflow-y-auto pr-1 -mr-1">
+        {ranked.map((row, i) => {
+          const liked = myLikes.has(row.topic.id);
+          return (
+            <button
+              key={row.topic.id}
+              type="button"
+              onClick={() => onPick(row.topic)}
+              className="grid grid-cols-[36px_1fr_auto] items-center gap-3 rounded-md border border-transparent px-3 py-2 text-left transition-colors hover:border-hair hover:bg-hair-soft"
+            >
+              <span className="font-mono text-[11px] tabular-nums tracking-[0.14em] text-ink3">
+                {(i + 1).toString().padStart(2, "0")}
+              </span>
+              <span className="flex min-w-0 flex-col gap-0.5">
+                <span className="truncate font-display text-[0.95rem] leading-snug tracking-tight-1 text-ink">
+                  {row.topic.title}
+                </span>
+                {row.topic.section ? (
+                  <Kicker className="truncate text-ink3">
+                    {row.topic.section}
+                  </Kicker>
+                ) : null}
+              </span>
+              <span
+                className={cn(
+                  "inline-flex items-center gap-1.5 font-mono text-[13px] tabular-nums",
+                  liked
+                    ? "text-brand"
+                    : row.count > 0
+                      ? "text-ink2"
+                      : "text-ink3/40",
+                )}
+              >
+                <Heart
+                  className={cn("size-3.5", liked && "fill-brand")}
+                  aria-hidden
+                />
+                {row.count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </ModalShell>
   );
 }
