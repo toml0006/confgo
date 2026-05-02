@@ -12,6 +12,8 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   User,
+  UserCredential,
+  getAdditionalUserInfo,
   linkWithPopup,
   onAuthStateChanged,
   signInAnonymously,
@@ -19,6 +21,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase";
+import { apiFetch } from "../api";
+import { normalizeContact, type ContactEntry } from "../lib/contacts";
 
 export type AuthProviderId = "google.com" | "github.com";
 
@@ -37,8 +41,41 @@ function providerFor(id: AuthProviderId): FbAuthProvider {
   switch (id) {
     case "google.com":
       return new GoogleAuthProvider();
-    case "github.com":
-      return new GithubAuthProvider();
+    case "github.com": {
+      const p = new GithubAuthProvider();
+      // GitHub's default `read:user` scope omits private email addresses; opt
+      // in so the ID token's `email` claim is populated for users who haven't
+      // set a public email on their profile.
+      p.addScope("user:email");
+      return p;
+    }
+  }
+}
+
+// GitHub usernames live in the OAuth profile, not the verified ID token, so
+// the backend can't seed them on its own. After a successful link, push the
+// handle into saved_contacts (idempotent — skip if the user already has any
+// github card or has hit the cap).
+async function seedGithubHandleFromCred(cred: UserCredential): Promise<void> {
+  const info = getAdditionalUserInfo(cred);
+  if (info?.providerId !== "github.com") return;
+  const profile = info.profile as { login?: unknown } | null | undefined;
+  const login = typeof profile?.login === "string" ? profile.login : null;
+  if (!login) return;
+  try {
+    const current = await apiFetch<{ contacts: ContactEntry[] }>("/me/contacts");
+    if (current.contacts.some((c) => c.type === "github")) return;
+    const next = [
+      ...current.contacts,
+      normalizeContact({ type: "github", value: login }),
+    ];
+    await apiFetch("/me/contacts", {
+      method: "PUT",
+      body: JSON.stringify({ contacts: next }),
+    });
+  } catch (err) {
+    // Seeding is best-effort; the user can still add the handle manually.
+    console.warn("[auth] github handle seed failed", err);
   }
 }
 
@@ -77,6 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const cred = await linkWithPopup(current, provider);
         setUser(cred.user);
+        await seedGithubHandleFromCred(cred);
         // Hard reload so every user-scoped fetch (/me, attendances,
         // pings) re-runs with the upgraded identity instead of trying
         // to reconcile post-link state in place.
@@ -90,6 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     const cred = await signInWithPopup(auth, provider);
     setUser(cred.user);
+    await seedGithubHandleFromCred(cred);
     window.location.reload();
   }, []);
 
