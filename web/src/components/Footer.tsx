@@ -73,14 +73,22 @@ export function Footer() {
             />
           </div>
 
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="font-mono text-[12px] uppercase tracking-[0.14em] text-ink2 hover:text-ink"
-          >
-            Source on GitHub ↗
-          </a>
+          <div className="flex flex-col gap-1">
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="font-mono text-[12px] uppercase tracking-[0.14em] text-ink2 hover:text-ink"
+            >
+              Source on GitHub ↗
+            </a>
+            <a
+              href="/demo/slides"
+              className="font-mono text-[12px] uppercase tracking-[0.14em] text-ink2 hover:text-ink"
+            >
+              Talk slides →
+            </a>
+          </div>
         </DialogContent>
       </Dialog>
 
