@@ -67,6 +67,14 @@ export default defineConfig(({ command, mode }) => {
     },
     server: {
       port: 5173,
+      // Firebase Auth's signInWithPopup needs the parent window to read
+      // `popup.closed`. The browser default `Cross-Origin-Opener-Policy:
+      // same-origin` prevents that and triggers `auth/popup-blocked`. The
+      // `same-origin-allow-popups` value keeps cross-origin isolation for
+      // anything we render while letting the OAuth popup talk back.
+      headers: {
+        "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+      },
       proxy: {
         "/api": {
           target: "http://localhost:5001/demo-confgo/us-central1/api",
