@@ -13,7 +13,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 // ComingSoonPage. Flip to false + push to main when the real app
 // should come online — the deploy workflow on main rebuilds and
 // publishes automatically.
-const COMING_SOON_ONLY = false;
+const COMING_SOON_ONLY = true;
 
 // Live-refresh: poll /version.json every 3.5s and hard-reload when the
 // deployed build number exceeds the one baked into this bundle. Lives
