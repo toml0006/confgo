@@ -39,9 +39,90 @@ function identityClaimsOf(decoded: {
   };
 }
 
-async function ensureUserDoc(userId: string, claims: IdentityClaims) {
+// Falls back to the Firebase UserRecord when the ID token's `name` / `picture`
+// / `email` claims are missing. This happens when a user signs in anonymously
+// and then links Google/GitHub via `linkWithPopup`: the linked provider's
+// `displayName` / `photoURL` land on `providerData[]` but Firebase does not
+// auto-promote them to the top-level User properties that the ID token reads
+// from. UserRecord exposes both, so we can resolve the gap server-side without
+// trusting the client to do an `updateProfile` call.
+type ResolvedClaims = {
+  claims: IdentityClaims;
+  lookedUp: boolean; // true iff `auth.getUser()` actually returned (no early-out, no throw)
+};
+
+async function resolveClaimsFromUserRecord(
+  userId: string,
+  claims: IdentityClaims,
+): Promise<ResolvedClaims> {
+  if (claims.email && claims.name && claims.picture) {
+    return { claims, lookedUp: false };
+  }
+  try {
+    const rec = await auth.getUser(userId);
+    const fromProviders = (
+      pick: (p: admin.auth.UserInfo) => string | null | undefined,
+    ): string | null => {
+      for (const p of rec.providerData ?? []) {
+        const v = pick(p);
+        if (typeof v === "string" && v.length > 0) return v;
+      }
+      return null;
+    };
+    const recordEmail =
+      rec.emailVerified && rec.email && rec.email.length > 0 ? rec.email : null;
+    return {
+      claims: {
+        email: claims.email ?? recordEmail,
+        name:
+          claims.name ??
+          (rec.displayName && rec.displayName.length > 0 ? rec.displayName : null) ??
+          fromProviders((p) => p.displayName),
+        picture:
+          claims.picture ??
+          (rec.photoURL && rec.photoURL.length > 0 ? rec.photoURL : null) ??
+          fromProviders((p) => p.photoURL),
+      },
+      lookedUp: true,
+    };
+  } catch (_err) {
+    // Transient lookup failure: don't stamp the sticky marker, so the next
+    // request gets another shot at backfilling.
+    return { claims, lookedUp: false };
+  }
+}
+
+async function ensureUserDoc(
+  userId: string,
+  rawClaims: IdentityClaims,
+  signInProvider: string | null,
+) {
   const ref = users().doc(userId);
   const snap = await ref.get();
+  // Skip the Admin SDK lookup for anonymous users: they have no provider data
+  // to fall back to, and `display_name` / `photo_url` will always be null,
+  // which would otherwise force an `auth.getUser` call on every authed request
+  // during normal anonymous browsing.
+  const isAnonymous = signInProvider === "anonymous";
+  // `provider_lookup_done` is a sticky marker that we've already consulted
+  // UserRecord for this user. Without it, a linked user with a legitimately
+  // empty UserRecord field (e.g. GitHub account with no avatar) would keep
+  // hitting `auth.getUser` on every request forever. The flag costs us the
+  // chance to auto-pick up a *later* avatar/name change on the provider — an
+  // acceptable tradeoff; users can re-link or PATCH /me to refresh.
+  const lookupDone = snap.exists && snap.get("provider_lookup_done") === true;
+  const docNeedsFill =
+    !isAnonymous &&
+    !lookupDone &&
+    (!snap.exists ||
+      !snap.get("display_name") ||
+      !snap.get("photo_url") ||
+      !snap.get("email"));
+  const resolved = docNeedsFill
+    ? await resolveClaimsFromUserRecord(userId, rawClaims)
+    : { claims: rawClaims, lookedUp: false };
+  const claims = resolved.claims;
+
   if (!snap.exists) {
     const seeded = claims.email
       ? [normalizeContact({ type: "email", value: claims.email })]
@@ -52,11 +133,11 @@ async function ensureUserDoc(userId: string, claims: IdentityClaims) {
       display_name: claims.name,
       photo_url: claims.picture,
       saved_contacts: seeded,
-      // Marker for one-shot OAuth backfill. Set on creation; once present,
-      // PATCH /me is the only writer for display_name / photo_url, so a user
-      // who clears either value via Settings is not re-overwritten on the
-      // next authed request.
-      oauth_profile_synced: true,
+      // Stamp the sticky marker only if `auth.getUser()` actually ran. New
+      // docs created from a fully-populated token leave it unset, so any
+      // future field-clear can still trigger a UserRecord fallback. Transient
+      // lookup failures also leave it unset, preserving retry on next request.
+      provider_lookup_done: resolved.lookedUp,
       created_at: nowIso(),
     });
     return;
@@ -64,18 +145,17 @@ async function ensureUserDoc(userId: string, claims: IdentityClaims) {
   const data = snap.data()!;
   const patch: Record<string, unknown> = {};
   if (claims.email && data.email !== claims.email) patch.email = claims.email;
-  // One-shot backfill for users created before OAuth claims were captured.
-  // Once `oauth_profile_synced` is set, do not auto-fill again — that would
-  // undo a deliberate clear from Settings.
-  // Tradeoff: a legacy user who already cleared display_name or photo_url
-  // before this flag existed will see those fields re-populated from OAuth on
-  // their next authed request. Acceptable one-time event; subsequent clears
-  // are honored.
-  if (!data.oauth_profile_synced) {
-    if (claims.name && !data.display_name) patch.display_name = claims.name;
-    if (claims.picture && !data.photo_url) patch.photo_url = claims.picture;
-    patch.oauth_profile_synced = true;
-  }
+  if (resolved.lookedUp) patch.provider_lookup_done = true;
+  // Fill display_name / photo_url whenever they're null and we have a value.
+  // Tradeoff: a user who clears either field via Settings PATCH /me will see
+  // it re-populated from provider data on their next authed request. We accept
+  // this — the prior `oauth_profile_synced` flag was meant to honor manual
+  // clears but ended up sticking on null values when token claims didn't
+  // arrive (the anon-then-link case), permanently blocking the very backfill
+  // it was supposed to gate. Simpler "fill when null" is more robust; if a
+  // user truly wants no avatar/name we can revisit with a sentinel later.
+  if (claims.name && !data.display_name) patch.display_name = claims.name;
+  if (claims.picture && !data.photo_url) patch.photo_url = claims.picture;
   if (claims.email) {
     const existing = Array.isArray(data.saved_contacts) ? data.saved_contacts : [];
     const lower = claims.email.toLowerCase();
@@ -113,10 +193,11 @@ export const requireAuth: MiddlewareHandler<AppEnv> = async (c, next) => {
   try {
     const decoded = await auth.verifyIdToken(token);
     const claims = identityClaimsOf(decoded);
+    const signInProvider = signInProviderOf(decoded);
     c.set("userId", decoded.uid);
     c.set("email", claims.email);
-    c.set("signInProvider", signInProviderOf(decoded));
-    await ensureUserDoc(decoded.uid, claims);
+    c.set("signInProvider", signInProvider);
+    await ensureUserDoc(decoded.uid, claims, signInProvider);
     await next();
     return;
   } catch (_err) {
