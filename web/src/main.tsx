@@ -14,6 +14,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 // should come online — the deploy workflow on main rebuilds and
 // publishes automatically.
 const COMING_SOON_ONLY = false;
+console.log('COMING_SOON_ONLY', COMING_SOON_ONLY);
 
 // Live-refresh: poll /version.json every 3.5s and hard-reload when the
 // deployed build number exceeds the one baked into this bundle. Lives
