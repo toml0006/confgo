@@ -78,6 +78,8 @@ on stage. Ordering is by category, not priority; cherry-pick what fits the room.
 - **The skill is *how to talk to it*, not your config.** People ask "what's in your
   Claude.md?" — the wrong question. The reusable skill is interaction style; configs are
   individual artifacts. *(Apr 30)*
+- **Often consistency > choice.** Like pets or kids. *(Apr 28)*
+
 
 ## 🎙 Anecdotes for color
 
