@@ -105,7 +105,7 @@ export function MapView({
     features: [],
   });
   const lastModeRef = useRef<"light" | "dark" | null>(null);
-  const { mode, accent } = useTheme();
+  const { mode } = useTheme();
   // Attendee counts cached across hovers. -1 means fetch in flight, positive
   // = resolved count. Held in a ref because the value is consumed inside
   // non-React mapbox event handlers — no need to re-render React on
@@ -257,7 +257,7 @@ export function MapView({
     if (map.getLayer(HALO_LAYER)) {
       map.setPaintProperty(HALO_LAYER, "circle-color", haloColor(palette));
     }
-  }, [accent, mode]);
+  }, [mode]);
 
   // hover popup — uses mapbox-gl's own Popup primitive per the
   // mouseenter/mouseleave pattern from
