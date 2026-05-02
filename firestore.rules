@@ -38,5 +38,21 @@ service cloud.firestore {
       allow read: if isSignedIn() && request.auth.uid == resource.data.owner_id;
       allow write: if false;
     }
+
+    // Topic vote counters for /demo/topics. Counts are public (the
+    // demo screen reads them on every viewer); writes are gated to
+    // signed-in users. The companion /user_topic_likes doc enforces
+    // one-vote-per-user on the client. The counter itself is best-effort
+    // — could be tightened with a Cloud Function transaction later.
+    match /topic_likes/{topicId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Per-user record of which topic ids this user has liked. Drives
+    // the toggle UI and prevents double-counting on the client.
+    match /user_topic_likes/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
   }
 }

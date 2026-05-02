@@ -4,6 +4,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
 import { App } from "./App";
 import { ComingSoonPage } from "./components/ComingSoonPage";
+import { TopicsDemo } from "./components/TopicsDemo";
+import "./styles/tokens.css";
+import "./styles/animations.css";
 import { ThemeProvider } from "./lib/theme";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./styles/app.css";
@@ -59,12 +62,26 @@ function VersionPoller() {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <VersionPoller />
-    <ThemeProvider>
-      <BrowserRouter>
+        <ThemeProvider>
+
+    <BrowserRouter>
+      <Routes>
+        {/* Always-on demo route — works regardless of the coming-soon gate
+            so it can be projected on a side screen during the talk.
+            Wrapped in AuthProvider so anonymous sign-in fires and the
+            live like-voting can attribute votes to a UID. */}
+        <Route
+          path="/demo/topics"
+          element={
+            <AuthProvider>
+              <TopicsDemo />
+            </AuthProvider>
+          }
+        />
         {COMING_SOON_ONLY ? (
-          <ComingSoonPage />
+          <Route path="*" element={<ComingSoonPage />} />
         ) : (
-          <Routes>
+          <>
             {/* Public marketing route — no auth, no map. */}
             <Route path="/coming-soon" element={<ComingSoonPage />} />
             {/* Everything else is the authenticated app. */}
