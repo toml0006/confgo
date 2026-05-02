@@ -29,7 +29,7 @@ type Props = {
 };
 
 export function SettingsPanel({ me, onClose, onUpdated, onShowIntro }: Props) {
-  const { user, isAnonymous, linkProvider, signOutUser } = useAuth();
+  const { user, isAnonymous, signInWithProvider, signOutUser } = useAuth();
   const [displayName, setDisplayName] = useState(me.displayName ?? "");
   const [photoURL, setPhotoURL] = useState(me.photoURL);
   const [saving, setSaving] = useState(false);
@@ -100,13 +100,13 @@ export function SettingsPanel({ me, onClose, onUpdated, onShowIntro }: Props) {
     setAuthError(null);
     setSigningIn(id);
     try {
-      await linkProvider(id);
+      await signInWithProvider(id);
     } catch (err) {
       const code = (err as { code?: string }).code;
       if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
         // user dismissed — not an error worth surfacing
       } else {
-        console.error("[auth] link failed", err);
+        console.error("[auth] sign-in failed", err);
         setAuthError(
           code === "auth/operation-not-allowed"
             ? "This provider isn't enabled for the project yet."

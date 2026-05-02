@@ -14,7 +14,6 @@ import {
   User,
   UserCredential,
   getAdditionalUserInfo,
-  linkWithPopup,
   onAuthStateChanged,
   signInAnonymously,
   signInWithPopup,
@@ -32,7 +31,7 @@ type AuthValue = {
   ready: boolean;
   isAnonymous: boolean;
   getIdToken: () => Promise<string | null>;
-  linkProvider: (id: AuthProviderId) => Promise<void>;
+  signInWithProvider: (id: AuthProviderId) => Promise<void>;
   signOutUser: () => Promise<void>;
 };
 
@@ -53,13 +52,13 @@ function providerFor(id: AuthProviderId): FbAuthProvider {
   }
 }
 
-// `linkWithPopup` attaches the provider's displayName/photoURL to
-// `user.providerData[]` but does not promote them onto the top-level User
-// record, so subsequent ID tokens lack `name`/`picture` claims for the
-// anon-then-link path. Copy from providerData when the User record's own
-// fields are empty so the next minted token carries the claims and the
-// backend can read them via the standard channel. Best-effort — backend has a
-// UserRecord fallback that handles the same gap.
+// Some providers attach displayName / photoURL to `user.providerData[]`
+// without promoting them onto the top-level User record, so subsequent
+// ID tokens lack `name` / `picture` claims. Copy from providerData when
+// the User record's own fields are empty so the next minted token
+// carries the claims and the backend can read them via the standard
+// channel. Best-effort — the backend has a UserRecord fallback that
+// handles the same gap.
 async function syncProfileFromProviderData(user: User): Promise<void> {
   const provider = user.providerData[0];
   if (!provider) return;
@@ -76,10 +75,10 @@ async function syncProfileFromProviderData(user: User): Promise<void> {
   }
 }
 
-// GitHub usernames live in the OAuth profile, not the verified ID token, so
-// the backend can't seed them on its own. After a successful link, push the
-// handle into saved_contacts (idempotent — skip if the user already has any
-// github card or has hit the cap).
+// GitHub usernames live in the OAuth profile, not the verified ID token,
+// so the backend can't seed them on its own. After a successful sign-in,
+// push the handle into saved_contacts (idempotent — skip if the user
+// already has any github card or has hit the cap).
 async function seedGithubHandleFromCred(cred: UserCredential): Promise<void> {
   const info = getAdditionalUserInfo(cred);
   if (info?.providerId !== "github.com") return;
@@ -131,30 +130,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const linkProvider = useCallback(async (id: AuthProviderId) => {
+  const signInWithProvider = useCallback(async (id: AuthProviderId) => {
     const provider = providerFor(id);
-    const current = auth.currentUser;
-    if (current?.isAnonymous) {
-      try {
-        const cred = await linkWithPopup(current, provider);
-        await syncProfileFromProviderData(cred.user);
-        setUser(cred.user);
-        await seedGithubHandleFromCred(cred);
-        // Hard reload so every user-scoped fetch (/me, attendances,
-        // pings) re-runs with the upgraded identity instead of trying
-        // to reconcile post-link state in place.
-        window.location.reload();
-        return;
-      } catch (err) {
-        const code = (err as { code?: string }).code;
-        if (code !== "auth/credential-already-in-use") throw err;
-        // Credential already belongs to another account — fall through to signIn.
-      }
-    }
+    // Always a fresh sign-in. We deliberately do *not* try `linkWithPopup`
+    // first — linking the anonymous session into a Google / GitHub account
+    // creates a permanently-merged Firebase user that inherits the random
+    // anon UID, which complicates returning-user identity (every fresh
+    // browser produces a new "merged" account if the user signs in there).
+    // Calling signInWithPopup directly replaces auth.currentUser with the
+    // provider account and abandons the anon UID + any state attached to
+    // it (anon-only attendances, /demo/topics likes, etc.) — that's the
+    // intended behavior here.
     const cred = await signInWithPopup(auth, provider);
     await syncProfileFromProviderData(cred.user);
     setUser(cred.user);
     await seedGithubHandleFromCred(cred);
+    // Hard reload so every user-scoped fetch (/me, attendances, pings)
+    // re-runs cleanly under the new identity.
     window.location.reload();
   }, []);
 
@@ -169,10 +161,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       ready,
       isAnonymous: user?.isAnonymous ?? true,
       getIdToken: async () => (user ? user.getIdToken() : null),
-      linkProvider,
+      signInWithProvider,
       signOutUser,
     }),
-    [user, ready, linkProvider, signOutUser],
+    [user, ready, signInWithProvider, signOutUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
