@@ -5,6 +5,7 @@ import { useAuth } from "./auth/AuthContext";
 import { useMyAttendances } from "./hooks/useMyAttendances";
 import { useConferenceUpdates } from "./hooks/useConferenceUpdates";
 import { useIncomingPingCount } from "./hooks/useIncomingPingCount";
+import { useLiveFeed, useMyTopics } from "./hooks/useLiveFeed";
 import { MapView } from "./components/map/MapView";
 import { Toolbar } from "./components/Toolbar";
 import { CommandK } from "./components/CommandK";
@@ -16,6 +17,7 @@ import { PingInbox } from "./components/PingInbox";
 import { SettingsPanel } from "./components/SettingsPanel";
 import { VersionBadge } from "./components/VersionBadge";
 import { Footer } from "./components/Footer";
+import { LiveFeed } from "./components/LiveFeed";
 import { IntroTour, hasSeenIntro } from "./components/IntroTour";
 import { Caption, FloatingPanel } from "./components/ui/floating-panel";
 import { Kicker } from "./components/ui/kicker";
@@ -141,6 +143,25 @@ export function App() {
   }, [userMatch, location.state, ready, user]);
 
   const myCount = myAttendances.size;
+
+  // Live feed inputs. Conference index lets the hook resolve topics from the
+  // viewer's attendance ids; the viewer's union of those topics drives the
+  // "match" filter.
+  const conferenceById = useMemo(() => {
+    const map = new Map<string, { topics: string[] }>();
+    for (const c of conferences) map.set(c.id, { topics: c.topics ?? [] });
+    return map;
+  }, [conferences]);
+  const myConferenceIds = useMemo(
+    () => new Set(myAttendances.keys()),
+    [myAttendances],
+  );
+  const myTopics = useMyTopics(conferenceById, myConferenceIds);
+  const liveEvents = useLiveFeed({
+    myId: user?.uid ?? null,
+    myConferenceIds,
+    myTopics,
+  });
 
   const handleMapSelect = useCallback(
     (confs: Conference[], anchor: Conference) => {
@@ -381,6 +402,8 @@ export function App() {
       ) : null}
 
       {showIntro ? <IntroTour onClose={() => setShowIntro(false)} /> : null}
+
+      <LiveFeed events={liveEvents} />
 
       <Footer />
       <VersionBadge />

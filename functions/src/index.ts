@@ -46,3 +46,9 @@ export const api = onRequest(
   { region: "us-central1", invoker: "public" },
   getRequestListener(root.fetch) as never,
 );
+
+export {
+  onUserCreated,
+  onUserDeleted,
+  onAttendanceCreated,
+} from "./triggers/events";

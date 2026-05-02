@@ -134,6 +134,38 @@
   50%      { opacity: 0.4; }
 }
 
+/* Live feed entrance: rises from below, blurs into focus, settles.
+   Old rows drift upward through the column-mask gradient before the JS
+   TTL evicts them, so the kinetic feel is "stream past" rather than
+   "popup list". */
+@keyframes vb-live-row-in {
+  0% {
+    transform: translateY(14px) scale(0.97);
+    opacity: 0;
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+.vb-live-row {
+  animation: vb-live-row-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity, filter;
+}
+/* Newest row sits brightest; older ones soften as they drift toward the
+   masked top edge. The row two from the end drops about a third, the one
+   above it half — same combat-log fade you get in WoW. */
+.vb-live-row { opacity: 0.55; }
+.vb-live-row:nth-last-child(1) { opacity: 1; }
+.vb-live-row:nth-last-child(2) { opacity: 0.85; }
+.vb-live-row:nth-last-child(3) { opacity: 0.7; }
+
 @layer base {
   /* All atlas tokens use the display-p3 color space so the brand reads
      richer on wide-gamut displays. The numbers below match the original

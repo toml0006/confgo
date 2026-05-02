@@ -54,5 +54,14 @@ service cloud.firestore {
     match /user_topic_likes/{userId} {
       allow read, write: if isSignedIn() && request.auth.uid == userId;
     }
+
+    // Live feed events. Written exclusively by Cloud Function triggers
+    // (Admin SDK bypasses rules); clients only read. Payload is
+    // deliberately public to all signed-in users — the third-party
+    // "match" filter happens client-side against the viewer's profile.
+    match /events/{eventId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
   }
 }
