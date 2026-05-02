@@ -1,0 +1,286 @@
+{
+  "topics": [
+    {
+      "id": "t_7b767c14a8",
+      "section": "Big themes (frame the talk)",
+      "title": "Prove the thesis by shipping.",
+      "body": "Push existing projects out; the next thing isn't worth building until the current one has reacted-to evidence."
+    },
+    {
+      "id": "t_9a2d93d282",
+      "section": "Big themes (frame the talk)",
+      "title": "\"What counts as complete?\"",
+      "body": "The central framing question for the talk in an agentic world."
+    },
+    {
+      "id": "t_b3edf20ced",
+      "section": "Big themes (frame the talk)",
+      "title": "AI augments, doesn't replace.",
+      "body": "Productivity / value gain belongs to humans. The right response to AI is more people, capitalizing on new capabilities — not fewer."
+    },
+    {
+      "id": "t_bbb1673bdb",
+      "section": "Big themes (frame the talk)",
+      "title": "\"The point of AI is it's adequate.\"",
+      "body": "Ben's LinkedIn premise; Jackson agreed."
+    },
+    {
+      "id": "t_e96cbac572",
+      "section": "Big themes (frame the talk)",
+      "title": "AI is not magic — it predicts patterns.",
+      "body": "Tuned to answer questions positively. The party-trick demo (see Anecdotes) collapses the mystique fast."
+    },
+    {
+      "id": "t_d2953a93a4",
+      "section": "Big themes (frame the talk)",
+      "title": "\"Just fix it\" beats \"who broke it.\"",
+      "body": "AI dissolves the cost of a fix to the point where blame culture is obsolete. The old \"you break it, you own it\" mentality made sense when fixing was expensive."
+    },
+    {
+      "id": "t_fe7ebb8982",
+      "section": "Big themes (frame the talk)",
+      "title": "AI lets engineers write more fun code, not less.",
+      "body": "It eats peripheral work — tests, dummy data, ETL glue — and leaves the interesting decisions on the table."
+    },
+    {
+      "id": "t_6a81d27c55",
+      "section": "Big themes (frame the talk)",
+      "title": "Velocity should be reinvested.",
+      "body": "Faster ship dates aren't the win — better test coverage and scenario planning is."
+    },
+    {
+      "id": "t_96ed0e2908",
+      "section": "Big themes (frame the talk)",
+      "title": "Programmer's value is expertise.",
+      "body": "Guiding LLMs to better results is the craft. Jackson's 3D-rendering knowledge cracked a MapKit occlusion problem the LLM swore was impossible."
+    },
+    {
+      "id": "t_2ddb0c207e",
+      "section": "Workflow / process",
+      "title": "Plan mode vs raw prompting.",
+      "body": "Ben Slack-pasted the whole project description → broken app (missing map, dead buttons). Jackson did contextual prompt → plan mode → trimmed scope review → working app. Demo-able A/B."
+    },
+    {
+      "id": "t_091abf8469",
+      "section": "Workflow / process",
+      "title": "Cross-model plan review.",
+      "body": "Use Claude to make a plan, Codex to review pros/cons. Surfaces \"conspicuous changes\" before code."
+    },
+    {
+      "id": "t_9dc808f925",
+      "section": "Workflow / process",
+      "title": "Throwaway code is fine.",
+      "body": "Not every line needs a commit; retaining junk confuses future LLM passes."
+    },
+    {
+      "id": "t_5121d356b7",
+      "section": "Workflow / process",
+      "title": "Output styles that summarize discoveries.",
+      "body": "Skim for red flags without reading every line of generated code."
+    },
+    {
+      "id": "t_b69bfc44ad",
+      "section": "Workflow / process",
+      "title": "Tag interdependencies for parallel agents.",
+      "body": "Frame the plan as dev tasks with deps; the planning itself becomes a self-review."
+    },
+    {
+      "id": "t_8a39dffdfe",
+      "section": "Workflow / process",
+      "title": "Cloud Code > IDE wrappers.",
+      "body": "Purpose-built tools beat IDE-layered system prompts on top of Opus (e.g. Cursor)."
+    },
+    {
+      "id": "t_c428572be3",
+      "section": "Workflow / process",
+      "title": "Git worktrees for parallel efforts.",
+      "body": "Multiple agents running side-by-side without stomping on each other."
+    },
+    {
+      "id": "t_c1be6df759",
+      "section": "Workflow / process",
+      "title": "Save chat history.",
+      "body": "Claude/Codex CLIs persist transcripts. Use them as proof and as presentation material."
+    },
+    {
+      "id": "t_2617eaed30",
+      "section": "Workflow / process",
+      "title": "Time-box the LLM's failures.",
+      "body": "When 430-of-834 conference fetches failed during tagging: don't dive in fixing — check the successes are reasonable, then ship. \"Good enough for now\" beats blocking on the long tail."
+    },
+    {
+      "id": "t_747ae4f6aa",
+      "section": "Workflow / process",
+      "title": "Two-pass tagging (free-form, then taxonomy).",
+      "body": "Cheap model generates loose tags across all items first; smarter model collapses them into a normalized taxonomy. Avoids over-constraining the first pass."
+    },
+    {
+      "id": "t_8ee1ecd873",
+      "section": "Workflow / process",
+      "title": "Politeness is cheap.",
+      "body": "A few extra tokens per prompt; long-term hygiene if it ever matters; doesn't seem to hurt output. Default to polite."
+    },
+    {
+      "id": "t_e0566e021b",
+      "section": "Workflow / process",
+      "title": "AI is like driving on icy roads.",
+      "body": "The point is to get where you want to go not be in absolute control the entire time."
+    },
+    {
+      "id": "t_af4f0216c6",
+      "section": "LLM strategy",
+      "title": "Backend / data structures first.",
+      "body": "UI is trivial once the API is well-documented and structured."
+    },
+    {
+      "id": "t_c0f08106e8",
+      "section": "LLM strategy",
+      "title": "Strong language sometimes improves results.",
+      "body": "Jackson's anecdote on getting un-stuck after a polite prompt failed."
+    },
+    {
+      "id": "t_0255a3b1bd",
+      "section": "LLM strategy",
+      "title": "Fewer prompts than expected.",
+      "body": "Ben's app: ~27 prompts. Jackson's: one-shot from a single specific paragraph."
+    },
+    {
+      "id": "t_9bda646633",
+      "section": "LLM strategy",
+      "title": "\"LLM-speak. Talk to it like it's the average/adequate version of the expert you want it to be.\"",
+      "body": "Use the model's own vocabulary back at it. Better outcomes."
+    },
+    {
+      "id": "t_765555da2d",
+      "section": "LLM strategy",
+      "title": "Phrasing changes the answer.",
+      "body": "\"State-of-the-art\" pulls a very different context than \"best practice.\" Word choice is a config knob."
+    },
+    {
+      "id": "t_2242b33060",
+      "section": "LLM strategy",
+      "title": "Non-directive prompts delegate decisions.",
+      "body": "\"I want…\" / \"It would be nice if…\" gives the model room to choose well, instead of pinning it to a specific implementation that may not match the codebase."
+    },
+    {
+      "id": "t_783ddc2ca7",
+      "section": "LLM strategy",
+      "title": "AI estimates are human time.",
+      "body": "It says a change is 1.5 days of work and then finishes it in 90 seconds. Like book hours in mechanics — useful for planning, lousy as a wall-clock predictor."
+    },
+    {
+      "id": "t_5ede8b1a99",
+      "section": "LLM strategy",
+      "title": "The skill is how to talk to it, not your config.",
+      "body": "People ask \"what's in your Claude.md?\" — the wrong question. The reusable skill is interaction style; configs are individual artifacts."
+    },
+    {
+      "id": "t_5542672d9b",
+      "section": "Anecdotes for color",
+      "title": "AI-simulated frontend/backend team.",
+      "body": "Ben fed a proposal in and had the model role-play both sides of an engineering debate. Surfaced realistic tradeoffs and practical solutions — a use case nobody pre-AI had access to."
+    },
+    {
+      "id": "t_adf2898086",
+      "section": "Anecdotes for color",
+      "title": "Jackson's \"told it was impossible\" scraper.",
+      "body": "As VP Eng, no one would build it; he was warned scraping was a fool's errand. Today: tells AI to \"figure it out,\" gets purpose-built code that's better than good enough because it's fitted to four government sites — not a generic reusable system. The throwaway is the win."
+    },
+    {
+      "id": "t_a9fd29ba13",
+      "section": "Anecdotes for color",
+      "title": "Apple credit card / Finance Kit API.",
+      "body": "Jackson's tax-reconciliation pain. Built a tiny app, hit Apple's app-review wall — illustrates platform gatekeeping vs. solo-dev ambition."
+    },
+    {
+      "id": "t_3fe102c913",
+      "section": "Confgo / Venn•bar product story",
+      "title": "Anonymous-first auth.",
+      "body": "You ARE an account on first visit. Google/GitHub buttons aren't sign-up — they're portability upgrades."
+    },
+    {
+      "id": "t_46c67a4cd6",
+      "section": "Confgo / Venn•bar product story",
+      "title": "Stable doc IDs by date-only hash.",
+      "body": "Lesson learned the hard way: Minnebar dupes from drift across import eras. Talkable failure → fix."
+    },
+    {
+      "id": "t_2af7f9eba5",
+      "section": "Confgo / Venn•bar product story",
+      "title": "Live-build candidates (ranked).",
+      "body": "Feed of new users/activity (Firestore reactive snapshots), CI/CD pipeline setup, real conference data ETL with AI prompts, Mapbox dot styling."
+    },
+    {
+      "id": "t_25fdea22b8",
+      "section": "Confgo / Venn•bar product story",
+      "title": "Conference catalog: 652 → 834 → 3,000 target.",
+      "body": "Sourced from confs.tech, then vendor-flagships, security archives, Wikipedia CS conferences, Linux Foundation, data/ML series, and Minnestar. NA-only target is ~3,000 events."
+    },
+    {
+      "id": "t_2a0e157980",
+      "section": "Confgo / Venn•bar product story",
+      "title": "\"Drop a demo user when a real user joins.\"",
+      "body": "Playful idea — the feed never empties, and the platform telegraphs growth honestly. Wouldn't survive product-grooming, which is part of the charm."
+    },
+    {
+      "id": "t_b8248469d6",
+      "section": "Confgo / Venn•bar product story",
+      "title": "Multi-chip search: AND first, OR later.",
+      "body": "MVP discipline — the default narrows results; the OR (any-of) can come once the AND is right."
+    },
+    {
+      "id": "t_43ad5a33aa",
+      "section": "Lessons / hot takes",
+      "title": "Don't drag-and-drop, write components.",
+      "body": "Squarespace / Wizzywig hostility. Time goes to content, not framework selection."
+    },
+    {
+      "id": "t_4a1685789f",
+      "section": "Lessons / hot takes",
+      "title": "Hyper-personalized apps explosion.",
+      "body": "Number of apps spikes, then declines as AI generates one-off specialized tools on demand."
+    },
+    {
+      "id": "t_6eeeba65d1",
+      "section": "Lessons / hot takes",
+      "title": "Welcome audience bug reports — even ask for a PR.",
+      "body": "Reframes \"found a bug\" from shame to collaboration; matches the \"just fix it\" theme of the talk."
+    },
+    {
+      "id": "t_e2b071bfe3",
+      "section": "Demo-plumbing reminders",
+      "title": "COMING_SOON_ONLY flag.",
+      "body": "Single const in web/src/main.tsx. Flip to false, push to main, deploy auto-flips audience."
+    },
+    {
+      "id": "t_143f136690",
+      "section": "Demo-plumbing reminders",
+      "title": "Build-number live refresh.",
+      "body": "bump-version.mjs mutates web/public/version.json; root-level poller in main.tsx reloads on mismatch. Bidirectional (live↔gated)."
+    },
+    {
+      "id": "t_4cfeea9baa",
+      "section": "Demo-plumbing reminders",
+      "title": "Bidirectional reload trade.",
+      "body": "Every deploy hard-refreshes everyone with the tab open. Fine for the demo; demote to a \"new version available\" banner once routine deploys resume."
+    },
+    {
+      "id": "t_d57abff60b",
+      "section": "Presentation strategy",
+      "title": "\"Cooking show\" framing.",
+      "body": "Some prep is pre-baked; the entire process is in git, so nothing's hidden. Manages expectations and gives you license to skip past plumbing on stage."
+    },
+    {
+      "id": "t_3bd729b953",
+      "section": "Presentation strategy",
+      "title": "Be transparent about AI in the PDD itself.",
+      "body": "Owning the AI-generated spec resonates more than pretending."
+    },
+    {
+      "id": "t_4e674684e0",
+      "section": "Presentation strategy",
+      "title": "Live build is the point, not the polished result.",
+      "body": "Process > artifact. Disingenuous to present a finished product in a from-scratch session."
+    }
+  ]
+}
