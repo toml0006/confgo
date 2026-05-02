@@ -1,14 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   apiFetch,
   type AttendanceIntent,
   type Conference,
+  type PingPairState,
   type PublicUser,
 } from "../api";
 import { isPast } from "../lib/decay";
+import { useAuth } from "../auth/AuthContext";
+import type { ContactEntry } from "../lib/contacts";
+import { Button } from "@/components/ui/button";
 import { Caption, FloatingPanel } from "@/components/ui/floating-panel";
 import { Kicker } from "@/components/ui/kicker";
+import { Tag } from "@/components/ui/tag";
 import { UserAvatar } from "./UserAvatar";
+import { PingComposer } from "./PingComposer";
 
 type Props = {
   user: PublicUser;
@@ -22,6 +28,10 @@ type AttendanceRow = { conferenceId: string; intent: AttendanceIntent };
 
 export function UserSheet({ user, conferences, onBack, onClose, onPickConference }: Props) {
   const [attendances, setAttendances] = useState<AttendanceRow[] | null>(null);
+  const [pingState, setPingState] = useState<PingPairState | null>(null);
+  const [composerOpen, setComposerOpen] = useState(false);
+  const { user: me, isAnonymous } = useAuth();
+  const isSelf = me?.uid === user.id;
 
   useEffect(() => {
     let cancelled = false;
@@ -37,6 +47,30 @@ export function UserSheet({ user, conferences, onBack, onClose, onPickConference
       cancelled = true;
     };
   }, [user.id]);
+
+  // Pull ping state from /users/:id/profile so we can show Ping / Ping
+  // back / Pinged / ✓ Matched in the same shape ConferenceSheet does on
+  // attendee tiles. Self-lookup returns pingState = null and we hide
+  // the affordance.
+  const refreshPingState = useCallback(() => {
+    if (isSelf) return;
+    apiFetch<{ pingState: PingPairState | null }>(`/users/${user.id}/profile`)
+      .then((data) => setPingState(data.pingState))
+      .catch((err) => console.error("[ping-state]", err));
+  }, [user.id, isSelf]);
+
+  useEffect(() => {
+    refreshPingState();
+  }, [refreshPingState]);
+
+  async function handlePingSubmit(contacts: ContactEntry[]) {
+    await apiFetch(`/users/${user.id}/ping`, {
+      method: "POST",
+      body: JSON.stringify({ contacts }),
+    });
+    setComposerOpen(false);
+    refreshPingState();
+  }
 
   const { going, been } = useMemo(() => {
     if (!attendances) return { going: [], been: [] };
@@ -80,6 +114,14 @@ export function UserSheet({ user, conferences, onBack, onClose, onPickConference
         </div>
       </div>
 
+      {!isSelf && pingState ? (
+        <UserPingAffordance
+          pingState={pingState}
+          isAnonymous={isAnonymous}
+          onPing={() => setComposerOpen(true)}
+        />
+      ) : null}
+
       {loading ? (
         <Caption>Loading conferences…</Caption>
       ) : empty ? (
@@ -100,7 +142,52 @@ export function UserSheet({ user, conferences, onBack, onClose, onPickConference
           ) : null}
         </>
       )}
+
+      <PingComposer
+        open={composerOpen}
+        title={`Ping ${user.displayName ?? "this person"}`}
+        peerDisplayName={user.displayName ?? "them"}
+        submitLabel={pingState?.hasPingedYou ? "Ping back" : "Send ping"}
+        onSubmit={handlePingSubmit}
+        onCancel={() => setComposerOpen(false)}
+      />
     </FloatingPanel>
+  );
+}
+
+function UserPingAffordance({
+  pingState,
+  isAnonymous,
+  onPing,
+}: {
+  pingState: PingPairState;
+  isAnonymous: boolean;
+  onPing: () => void;
+}) {
+  const mutual = pingState.youPinged && pingState.hasPingedYou;
+  const sent = pingState.youPinged && !pingState.hasPingedYou;
+  const incoming = !pingState.youPinged && pingState.hasPingedYou;
+  // Pings need a real account — anon sessions can't receive disclosures.
+  // Hide the actionable button but still surface state badges (Pinged /
+  // Matched) since those are public-state, not actions.
+  if (isAnonymous && !mutual && !sent) return null;
+  return (
+    <div className="flex items-center gap-2">
+      {mutual ? (
+        <Tag accent>✓ Matched</Tag>
+      ) : sent ? (
+        <Tag>Pinged</Tag>
+      ) : (
+        <Button
+          type="button"
+          onClick={onPing}
+          variant={incoming ? "atlas-primary" : "atlas"}
+          size="atlas"
+        >
+          {incoming ? "Ping back" : "Ping"}
+        </Button>
+      )}
+    </div>
   );
 }
 
