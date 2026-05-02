@@ -25,6 +25,11 @@ const POLL_INTERVAL_MS = 3500;
 
 function VersionPoller() {
   useEffect(() => {
+    // Skip in dev — /version.json is the same buildNumber as the bundle by
+    // definition (no prebuild bump), and HMR already handles refresh on
+    // change. Polling here just causes spurious reloads when an HMR cycle
+    // races with the fetch.
+    if (import.meta.env.DEV) return;
     const baselineBuild =
       typeof __APP_BUILD__ !== "undefined" ? __APP_BUILD__ : 0;
     if (!baselineBuild) return; // dev / unbuilt — don't loop on stale-vs-stale
