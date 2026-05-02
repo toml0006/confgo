@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
+import { XIcon } from "lucide-react";
 import { apiFetch } from "../api";
+import { Button } from "@/components/ui/button";
+import { Caption } from "@/components/ui/floating-panel";
+import { Kicker } from "@/components/ui/kicker";
 import {
   CONTACT_LABELS,
   MAX_SAVED_CONTACTS,
@@ -46,39 +50,49 @@ export function ContactsEditor() {
   }
 
   if (contacts === null) {
-    return <div className="caption">{error ?? "Loading…"}</div>;
+    return <Caption>{error ?? "Loading…"}</Caption>;
   }
 
   const atMax = contacts.length >= MAX_SAVED_CONTACTS;
 
   return (
-    <div className="contacts-editor">
+    <div className="flex flex-col gap-2">
       {contacts.length > 0 ? (
-        <ul className="contacts-list">
+        <ul className="list-none m-0 p-0 flex flex-col gap-1">
           {contacts.map((c, idx) => (
-            <li key={`${c.type}:${c.value}:${idx}`} className="contact-row">
-              <span className="contact-type">{CONTACT_LABELS[c.type]}</span>
-              <span className="contact-value">{c.value}</span>
-              {c.label ? <span className="contact-sublabel">({c.label})</span> : null}
-              <button
-                className="contact-remove"
+            <li
+              key={`${c.type}:${c.value}:${idx}`}
+              className="flex items-center gap-2.5 bg-hair-soft rounded-[10px] px-3 py-2"
+            >
+              <Kicker className="min-w-[64px]">
+                {CONTACT_LABELS[c.type]}
+              </Kicker>
+              <span className="flex-1 min-w-0 text-[14px] text-ink truncate">
+                {c.value}
+              </span>
+              {c.label ? (
+                <span className="text-[12px] text-ink2 italic">({c.label})</span>
+              ) : null}
+              <Button
+                variant="atlas-ghost"
+                size="atlas-sm"
                 aria-label={`Remove ${CONTACT_LABELS[c.type]}`}
                 disabled={saving}
                 onClick={() =>
                   put(contacts.slice(0, idx).concat(contacts.slice(idx + 1)))
                 }
               >
-                ×
-              </button>
+                <XIcon />
+              </Button>
             </li>
           ))}
         </ul>
       ) : (
-        <div className="caption">No cards yet.</div>
+        <Caption>No cards yet.</Caption>
       )}
 
       {atMax ? (
-        <div className="caption">Max {MAX_SAVED_CONTACTS} cards.</div>
+        <Caption>Max {MAX_SAVED_CONTACTS} cards.</Caption>
       ) : (
         <ContactAddRow
           disabled={saving}
@@ -86,56 +100,9 @@ export function ContactsEditor() {
         />
       )}
 
-      {error ? <div className="auth-error">{error}</div> : null}
-
-      <style>{`
-        .contacts-editor { display: flex; flex-direction: column; gap: 0.5rem; }
-        .contacts-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-        }
-        .contact-row {
-          display: flex;
-          align-items: center;
-          gap: 0.55rem;
-          padding: 0.35rem 0.5rem;
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 6px;
-        }
-        .contact-type {
-          font-size: 0.6rem;
-          text-transform: uppercase;
-          letter-spacing: 0.12em;
-          color: var(--muted, rgba(255,255,255,0.55));
-          min-width: 64px;
-        }
-        .contact-value {
-          flex: 1;
-          min-width: 0;
-          font-size: 0.85rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .contact-sublabel {
-          font-size: 0.7rem;
-          color: var(--muted, rgba(255,255,255,0.55));
-        }
-        .contact-remove {
-          background: transparent;
-          border: none;
-          color: var(--muted, rgba(255,255,255,0.55));
-          font-size: 1.1rem;
-          line-height: 1;
-          cursor: pointer;
-          padding: 0 0.25rem;
-        }
-        .contact-remove:hover { color: #ff8a8a; }
-      `}</style>
+      {error ? (
+        <div className="text-[13px] text-brand">{error}</div>
+      ) : null}
     </div>
   );
 }

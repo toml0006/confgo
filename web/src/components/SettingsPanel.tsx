@@ -1,10 +1,25 @@
 import { useRef, useState } from "react";
-import { apiFetch, type MeUser } from "../api";
-import { AVATAR_COUNT, AvatarGlyph } from "./AvatarGlyph";
+import { apiFetch, type Conference, type MeUser, type PublicUser } from "../api";
 import { UserAvatar } from "./UserAvatar";
 import { ContactsEditor } from "./ContactsEditor";
 import { PhotoCropper } from "./PhotoCropper";
+import { PeopleVennOverlay } from "./PeopleVenn";
 import { useAuth, type AuthProviderId } from "../auth/AuthContext";
+import { Button } from "@/components/ui/button";
+import {
+  Caption,
+  FloatingPanel,
+} from "@/components/ui/floating-panel";
+import { Kicker } from "@/components/ui/kicker";
+import { Input } from "@/components/ui/input";
+
+type OverlapPeer = { user: PublicUser; sharedCount: number };
+type AttendanceRow = { conferenceId: string; intent: "going" | "been" };
+type VennState = {
+  people: PublicUser[];
+  conferences: Conference[];
+  attendancesByUser: Map<string, string[]>;
+};
 
 type Props = {
   me: MeUser;
@@ -15,14 +30,70 @@ type Props = {
 export function SettingsPanel({ me, onClose, onUpdated }: Props) {
   const { user, isAnonymous, linkProvider, signOutUser } = useAuth();
   const [displayName, setDisplayName] = useState(me.displayName ?? "");
-  const [avatarId, setAvatarId] = useState(me.avatarId);
   const [photoURL, setPhotoURL] = useState(me.photoURL);
   const [saving, setSaving] = useState(false);
-  const [showGrid, setShowGrid] = useState(false);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [signingIn, setSigningIn] = useState<AuthProviderId | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [vennState, setVennState] = useState<VennState | null>(null);
+  const [vennLoading, setVennLoading] = useState(false);
+  const [vennError, setVennError] = useState<string | null>(null);
+
+  async function openOverlapVenn() {
+    setVennError(null);
+    setVennLoading(true);
+    try {
+      // Fetch self attendances via /me/attendances — /users/:id/attendances
+      // 404s for users without a visible display_name (privacy gate),
+      // including anonymous "me" before they pick a name. Without this the
+      // intersection in the Venn would always be empty.
+      const [peersRes, confsRes, myAttRes] = await Promise.all([
+        apiFetch<{ peers: OverlapPeer[] }>("/me/overlap-peers?limit=2"),
+        apiFetch<{ conferences: Conference[] }>("/conferences"),
+        apiFetch<{ attendances: AttendanceRow[] }>("/me/attendances"),
+      ]);
+      const meAsUser: PublicUser = {
+        id: me.id,
+        avatarId: me.avatarId,
+        displayName: me.displayName,
+        photoURL,
+      };
+      const peers = peersRes.peers.map((p) => p.user);
+      // Pre-resolve every peer's attendances. Use allSettled — peers whose
+      // profile is hidden / deleted (404) drop out instead of failing the
+      // whole overlay.
+      const peerResults = await Promise.allSettled(
+        peers.map((p) =>
+          apiFetch<{ attendances: AttendanceRow[] }>(
+            `/users/${p.id}/attendances`,
+          ).then((r) => [p.id, r.attendances.map((a) => a.conferenceId)] as const),
+        ),
+      );
+      const attendancesByUser = new Map<string, string[]>();
+      attendancesByUser.set(
+        me.id,
+        myAttRes.attendances.map((a) => a.conferenceId),
+      );
+      for (const r of peerResults) {
+        if (r.status === "fulfilled") {
+          attendancesByUser.set(r.value[0], r.value[1]);
+        } else {
+          console.warn("[overlap-venn] peer attendances failed:", r.reason);
+        }
+      }
+      setVennState({
+        people: [meAsUser, ...peers],
+        conferences: confsRes.conferences,
+        attendancesByUser,
+      });
+    } catch (err) {
+      console.error("[overlap-venn]", err);
+      setVennError("Couldn't load overlap.");
+    } finally {
+      setVennLoading(false);
+    }
+  }
 
   async function handleSignIn(id: AuthProviderId) {
     setAuthError(null);
@@ -65,7 +136,7 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
 
   function handleFilePicked(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
-    e.target.value = ""; // allow re-picking the same file later
+    e.target.value = "";
     if (!f) return;
     if (!f.type.startsWith("image/")) {
       console.warn("[photo] not an image:", f.type);
@@ -86,280 +157,195 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
   }
 
   return (
-    <div className="settings-panel glass-panel sheet-in">
-      <div className="settings-head">
-        <div className="settings-identity">
-          <UserAvatar
-            avatarId={avatarId}
-            photoURL={photoURL}
-            displayName={me.displayName}
-            size="xl"
-          />
-          <div>
-            <div className="settings-name">
-              {me.displayName ?? "Unnamed"}
-            </div>
-            <div className="muted settings-subtitle">
-              {me.email ?? "Anonymous"}
-            </div>
-          </div>
-        </div>
-        <button className="close-x" onClick={onClose} aria-label="Close">
-          ×
-        </button>
-      </div>
-
-      <div className="stack-sm">
-        <label className="section-label">Display name</label>
-        <div className="name-row">
-          <input
-            value={displayName}
-            placeholder="e.g., Jackson T"
-            maxLength={50}
-            onChange={(e) => setDisplayName(e.target.value)}
-          />
-          <button
-            className="soft-button soft-button--primary"
-            disabled={saving || displayName === (me.displayName ?? "")}
-            onClick={() => save({ displayName: displayName.trim() || null })}
-          >
-            Save
-          </button>
-        </div>
-      </div>
-
-      {!isAnonymous ? (
-        <div className="stack-sm">
-          <label className="section-label">Photo</label>
-          <div className="photo-actions">
-            <button
-              className="soft-button"
-              disabled={saving}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              {photoURL ? "Replace photo" : "Upload photo"}
-            </button>
-            {photoURL ? (
-              <button
-                className="soft-button"
-                disabled={saving}
-                onClick={handleRemovePhoto}
-              >
-                Remove
-              </button>
-            ) : null}
-          </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFilePicked}
-            style={{ display: "none" }}
-          />
-          <div className="caption">
-            {photoURL
-              ? "Your photo replaces the avatar everywhere."
-              : "Optional. Falls back to the avatar below."}
-          </div>
-        </div>
-      ) : null}
-
-      <div className="stack-sm">
-        <label className="section-label">Avatar</label>
-        <button
-          className="soft-button"
-          onClick={() => setShowGrid((x) => !x)}
-        >
-          {showGrid ? "Hide avatars" : "Choose avatar"}
-        </button>
-        {showGrid ? (
-          <div className="avatar-grid">
-            {Array.from({ length: AVATAR_COUNT }).map((_, i) => (
-              <button
-                key={i}
-                className={`avatar-cell ${i === avatarId ? "selected" : ""}`}
-                onClick={async () => {
-                  setAvatarId(i);
-                  await save({ avatarId: i });
-                }}
-                disabled={saving}
-              >
-                <AvatarGlyph avatarId={i} size="md" />
-              </button>
-            ))}
-          </div>
-        ) : null}
-      </div>
-
-      <div className="stack-sm">
-        <label className="section-label">Contact cards</label>
-        <ContactsEditor />
-        <div className="caption">
-          Picked per ping. Only revealed when someone matches back.
-        </div>
-      </div>
-
-      <div className="stack-sm">
-        <label className="section-label">Account</label>
-        {isAnonymous ? (
-          <div className="auth-buttons">
-            <button
-              className="soft-button provider-button"
-              disabled={signingIn !== null}
-              onClick={() => handleSignIn("google.com")}
-            >
-              <ProviderMark id="google.com" />
-              {signingIn === "google.com" ? "Connecting…" : "Sign in with Google"}
-            </button>
-            <button
-              className="soft-button provider-button"
-              disabled={signingIn !== null}
-              onClick={() => handleSignIn("github.com")}
-            >
-              <ProviderMark id="github.com" />
-              {signingIn === "github.com" ? "Connecting…" : "Sign in with GitHub"}
-            </button>
-          </div>
-        ) : (
-          <div className="signed-in-row">
-            <div className="signed-in-info">
-              <div className="muted settings-subtitle">Signed in as</div>
-              <div className="signed-in-email">
-                {user?.email ?? user?.displayName ?? "Account linked"}
+    <>
+      <FloatingPanel
+        side="top-right"
+        onClose={onClose}
+        className="w-[min(400px,calc(100vw-36px))]"
+      >
+        <div className="flex justify-between items-start gap-2.5">
+          <div className="flex gap-3 items-center">
+            <UserAvatar
+              avatarId={me.avatarId}
+              photoURL={photoURL}
+              displayName={me.displayName}
+              size="xl"
+            />
+            <div>
+              <div className="font-display font-normal text-[1.5rem] text-ink">
+                {me.displayName ?? "Unnamed"}
+              </div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink2">
+                {me.email ?? "Anonymous"}
               </div>
             </div>
-            <button
-              className="soft-button"
-              disabled={signingIn !== null}
-              onClick={async () => {
-                try {
-                  await signOutUser();
-                } catch (err) {
-                  console.error(err);
-                }
-              }}
-            >
-              Sign out
-            </button>
           </div>
-        )}
-        {authError ? <div className="auth-error">{authError}</div> : null}
-      </div>
+        </div>
 
-      <div className="caption">
-        {isAnonymous
-          ? "Anonymous session — sign in to keep your conferences across devices."
-          : "Your attendances will follow this account."}
-      </div>
+        <div className="flex flex-col gap-1.5">
+          <Kicker>Conference overlap</Kicker>
+          <Button
+            variant="atlas"
+            size="atlas"
+            disabled={vennLoading}
+            onClick={openOverlapVenn}
+            className="self-start"
+          >
+            {vennLoading ? "Loading…" : "View overlap diagram"}
+          </Button>
+          {vennError ? (
+            <div className="text-[13px] text-brand">{vennError}</div>
+          ) : null}
+          <Caption>
+            Venn of conferences you share with the two people whose attendance most overlaps yours.
+          </Caption>
+        </div>
 
-      <style>{`
-        .settings-panel {
-          position: fixed;
-          top: 68px;
-          right: 18px;
-          width: min(400px, calc(100vw - 36px));
-          padding: 18px;
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-          max-height: calc(100vh - 86px);
-          overflow-y: auto;
-          z-index: 40;
-        }
-        .settings-head {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 10px;
-        }
-        .settings-identity {
-          display: flex;
-          gap: 0.85rem;
-          align-items: center;
-        }
-        .settings-name {
-          font-size: 0.95rem;
-        }
-        .settings-subtitle {
-          font-size: 0.68rem;
-          text-transform: uppercase;
-          letter-spacing: 0.14em;
-        }
-        .name-row {
-          display: flex;
-          gap: 0.5rem;
-        }
-        .name-row input {
-          flex: 1;
-        }
-        .avatar-grid {
-          display: grid;
-          grid-template-columns: repeat(8, 1fr);
-          gap: 0.35rem;
-        }
-        .avatar-cell {
-          padding: 0.15rem;
-          border: 1px solid transparent;
-          border-radius: 999px;
-        }
-        .avatar-cell.selected {
-          border-color: var(--signal-dim);
-          box-shadow: 0 0 0 2px rgba(94, 231, 217, 0.12) inset;
-          box-shadow: 0 0 0 2px color(display-p3 0.369 0.906 0.851 / 0.12) inset;
-        }
-        .photo-actions {
-          display: flex;
-          gap: 0.45rem;
-        }
-        .auth-buttons {
-          display: flex;
-          flex-direction: column;
-          gap: 0.45rem;
-        }
-        .provider-button {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.55rem;
-          width: 100%;
-        }
-        .provider-button svg {
-          width: 18px;
-          height: 18px;
-          flex-shrink: 0;
-        }
-        .signed-in-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 0.75rem;
-        }
-        .signed-in-info {
-          min-width: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.2rem;
-        }
-        .signed-in-email {
-          font-size: 0.9rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .auth-error {
-          font-size: 0.8rem;
-          color: var(--signal-warning);
-        }
-      `}</style>
+        <div className="flex flex-col gap-1.5">
+          <Kicker>Display name</Kicker>
+          <div className="flex gap-2">
+            <Input
+              className="flex-1"
+              value={displayName}
+              placeholder="e.g., Jackson T"
+              maxLength={50}
+              onChange={(e) => setDisplayName(e.target.value)}
+            />
+            <Button
+              variant="atlas-primary"
+              size="atlas"
+              disabled={saving || displayName === (me.displayName ?? "")}
+              onClick={() => save({ displayName: displayName.trim() || null })}
+            >
+              Save
+            </Button>
+          </div>
+        </div>
 
-      {pendingFile ? (
-        <PhotoCropper
-          file={pendingFile}
-          onCancel={() => setPendingFile(null)}
-          onSave={handleCropSaved}
+        {!isAnonymous ? (
+          <div className="flex flex-col gap-1.5">
+            <Kicker>Photo</Kicker>
+            <div className="flex gap-1.5">
+              <Button
+                variant="atlas"
+                size="atlas"
+                disabled={saving}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {photoURL ? "Replace photo" : "Upload photo"}
+              </Button>
+              {photoURL ? (
+                <Button
+                  variant="atlas"
+                  size="atlas"
+                  disabled={saving}
+                  onClick={handleRemovePhoto}
+                >
+                  Remove
+                </Button>
+              ) : null}
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFilePicked}
+              className="hidden"
+            />
+            <Caption>
+              {photoURL
+                ? "Your photo replaces the avatar everywhere."
+                : "Optional. Falls back to the avatar below."}
+            </Caption>
+          </div>
+        ) : null}
+
+        <div className="flex flex-col gap-1.5">
+          <Kicker>Contact cards</Kicker>
+          <ContactsEditor />
+          <Caption>
+            Picked per ping. Only revealed when someone matches back.
+          </Caption>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Kicker>Account</Kicker>
+          {isAnonymous ? (
+            <div className="flex flex-col gap-1.5">
+              <Button
+                variant="atlas"
+                size="atlas"
+                disabled={signingIn !== null}
+                onClick={() => handleSignIn("google.com")}
+                className="w-full normal-case tracking-normal [&>svg]:w-[18px] [&>svg]:h-[18px] [&>svg]:shrink-0"
+              >
+                <ProviderMark id="google.com" />
+                {signingIn === "google.com" ? "Connecting…" : "Sign in with Google"}
+              </Button>
+              <Button
+                variant="atlas"
+                size="atlas"
+                disabled={signingIn !== null}
+                onClick={() => handleSignIn("github.com")}
+                className="w-full normal-case tracking-normal [&>svg]:w-[18px] [&>svg]:h-[18px] [&>svg]:shrink-0"
+              >
+                <ProviderMark id="github.com" />
+                {signingIn === "github.com" ? "Connecting…" : "Sign in with GitHub"}
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0 flex flex-col gap-0.5">
+                <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink2">
+                  Signed in as
+                </div>
+                <div className="text-[14px] text-ink truncate">
+                  {user?.email ?? user?.displayName ?? "Account linked"}
+                </div>
+              </div>
+              <Button
+                variant="atlas"
+                size="atlas"
+                disabled={signingIn !== null}
+                onClick={async () => {
+                  try {
+                    await signOutUser();
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+              >
+                Sign out
+              </Button>
+            </div>
+          )}
+          {authError ? (
+            <div className="text-[13px] text-brand">{authError}</div>
+          ) : null}
+        </div>
+
+        <Caption>
+          {isAnonymous
+            ? "Anonymous session — sign in to keep your conferences across devices."
+            : "Your attendances will follow this account."}
+        </Caption>
+      </FloatingPanel>
+
+      <PhotoCropper
+        file={pendingFile}
+        onCancel={() => setPendingFile(null)}
+        onSave={handleCropSaved}
+      />
+
+      {vennState ? (
+        <PeopleVennOverlay
+          people={vennState.people}
+          conferences={vennState.conferences}
+          attendancesByUser={vennState.attendancesByUser}
+          title={`Conference overlap · ${vennState.people.length} people`}
+          onClose={() => setVennState(null)}
         />
       ) : null}
-    </div>
+    </>
   );
 }
 

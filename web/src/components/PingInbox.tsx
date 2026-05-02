@@ -7,6 +7,13 @@ import {
   type UserSummary,
 } from "../api";
 import { useAuth } from "../auth/AuthContext";
+import { Button } from "@/components/ui/button";
+import {
+  Caption,
+  FloatingPanel,
+} from "@/components/ui/floating-panel";
+import { Kicker } from "@/components/ui/kicker";
+import { Tag } from "@/components/ui/tag";
 import { CONTACT_LABELS, contactHref, type ContactEntry } from "../lib/contacts";
 import { PingComposer } from "./PingComposer";
 import { UserAvatar } from "./UserAvatar";
@@ -30,21 +37,28 @@ function timeAgo(iso: string, now: Date = new Date()): string {
 }
 
 function ContactLinks({ contacts }: { contacts: ContactEntry[] }) {
-  if (contacts.length === 0) return <span className="caption">(none)</span>;
+  if (contacts.length === 0) return <Caption>(none)</Caption>;
   return (
-    <div className="contact-links">
+    <div className="flex flex-col gap-0.5">
       {contacts.map((c, idx) => {
         const href = contactHref(c);
         const label = `${CONTACT_LABELS[c.type]}${c.label ? ` · ${c.label}` : ""}`;
         return (
-          <span key={idx} className="contact-link-row">
-            <span className="contact-type">{label}</span>
+          <span key={idx} className="flex items-center gap-2.5 py-0.5">
+            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink3 min-w-[110px]">
+              {label}
+            </span>
             {href ? (
-              <a href={href} target="_blank" rel="noopener noreferrer" className="contact-value link">
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[14px] text-brand no-underline hover:underline truncate"
+              >
                 {c.value}
               </a>
             ) : (
-              <span className="contact-value">{c.value}</span>
+              <span className="text-[14px] text-ink truncate">{c.value}</span>
             )}
           </span>
         );
@@ -52,6 +66,8 @@ function ContactLinks({ contacts }: { contacts: ContactEntry[] }) {
     </div>
   );
 }
+
+const ROW = "flex flex-col gap-2 p-3 bg-hair-soft rounded-[14px]";
 
 export function PingInbox({ onClose }: Props) {
   const { isAnonymous } = useAuth();
@@ -131,15 +147,17 @@ export function PingInbox({ onClose }: Props) {
 
   return (
     <>
-      <div className="inbox glass-panel sheet-in">
-        <div className="inbox-head">
-          <h2 className="inbox-title">Signals</h2>
-          <button className="close-x" onClick={onClose} aria-label="Close">
-            ×
-          </button>
-        </div>
+      <FloatingPanel
+        side="top-right"
+        inset="raised"
+        onClose={onClose}
+        className="w-[min(440px,calc(100vw-36px))] gap-3 p-4"
+      >
+        <h2 className="font-display font-normal text-[20px] tracking-[-0.015em] text-ink m-0">
+          Signals
+        </h2>
 
-        <div className="inbox-tabs" role="tablist">
+        <div role="tablist" className="flex gap-1.5">
           <TabButton active={tab === "matched"} onClick={() => setTab("matched")} count={matchedCount}>
             Matched
           </TabButton>
@@ -151,18 +169,20 @@ export function PingInbox({ onClose }: Props) {
           </TabButton>
         </div>
 
-        {actionError ? <div className="auth-error">{actionError}</div> : null}
+        {actionError ? (
+          <div className="text-[13px] text-brand">{actionError}</div>
+        ) : null}
 
         {tab === "matched" ? (
           matched === null ? (
-            <div className="caption">Loading…</div>
+            <Caption>Loading…</Caption>
           ) : matched.length === 0 ? (
-            <div className="caption">No matches yet.</div>
+            <Caption>No matches yet.</Caption>
           ) : (
-            <ul className="inbox-list">
+            <ul className="list-none m-0 p-0 flex flex-col gap-2.5">
               {matched.map((m) => (
-                <li key={m.peer.id} className="inbox-row">
-                  <div className="row-head">
+                <li key={m.peer.id} className={ROW}>
+                  <div className="flex items-center gap-2.5">
                     <UserAvatar
                       avatarId={m.peer.avatarId}
                       photoURL={m.peer.photoURL}
@@ -170,21 +190,24 @@ export function PingInbox({ onClose }: Props) {
                       size="sm"
                       pingIndicator="mutual"
                     />
-                    <div className="row-identity">
-                      <div className="row-name">{m.peer.displayName ?? "Unnamed"}</div>
-                      <div className="caption">Matched {timeAgo(m.matchedAt)}</div>
+                    <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                      <div className="text-[14px] text-ink truncate">
+                        {m.peer.displayName ?? "Unnamed"}
+                      </div>
+                      <Caption>Matched {timeAgo(m.matchedAt)}</Caption>
                     </div>
-                    <button
-                      className="soft-button soft-button--quiet"
+                    <Button
+                      variant="atlas"
+                      size="atlas-sm"
                       onClick={() => handleDematch(m.peer.id)}
                     >
                       Unmatch
-                    </button>
+                    </Button>
                   </div>
-                  <div className="disclosures">
-                    <div className="section-label small-label">Theirs</div>
+                  <div className="flex flex-col gap-1.5">
+                    <Kicker className="mt-1">Theirs</Kicker>
                     <ContactLinks contacts={m.theirContacts} />
-                    <div className="section-label small-label">Yours</div>
+                    <Kicker className="mt-1">Yours</Kicker>
                     <ContactLinks contacts={m.yourContacts} />
                   </div>
                 </li>
@@ -195,14 +218,14 @@ export function PingInbox({ onClose }: Props) {
 
         {tab === "incoming" ? (
           incoming === null ? (
-            <div className="caption">Loading…</div>
+            <Caption>Loading…</Caption>
           ) : incoming.length === 0 ? (
-            <div className="caption">No pings waiting.</div>
+            <Caption>No pings waiting.</Caption>
           ) : (
-            <ul className="inbox-list">
+            <ul className="list-none m-0 p-0 flex flex-col gap-2.5">
               {incoming.map((p) => (
-                <li key={p.pingId} className="inbox-row">
-                  <div className="row-head">
+                <li key={p.pingId} className={ROW}>
+                  <div className="flex items-center gap-2.5">
                     <UserAvatar
                       avatarId={p.fromUser.avatarId}
                       photoURL={p.fromUser.photoURL}
@@ -210,23 +233,27 @@ export function PingInbox({ onClose }: Props) {
                       size="sm"
                       pingIndicator="incoming"
                     />
-                    <div className="row-identity">
-                      <div className="row-name">{p.fromUser.displayName ?? "Unnamed"}</div>
-                      <div className="caption">{timeAgo(p.createdAt)}</div>
+                    <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                      <div className="text-[14px] text-ink truncate">
+                        {p.fromUser.displayName ?? "Unnamed"}
+                      </div>
+                      <Caption>{timeAgo(p.createdAt)}</Caption>
                     </div>
                   </div>
                   {isAnonymous ? (
-                    <div className="caption">Sign in to respond.</div>
+                    <Caption>Sign in to respond.</Caption>
                   ) : (
-                    <div className="row-actions">
-                      <button
-                        className="soft-button"
+                    <div className="flex justify-end gap-1.5">
+                      <Button
+                        variant="atlas"
+                        size="atlas-sm"
                         onClick={() => handleReject(p.pingId)}
                       >
                         Reject
-                      </button>
-                      <button
-                        className="soft-button soft-button--primary"
+                      </Button>
+                      <Button
+                        variant="atlas-primary"
+                        size="atlas-sm"
                         onClick={() =>
                           setComposer({
                             kind: "ping-back",
@@ -236,7 +263,7 @@ export function PingInbox({ onClose }: Props) {
                         }
                       >
                         Ping back
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </li>
@@ -247,14 +274,14 @@ export function PingInbox({ onClose }: Props) {
 
         {tab === "sent" ? (
           outgoing === null ? (
-            <div className="caption">Loading…</div>
+            <Caption>Loading…</Caption>
           ) : outgoing.length === 0 ? (
-            <div className="caption">No pings sent.</div>
+            <Caption>No pings sent.</Caption>
           ) : (
-            <ul className="inbox-list">
+            <ul className="list-none m-0 p-0 flex flex-col gap-2.5">
               {outgoing.map((p) => (
-                <li key={p.pingId} className="inbox-row">
-                  <div className="row-head">
+                <li key={p.pingId} className={ROW}>
+                  <div className="flex items-center gap-2.5">
                     <UserAvatar
                       avatarId={p.toUser.avatarId}
                       photoURL={p.toUser.photoURL}
@@ -262,19 +289,22 @@ export function PingInbox({ onClose }: Props) {
                       size="sm"
                       pingIndicator="outgoing"
                     />
-                    <div className="row-identity">
-                      <div className="row-name">{p.toUser.displayName ?? "Unnamed"}</div>
-                      <div className="caption">Sent {timeAgo(p.createdAt)}</div>
+                    <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                      <div className="text-[14px] text-ink truncate">
+                        {p.toUser.displayName ?? "Unnamed"}
+                      </div>
+                      <Caption>Sent {timeAgo(p.createdAt)}</Caption>
                     </div>
-                    <button
-                      className="soft-button soft-button--quiet"
+                    <Button
+                      variant="atlas"
+                      size="atlas-sm"
                       onClick={() => handleRevoke(p.pingId)}
                     >
                       Revoke
-                    </button>
+                    </Button>
                   </div>
-                  <div className="disclosures">
-                    <div className="section-label small-label">You offered</div>
+                  <div className="flex flex-col gap-1.5">
+                    <Kicker className="mt-1">You offered</Kicker>
                     <ContactLinks contacts={p.contacts} />
                   </div>
                 </li>
@@ -283,129 +313,23 @@ export function PingInbox({ onClose }: Props) {
           )
         ) : null}
 
-        <div className="caption">
+        <Caption>
           Mutual pings confirm connections. Pings fade after 30 days.
-        </div>
+        </Caption>
+      </FloatingPanel>
 
-        <style>{`
-          .inbox {
-            position: fixed;
-            top: 92px;
-            right: 18px;
-            width: min(440px, calc(100vw - 36px));
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: calc(100vh - 110px);
-            overflow-y: auto;
-            z-index: 40;
-          }
-          .inbox-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          }
-          .inbox-title {
-            font-size: 0.95rem;
-            margin: 0;
-            font-weight: 500;
-          }
-          .inbox-tabs {
-            display: flex;
-            gap: 4px;
-            border-bottom: 1px solid var(--mist, rgba(255,255,255,0.08));
-          }
-          .inbox-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-          }
-          .inbox-row {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-          }
-          .row-head {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-          }
-          .row-identity {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-          }
-          .row-name {
-            font-size: 0.88rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-          .row-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.4rem;
-          }
-          .disclosures {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-          }
-          .small-label {
-            margin-top: 4px;
-          }
-          .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-          }
-          .contact-link-row {
-            display: flex;
-            align-items: center;
-            gap: 0.55rem;
-            padding: 0.15rem 0;
-          }
-          .contact-link-row .contact-type {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--muted, rgba(255,255,255,0.55));
-            min-width: 110px;
-          }
-          .contact-link-row .contact-value {
-            font-size: 0.85rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-          .contact-link-row .link {
-            color: var(--signal, #5ee7d9);
-            text-decoration: none;
-          }
-          .contact-link-row .link:hover {
-            text-decoration: underline;
-          }
-        `}</style>
-      </div>
-
-      {composer ? (
-        <PingComposer
-          title={`Ping back ${composer.peer.displayName ?? "Unnamed"}`}
-          peerDisplayName={composer.peer.displayName ?? "them"}
-          submitLabel="Ping back"
-          onSubmit={handlePingBackSubmit}
-          onCancel={() => setComposer(null)}
-        />
-      ) : null}
+      <PingComposer
+        open={composer !== null}
+        title={
+          composer
+            ? `Ping back ${composer.peer.displayName ?? "Unnamed"}`
+            : ""
+        }
+        peerDisplayName={composer?.peer.displayName ?? "them"}
+        submitLabel="Ping back"
+        onSubmit={handlePingBackSubmit}
+        onCancel={() => setComposer(null)}
+      />
     </>
   );
 }
@@ -422,35 +346,16 @@ function TabButton({
   children: React.ReactNode;
 }) {
   return (
-    <button
-      className={`tab-button ${active ? "active" : ""}`}
-      onClick={onClick}
+    <Button
+      variant={active ? "atlas" : "atlas-ghost"}
+      size="atlas-sm"
       role="tab"
       aria-selected={active}
+      onClick={onClick}
+      className={active ? "bg-hair-soft" : ""}
     >
-      <span>{children}</span>
-      {count > 0 ? <span className="count-badge">{count}</span> : null}
-      <style>{`
-        .tab-button {
-          background: transparent;
-          border: none;
-          color: var(--text-muted, rgba(255,255,255,0.6));
-          font-size: 0.68rem;
-          text-transform: uppercase;
-          letter-spacing: 0.14em;
-          padding: 0.5rem 0.75rem;
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          border-bottom: 2px solid transparent;
-          margin-bottom: -1px;
-        }
-        .tab-button.active {
-          color: var(--signal, #5ee7d9);
-          border-bottom-color: var(--signal, #5ee7d9);
-        }
-      `}</style>
-    </button>
+      <span className="normal-case tracking-normal">{children}</span>
+      {count > 0 ? <Tag accent>{count}</Tag> : null}
+    </Button>
   );
 }

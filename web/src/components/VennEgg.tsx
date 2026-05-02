@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { XIcon } from "lucide-react";
 import { apiFetch, type Conference } from "../api";
+import { Button } from "@/components/ui/button";
+import { Kicker } from "@/components/ui/kicker";
 
 type Props = {
   tags: string[];
@@ -61,76 +64,47 @@ export function VennEgg({ tags, onClose }: Props) {
   }, [confs, usedTags]);
 
   return (
-    <div className="venn-egg" onClick={onClose}>
-      <div className="venn-egg-stage" onClick={(e) => e.stopPropagation()}>
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-bg/85 backdrop-blur-md"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-[min(1200px,calc(100vw-48px))] h-[min(820px,calc(100vh-48px))] flex flex-col bg-paper border border-hair rounded-[14px] shadow-[var(--shadow-modal)] p-6"
+      >
+        <div className="flex items-start justify-between gap-3 mb-2">
+          <div className="flex flex-col gap-1">
+            <Kicker>Tag overlap</Kicker>
+            <h2 className="font-display font-normal text-[1.5rem] text-ink m-0">
+              {usedTags.join(" · ")}
+            </h2>
+          </div>
+          <Button variant="atlas-ghost" size="atlas-sm" onClick={onClose}>
+            <XIcon />
+          </Button>
+        </div>
         {error ? (
-          <div className="venn-egg-error">Failed to load: {error}</div>
+          <div className="m-auto font-display italic text-[15px] text-brand">
+            Failed to load: {error}
+          </div>
         ) : !confs ? (
-          <div className="venn-egg-loading">Spinning up Venn…</div>
+          <div className="m-auto font-display italic text-[15px] text-ink2">
+            Spinning up Venn…
+          </div>
         ) : (
-          <VennSvg tags={usedTags} buckets={buckets} />
+          <div className="flex-1 min-h-0 flex">
+            <VennSvg tags={usedTags} buckets={buckets} />
+          </div>
         )}
-        <div className="venn-egg-footer">
-          <span>Easter egg · esc to close</span>
-          {overflow > 0 ? <span>+{overflow} extra tag{overflow === 1 ? "" : "s"} not shown</span> : null}
-          <button className="venn-egg-close" onClick={onClose}>
-            close
-          </button>
+        <div className="mt-2 flex items-center gap-4">
+          <Kicker>Easter egg · esc to close</Kicker>
+          {overflow > 0 ? (
+            <Kicker>
+              +{overflow} extra tag{overflow === 1 ? "" : "s"} not shown
+            </Kicker>
+          ) : null}
         </div>
       </div>
-      <style>{`
-        .venn-egg {
-          position: fixed;
-          inset: 0;
-          z-index: 100;
-          background: rgba(8, 10, 18, 0.85);
-          backdrop-filter: blur(10px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 24px;
-        }
-        .venn-egg-stage {
-          position: relative;
-          width: min(1200px, calc(100vw - 48px));
-          height: min(820px, calc(100vh - 48px));
-          display: flex;
-          flex-direction: column;
-        }
-        .venn-egg-loading,
-        .venn-egg-error {
-          margin: auto;
-          color: var(--text-muted);
-          font-size: 0.95rem;
-        }
-        .venn-egg-error { color: #ff7e7e; }
-        .venn-egg-footer {
-          margin-top: 8px;
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          color: var(--text-muted);
-          font-size: 0.7rem;
-          text-transform: uppercase;
-          letter-spacing: 0.16em;
-        }
-        .venn-egg-close {
-          margin-left: auto;
-          padding: 6px 14px;
-          border-radius: 999px;
-          border: 1px solid var(--mist);
-          background: transparent;
-          color: var(--text);
-          font-size: 0.7rem;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          cursor: pointer;
-        }
-        .venn-egg-close:hover {
-          background: rgba(232, 240, 255, 0.06);
-          background: color(display-p3 0.91 0.941 1 / 0.06);
-        }
-      `}</style>
     </div>
   );
 }
@@ -139,7 +113,9 @@ export function VennEgg({ tags, onClose }: Props) {
 // All coordinates in the SVG's 1000x720 viewBox. Tweaked by eye, not math.
 type Region = { x: number; y: number; width: number };
 
-const COLORS = ["#7dd3fc", "#fbbf24", "#f472b6"];
+// Map each circle to a CSS variable. Index 0 is ink (primary); rest are
+// accent variations so they match whatever theme accent the user chose.
+const CIRCLE_VARS = ["var(--ink)", "var(--accent-color)", "var(--accent-deep)"];
 
 function VennSvg({
   tags,
@@ -150,7 +126,7 @@ function VennSvg({
 }) {
   if (tags.length < 2) {
     return (
-      <div className="venn-egg-error">
+      <div className="m-auto font-display italic text-[15px] text-brand">
         Need at least 2 tags for a Venn — pick another in the search bar.
       </div>
     );
@@ -181,23 +157,46 @@ function Venn2({
   };
 
   return (
-    <svg viewBox="0 0 1000 720" className="venn-svg">
-      <defs>
-        <radialGradient id="g0" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={COLORS[0]} stopOpacity="0.32" />
-          <stop offset="100%" stopColor={COLORS[0]} stopOpacity="0.08" />
-        </radialGradient>
-        <radialGradient id="g1" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={COLORS[1]} stopOpacity="0.32" />
-          <stop offset="100%" stopColor={COLORS[1]} stopOpacity="0.08" />
-        </radialGradient>
-      </defs>
-      <circle cx={cx1} cy={cy} r={r} fill="url(#g0)" stroke={COLORS[0]} strokeWidth="2" />
-      <circle cx={cx2} cy={cy} r={r} fill="url(#g1)" stroke={COLORS[1]} strokeWidth="2" />
-      <text x={cx1 - 200} y={cy - r - 14} fill={COLORS[0]} fontSize="22" fontWeight="600">
+    <svg viewBox="0 0 1000 720" className="w-full h-full block">
+      <circle
+        cx={cx1}
+        cy={cy}
+        r={r}
+        fill={CIRCLE_VARS[0]}
+        fillOpacity="0.12"
+        stroke={CIRCLE_VARS[0]}
+        strokeOpacity="0.85"
+        strokeWidth="2"
+      />
+      <circle
+        cx={cx2}
+        cy={cy}
+        r={r}
+        fill={CIRCLE_VARS[1]}
+        fillOpacity="0.12"
+        stroke={CIRCLE_VARS[1]}
+        strokeOpacity="0.85"
+        strokeWidth="2"
+      />
+      <text
+        x={cx1 - 200}
+        y={cy - r - 14}
+        fill={CIRCLE_VARS[0]}
+        fontSize="22"
+        fontWeight="500"
+        className="font-display"
+      >
         {tags[0]}
       </text>
-      <text x={cx2 + 200} y={cy - r - 14} fill={COLORS[1]} fontSize="22" fontWeight="600" textAnchor="end">
+      <text
+        x={cx2 + 200}
+        y={cy - r - 14}
+        fill={CIRCLE_VARS[1]}
+        fontSize="22"
+        fontWeight="500"
+        textAnchor="end"
+        className="font-display"
+      >
         {tags[1]}
       </text>
       {(["0", "1", "0,1"] as const).map((key) =>
@@ -209,7 +208,6 @@ function Venn2({
           />
         ) : null,
       )}
-      <style>{`.venn-svg { width: 100%; height: 100%; display: block; }`}</style>
     </svg>
   );
 }
@@ -243,33 +241,50 @@ function Venn3({
   };
 
   return (
-    <svg viewBox="0 0 1000 720" className="venn-svg">
-      <defs>
-        {COLORS.slice(0, 3).map((col, i) => (
-          <radialGradient key={i} id={`g3-${i}`} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor={col} stopOpacity="0.28" />
-            <stop offset="100%" stopColor={col} stopOpacity="0.06" />
-          </radialGradient>
-        ))}
-      </defs>
+    <svg viewBox="0 0 1000 720" className="w-full h-full block">
       {[c0, c1, c2].map((c, i) => (
         <circle
           key={i}
           cx={c.x}
           cy={c.y}
           r={r}
-          fill={`url(#g3-${i})`}
-          stroke={COLORS[i]}
+          fill={CIRCLE_VARS[i]}
+          fillOpacity="0.12"
+          stroke={CIRCLE_VARS[i]}
+          strokeOpacity="0.85"
           strokeWidth="2"
         />
       ))}
-      <text x={c0.x - r + 30} y={c0.y - r - 12} fill={COLORS[0]} fontSize="22" fontWeight="600">
+      <text
+        x={c0.x - r + 30}
+        y={c0.y - r - 12}
+        fill={CIRCLE_VARS[0]}
+        fontSize="22"
+        fontWeight="500"
+        className="font-display"
+      >
         {tags[0]}
       </text>
-      <text x={c1.x + r - 30} y={c1.y - r - 12} fill={COLORS[1]} fontSize="22" fontWeight="600" textAnchor="end">
+      <text
+        x={c1.x + r - 30}
+        y={c1.y - r - 12}
+        fill={CIRCLE_VARS[1]}
+        fontSize="22"
+        fontWeight="500"
+        textAnchor="end"
+        className="font-display"
+      >
         {tags[1]}
       </text>
-      <text x={c2.x} y={c2.y + r + 30} fill={COLORS[2]} fontSize="22" fontWeight="600" textAnchor="middle">
+      <text
+        x={c2.x}
+        y={c2.y + r + 30}
+        fill={CIRCLE_VARS[2]}
+        fontSize="22"
+        fontWeight="500"
+        textAnchor="middle"
+        className="font-display"
+      >
         {tags[2]}
       </text>
       {Object.keys(regions).map((key) =>
@@ -281,7 +296,6 @@ function Venn3({
           />
         ) : null,
       )}
-      <style>{`.venn-svg { width: 100%; height: 100%; display: block; }`}</style>
     </svg>
   );
 }
@@ -313,8 +327,10 @@ function RegionLabels({
             x={0}
             y={i * lineHeight}
             fontSize="10"
-            fill="rgba(232,240,255,0.92)"
+            fill="var(--ink)"
+            fontWeight="500"
             textAnchor="middle"
+            className="font-display"
           >
             {label}
           </text>
@@ -325,9 +341,10 @@ function RegionLabels({
           x={0}
           y={shown.length * lineHeight}
           fontSize="10"
-          fill="rgba(232,240,255,0.55)"
+          fill="var(--ink2)"
           textAnchor="middle"
           fontStyle="italic"
+          className="font-display"
         >
           +{more} more
         </text>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Overlap · Swiss</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #f5f3ec;
+  --ink: #0a0a0a;
+  --line: #0a0a0a;
+  --muted: #8a8780;
+  --accent: #c4ff3e;
+  --paper: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0a0a;
+    --ink: #ededed;
+    --line: #ededed;
+    --muted: #6a6a6a;
+    --accent: #d2ff4d;
+    --paper: #131313;
+  }
+}
+:root[data-theme="light"] { --bg:#f5f3ec; --ink:#0a0a0a; --line:#0a0a0a; --muted:#8a8780; --accent:#c4ff3e; --paper:#ffffff; }
+:root[data-theme="dark"]  { --bg:#0a0a0a; --ink:#ededed; --line:#ededed; --muted:#6a6a6a; --accent:#d2ff4d; --paper:#131313; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-weight: 400;
+  font-variation-settings: "opsz" 14, "wght" 400;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+.theme-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 50;
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  background: transparent; color: var(--ink); border: 1px solid var(--line);
+  padding: 6px 12px; cursor: pointer; border-radius: 999px;
+}
+.shell {
+  display: grid; grid-template-columns: 64px 1fr 64px; min-height: 100vh;
+}
+.shell > aside { border-right: 1px solid var(--line); }
+.shell > aside:last-child { border-right: 0; border-left: 1px solid var(--line); }
+.shell > aside .vlabel {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 24px 0; margin: 24px auto;
+}
+main { padding: 28px 56px 80px; }
+.topstrip {
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 0;
+  border-bottom: 1px solid var(--line); padding-bottom: 12px;
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+}
+.topstrip > div:nth-child(1) { grid-column: span 4; color: var(--ink); font-weight: 500; }
+.topstrip > div:nth-child(2) { grid-column: span 5; }
+.topstrip > div:nth-child(3) { grid-column: span 3; text-align: right; }
+
+.deck {
+  margin: 64px 0 12px;
+  font-variation-settings: "opsz" 96, "wght" 250;
+  font-size: clamp(56px, 11vw, 124px);
+  line-height: 0.92; letter-spacing: -0.05em;
+  max-width: 18ch;
+}
+.deck .ind { color: var(--muted); }
+.deck .acc {
+  display: inline-block; padding: 0 0.18em; background: var(--accent); color: #0a0a0a;
+}
+.subdeck {
+  font-family: "JetBrains Mono", monospace; font-size: 12px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  margin: 14px 0 56px; max-width: 56ch;
+}
+
+.layout {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start;
+}
+.canvas { position: relative; }
+svg.venn { width: 100%; height: auto; display: block; }
+svg.venn .circ { fill: none; stroke: var(--line); stroke-width: 1; }
+svg.venn .name {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-variation-settings: "opsz" 24, "wght" 500;
+  font-size: 18px; fill: var(--ink); letter-spacing: -0.01em;
+}
+svg.venn .nm-meta {
+  font-family: "JetBrains Mono", monospace; fill: var(--muted);
+  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+}
+svg.venn .reg-num {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-variation-settings: "opsz" 96, "wght" 200;
+  font-size: 64px; letter-spacing: -0.04em; fill: var(--ink);
+}
+svg.venn .reg-num.acc {
+  fill: #0a0a0a; paint-order: stroke; stroke: var(--accent); stroke-width: 14; stroke-linejoin: round;
+}
+svg.venn .reg-id {
+  font-family: "JetBrains Mono", monospace; font-size: 9px;
+  letter-spacing: 0.22em; text-transform: uppercase; fill: var(--muted);
+}
+svg.venn .pinpt { fill: var(--ink); }
+svg.venn .leader { stroke: var(--line); stroke-width: 0.6; }
+
+.list {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-variation-settings: "opsz" 16, "wght" 400;
+}
+.list-h {
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+  border-top: 1px solid var(--line); padding-top: 14px; margin-bottom: 28px;
+  display: flex; justify-content: space-between;
+}
+.row {
+  display: grid; grid-template-columns: 36px 1fr auto;
+  gap: 14px; padding: 14px 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--line), transparent 80%);
+  align-items: baseline;
+}
+.row:hover { background: color-mix(in oklab, var(--accent), transparent 92%); }
+.row .n {
+  font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.row .name {
+  font-variation-settings: "opsz" 24, "wght" 450;
+  font-size: 18px; letter-spacing: -0.01em;
+}
+.row .name small {
+  display: block; font-family: "JetBrains Mono", monospace; font-weight: 400;
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); margin-top: 2px;
+}
+.row .tag {
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px;
+  background: var(--paper);
+}
+.row .tag.acc { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+
+@media (max-width: 980px) {
+  .shell { grid-template-columns: 24px 1fr 24px; }
+  main { padding: 24px 18px 64px; }
+  .layout { grid-template-columns: 1fr; gap: 32px; }
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">theme</button>
+
+<div class="shell">
+  <aside><div class="vlabel">overlap · idx 01</div></aside>
+
+  <main>
+    <header class="topstrip">
+      <div>VENN — PERSONAL OVERLAP</div>
+      <div>UPDATED 2026.05.01 · 03 PEOPLE · 12 CONFERENCES</div>
+      <div>SHEET 01 / 01</div>
+    </header>
+
+    <h1 class="deck">A diagram of the rooms <span class="acc">we keep ending up in</span> <span class="ind">together.</span></h1>
+    <div class="subdeck">// Three circles. Seven regions. One question: who else was there.</div>
+
+    <div class="layout">
+      <div class="canvas">
+        <svg viewBox="0 0 1000 760" class="venn">
+          <circle class="circ" cx="385" cy="270" r="210" />
+          <circle class="circ" cx="615" cy="270" r="210" />
+          <circle class="circ" cx="500" cy="490" r="210" />
+
+          <!-- centroid pinpoints -->
+          <circle class="pinpt" cx="385" cy="270" r="2.5" />
+          <circle class="pinpt" cx="615" cy="270" r="2.5" />
+          <circle class="pinpt" cx="500" cy="490" r="2.5" />
+
+          <!-- name labels with leader -->
+          <line class="leader" x1="385" y1="270" x2="200" y2="98" />
+          <text class="name" x="200" y="84" text-anchor="start">Jackson</text>
+          <text class="nm-meta" x="200" y="104" text-anchor="start">JT · LEDGER A</text>
+
+          <line class="leader" x1="615" y1="270" x2="800" y2="98" />
+          <text class="name" x="800" y="84" text-anchor="end">Priya</text>
+          <text class="nm-meta" x="800" y="104" text-anchor="end">PR · LEDGER B</text>
+
+          <line class="leader" x1="500" y1="490" x2="500" y2="700" />
+          <text class="name" x="500" y="720" text-anchor="middle">Devon</text>
+          <text class="nm-meta" x="500" y="740" text-anchor="middle">DW · LEDGER C</text>
+
+          <!-- region big numerals + tiny ID -->
+          <text class="reg-id" x="240" y="240" text-anchor="middle">A</text>
+          <text class="reg-num" x="240" y="296" text-anchor="middle">2</text>
+
+          <text class="reg-id" x="760" y="240" text-anchor="middle">B</text>
+          <text class="reg-num" x="760" y="296" text-anchor="middle">2</text>
+
+          <text class="reg-id" x="500" y="572" text-anchor="middle">C</text>
+          <text class="reg-num" x="500" y="628" text-anchor="middle">1</text>
+
+          <text class="reg-id" x="500" y="184" text-anchor="middle">A ∩ B</text>
+          <text class="reg-num" x="500" y="240" text-anchor="middle">2</text>
+
+          <text class="reg-id" x="395" y="394" text-anchor="middle">A ∩ C</text>
+          <text class="reg-num" x="395" y="450" text-anchor="middle">1</text>
+
+          <text class="reg-id" x="615" y="394" text-anchor="middle">B ∩ C</text>
+          <text class="reg-num" x="615" y="450" text-anchor="middle">1</text>
+
+          <text class="reg-id" x="500" y="304" text-anchor="middle">A ∩ B ∩ C</text>
+          <text class="reg-num acc" x="500" y="360" text-anchor="middle">2</text>
+        </svg>
+      </div>
+
+      <div class="list">
+        <div class="list-h">
+          <span>References · 12</span>
+          <span>Sorted by region</span>
+        </div>
+
+        <div class="row">
+          <span class="n">01</span>
+          <span class="name">SREcon Americas '26<small>Santa Clara · Mar</small></span>
+          <span class="tag">A</span>
+        </div>
+        <div class="row">
+          <span class="n">02</span>
+          <span class="name">dotJS Paris<small>Paris · Dec</small></span>
+          <span class="tag">A</span>
+        </div>
+        <div class="row">
+          <span class="n">03</span>
+          <span class="name">PyCon Italia '25<small>Bologna · May</small></span>
+          <span class="tag">B</span>
+        </div>
+        <div class="row">
+          <span class="n">04</span>
+          <span class="name">RustConf '25<small>Seattle · Sep</small></span>
+          <span class="tag">B</span>
+        </div>
+        <div class="row">
+          <span class="n">05</span>
+          <span class="name">KubeCon NA '25<small>Atlanta · Nov</small></span>
+          <span class="tag">C</span>
+        </div>
+        <div class="row">
+          <span class="n">06</span>
+          <span class="name">Strange Loop '24<small>St. Louis · Sep</small></span>
+          <span class="tag">A∩B</span>
+        </div>
+        <div class="row">
+          <span class="n">07</span>
+          <span class="name">RailsConf '25<small>Philadelphia · May</small></span>
+          <span class="tag">A∩B</span>
+        </div>
+        <div class="row">
+          <span class="n">08</span>
+          <span class="name">GopherCon '24<small>Chicago · Jul</small></span>
+          <span class="tag">A∩C</span>
+        </div>
+        <div class="row">
+          <span class="n">09</span>
+          <span class="name">PyData Berlin '24<small>Berlin · Apr</small></span>
+          <span class="tag">B∩C</span>
+        </div>
+        <div class="row">
+          <span class="n">10</span>
+          <span class="name">QCon SF '25<small>San Francisco · Nov</small></span>
+          <span class="tag acc">A∩B∩C</span>
+        </div>
+        <div class="row">
+          <span class="n">11</span>
+          <span class="name">React Conf '25<small>Henderson · Oct</small></span>
+          <span class="tag acc">A∩B∩C</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside><div class="vlabel">confgo · 2026</div></aside>
+</div>
+</body>
+</html>

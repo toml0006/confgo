@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Overlap · Aurora</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Albert+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --paper: #f4ecf6;
+  --ink: #28173b;
+  --soft: #6b4e80;
+  --c1: #ff8fb2;
+  --c2: #ffd29a;
+  --c3: #a4c8ff;
+  --halo: rgba(255, 255, 255, 0.72);
+  --card-bg: rgba(255, 255, 255, 0.55);
+  --card-stroke: rgba(255, 255, 255, 0.85);
+  --pill-bg: rgba(255, 255, 255, 0.72);
+  --pill-stroke: rgba(40, 23, 59, 0.12);
+  --orn: #b58cd1;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0a0419;
+    --ink: #f3e9ff;
+    --soft: #a294c4;
+    --c1: #ff6da3;
+    --c2: #67ffe0;
+    --c3: #b07bff;
+    --halo: rgba(60, 30, 110, 0.5);
+    --card-bg: rgba(20, 8, 40, 0.5);
+    --card-stroke: rgba(160, 110, 230, 0.32);
+    --pill-bg: rgba(20, 10, 38, 0.6);
+    --pill-stroke: rgba(255, 220, 255, 0.18);
+    --orn: #d8b6ff;
+  }
+}
+:root[data-theme="light"] {
+  --paper:#f4ecf6; --ink:#28173b; --soft:#6b4e80;
+  --c1:#ff8fb2; --c2:#ffd29a; --c3:#a4c8ff;
+  --halo:rgba(255,255,255,0.72); --card-bg:rgba(255,255,255,0.55);
+  --card-stroke:rgba(255,255,255,0.85); --pill-bg:rgba(255,255,255,0.72);
+  --pill-stroke:rgba(40,23,59,0.12); --orn:#b58cd1;
+}
+:root[data-theme="dark"] {
+  --paper:#0a0419; --ink:#f3e9ff; --soft:#a294c4;
+  --c1:#ff6da3; --c2:#67ffe0; --c3:#b07bff;
+  --halo:rgba(60,30,110,0.5); --card-bg:rgba(20,8,40,0.5);
+  --card-stroke:rgba(160,110,230,0.32); --pill-bg:rgba(20,10,38,0.6);
+  --pill-stroke:rgba(255,220,255,0.18); --orn:#d8b6ff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: "Albert Sans", system-ui, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  color: var(--ink);
+  background: var(--paper);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: ""; position: fixed; inset: -10%;
+  background:
+    radial-gradient(40% 35% at 18% 18%, color-mix(in oklab, var(--c1), transparent 40%), transparent 70%),
+    radial-gradient(45% 40% at 82% 28%, color-mix(in oklab, var(--c2), transparent 40%), transparent 70%),
+    radial-gradient(55% 50% at 50% 92%, color-mix(in oklab, var(--c3), transparent 40%), transparent 70%);
+  filter: blur(60px) saturate(1.1);
+  z-index: 0;
+}
+body::after {
+  content: ""; position: fixed; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 14% 22%, var(--ink) 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 12%, var(--ink) 50%, transparent 51%),
+    radial-gradient(1px 1px at 35% 78%, var(--ink) 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 64%, var(--ink) 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 56%, var(--ink) 50%, transparent 51%),
+    radial-gradient(1px 1px at 62% 88%, var(--ink) 50%, transparent 51%);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.theme-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 100;
+  font-family: "Newsreader", serif; font-style: italic;
+  font-size: 12px; letter-spacing: 0.05em;
+  background: var(--pill-bg); color: var(--ink);
+  border: 1px solid var(--card-stroke);
+  padding: 8px 14px; cursor: pointer; border-radius: 999px;
+  backdrop-filter: blur(14px);
+}
+
+.glass {
+  position: relative; z-index: 2;
+  max-width: 1100px; margin: 48px auto;
+  padding: 56px 64px 64px;
+  background: var(--card-bg);
+  backdrop-filter: blur(28px) saturate(1.1);
+  -webkit-backdrop-filter: blur(28px) saturate(1.1);
+  border: 1px solid var(--card-stroke);
+  border-radius: 36px;
+  box-shadow:
+    0 30px 80px -30px color-mix(in oklab, var(--ink), transparent 70%),
+    inset 0 1px 0 0 var(--halo);
+}
+.glass::before {
+  content: "✦"; position: absolute; top: 18px; left: 24px;
+  font-size: 22px; color: var(--orn);
+  opacity: 0.7;
+}
+.glass::after {
+  content: "✦"; position: absolute; bottom: 18px; right: 24px;
+  font-size: 22px; color: var(--orn);
+  opacity: 0.7;
+}
+
+.kicker {
+  font-family: "Newsreader", serif; font-style: italic;
+  font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--soft); text-align: center; margin-bottom: 8px;
+}
+.title {
+  font-family: "Newsreader", serif;
+  font-weight: 250; font-style: italic;
+  font-size: clamp(48px, 8vw, 84px); line-height: 0.96;
+  text-align: center; letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+.title .acc {
+  font-style: italic; font-weight: 400;
+  background: linear-gradient(120deg, var(--c1), var(--c3) 50%, var(--c2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.subtitle {
+  font-family: "Newsreader", serif; font-style: italic;
+  font-size: 18px; line-height: 1.45; max-width: 520px;
+  margin: 0 auto 36px; text-align: center; color: var(--soft);
+}
+
+.canvas { position: relative; }
+svg.venn { width: 100%; height: auto; max-width: 940px; margin: 0 auto; display: block; }
+svg.venn .glow { filter: blur(18px); opacity: 0.6; }
+svg.venn .ring { fill: none; stroke-width: 1.2; opacity: 0.85; }
+svg.venn .name {
+  font-family: "Newsreader", serif; font-style: italic;
+  font-weight: 300; font-size: 24px; fill: var(--ink);
+}
+svg.venn .meta {
+  font-family: "Albert Sans", sans-serif; font-weight: 400;
+  font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; fill: var(--soft);
+}
+svg.venn .conf {
+  font-family: "Newsreader", serif; font-style: italic; font-weight: 350;
+  font-size: 11.5px; fill: var(--ink);
+}
+svg.venn .reg-pill { fill: var(--pill-bg); stroke: var(--pill-stroke); stroke-width: 1; }
+svg.venn .star { fill: var(--orn); opacity: 0.6; }
+
+.legend {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  margin-top: 36px;
+}
+.legend article {
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-stroke);
+  border-radius: 18px; padding: 16px 18px;
+  backdrop-filter: blur(8px);
+}
+.legend h4 {
+  margin: 0 0 8px;
+  font-family: "Newsreader", serif; font-style: italic; font-weight: 350;
+  font-size: 14px; letter-spacing: 0.04em;
+  color: var(--soft);
+}
+.legend ul { list-style: none; margin: 0; padding: 0; font-family: "Newsreader", serif; font-style: italic; font-size: 16px; line-height: 1.4; }
+.legend li::before { content: "✦  "; color: var(--orn); font-style: normal; }
+
+.foot {
+  margin-top: 32px; text-align: center;
+  font-family: "Albert Sans", sans-serif; font-weight: 400;
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--soft);
+}
+@media (max-width: 800px) {
+  .legend { grid-template-columns: 1fr 1fr; }
+  .glass { padding: 36px 24px 40px; margin: 24px 14px; }
+}
+@media (max-width: 520px) {
+  .legend { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">toggle theme</button>
+
+<section class="glass">
+  <div class="kicker">— Personal Conference Aurora —</div>
+  <h1 class="title">A constellation <span class="acc">of shared rooms.</span></h1>
+  <p class="subtitle">Three orbits, twelve gatherings — the soft places where Jackson, Priya &amp; Devon keep crossing paths.</p>
+
+  <div class="canvas">
+    <svg viewBox="0 0 1000 760" class="venn">
+      <defs>
+        <radialGradient id="g1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="var(--c1)" stop-opacity="0.55" />
+          <stop offset="60%" stop-color="var(--c1)" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="var(--c1)" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="g2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="var(--c2)" stop-opacity="0.55" />
+          <stop offset="60%" stop-color="var(--c2)" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="var(--c2)" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="g3" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="var(--c3)" stop-opacity="0.55" />
+          <stop offset="60%" stop-color="var(--c3)" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="var(--c3)" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+
+      <!-- soft glow halos -->
+      <circle class="glow" cx="385" cy="290" r="220" fill="url(#g1)" />
+      <circle class="glow" cx="615" cy="290" r="220" fill="url(#g2)" />
+      <circle class="glow" cx="500" cy="500" r="220" fill="url(#g3)" />
+
+      <!-- crisp rings -->
+      <circle class="ring" cx="385" cy="290" r="200" stroke="var(--c1)" />
+      <circle class="ring" cx="615" cy="290" r="200" stroke="var(--c2)" />
+      <circle class="ring" cx="500" cy="500" r="200" stroke="var(--c3)" />
+
+      <!-- decorative stars -->
+      <text class="star" x="180" y="120" font-size="14">✦</text>
+      <text class="star" x="820" y="160" font-size="10">✧</text>
+      <text class="star" x="500" y="700" font-size="14">✦</text>
+      <text class="star" x="100" y="500" font-size="10">✧</text>
+      <text class="star" x="900" y="500" font-size="12">✦</text>
+
+      <!-- names -->
+      <text class="name" x="200" y="78">Jackson</text>
+      <text class="meta" x="200" y="98">— Ledger I</text>
+      <text class="name" x="800" y="78" text-anchor="end">Priya</text>
+      <text class="meta" x="800" y="98" text-anchor="end">— Ledger II</text>
+      <text class="name" x="500" y="730" text-anchor="middle">Devon</text>
+      <text class="meta" x="500" y="748" text-anchor="middle">— Ledger III</text>
+
+      <!-- region pills with conferences -->
+      <g>
+        <rect class="reg-pill" x="180" y="244" width="170" height="58" rx="14" />
+        <text class="conf" x="265" y="266" text-anchor="middle">SREcon '26</text>
+        <text class="conf" x="265" y="284" text-anchor="middle">dotJS Paris</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="650" y="244" width="170" height="58" rx="14" />
+        <text class="conf" x="735" y="266" text-anchor="middle">PyCon Italia '25</text>
+        <text class="conf" x="735" y="284" text-anchor="middle">RustConf '25</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="415" y="608" width="170" height="38" rx="14" />
+        <text class="conf" x="500" y="632" text-anchor="middle">KubeCon NA '25</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="415" y="178" width="170" height="58" rx="14" />
+        <text class="conf" x="500" y="200" text-anchor="middle">Strange Loop '24</text>
+        <text class="conf" x="500" y="218" text-anchor="middle">RailsConf '25</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="310" y="416" width="170" height="38" rx="14" />
+        <text class="conf" x="395" y="440" text-anchor="middle">GopherCon '24</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="520" y="416" width="170" height="38" rx="14" />
+        <text class="conf" x="605" y="440" text-anchor="middle">PyData Berlin '24</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="415" y="320" width="170" height="58" rx="14" />
+        <text class="conf" x="500" y="342" text-anchor="middle">QCon SF '25</text>
+        <text class="conf" x="500" y="360" text-anchor="middle">React Conf '25</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="legend">
+    <article>
+      <h4>Jackson · alone</h4>
+      <ul><li>SREcon Americas '26</li><li>dotJS Paris</li></ul>
+    </article>
+    <article>
+      <h4>Priya · alone</h4>
+      <ul><li>PyCon Italia '25</li><li>RustConf '25</li></ul>
+    </article>
+    <article>
+      <h4>Devon · alone</h4>
+      <ul><li>KubeCon NA '25</li></ul>
+    </article>
+    <article>
+      <h4>Jackson &amp; Priya</h4>
+      <ul><li>Strange Loop '24</li><li>RailsConf '25</li></ul>
+    </article>
+    <article>
+      <h4>Jackson &amp; Devon</h4>
+      <ul><li>GopherCon '24</li></ul>
+    </article>
+    <article>
+      <h4>Priya &amp; Devon</h4>
+      <ul><li>PyData Berlin '24</li></ul>
+    </article>
+    <article style="grid-column: span 3;">
+      <h4>All three · the centre</h4>
+      <ul><li>QCon SF '25</li><li>React Conf '25</li></ul>
+    </article>
+  </div>
+
+  <p class="foot">Set in Newsreader &amp; Albert Sans · Pressed against the night</p>
+</section>
+</body>
+</html>

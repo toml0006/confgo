@@ -2,6 +2,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
 import { useAuth } from "../auth/AuthContext";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Slider } from "@/components/ui/slider";
+import { Kicker } from "@/components/ui/kicker";
 
 const VIEWPORT = 280; // square crop window, CSS px
 const OUTPUT = 512; // exported image side, real px
@@ -9,7 +18,7 @@ const MAX_ZOOM = 4;
 const JPEG_QUALITY = 0.9;
 
 type Props = {
-  file: File;
+  file: File | null;
   onCancel: () => void;
   onSave: (photoURL: string) => void;
 };
@@ -24,8 +33,12 @@ export function PhotoCropper({ file, onCancel, onSave }: Props) {
   const [error, setError] = useState<string | null>(null);
   const dragRef = useRef<{ startX: number; startY: number; baseX: number; baseY: number } | null>(null);
 
-  // Read file → object URL → load natural dimensions
   useEffect(() => {
+    if (!file) {
+      setImgSrc(null);
+      setImgSize(null);
+      return;
+    }
     const url = URL.createObjectURL(file);
     setImgSrc(url);
     const img = new Image();
@@ -39,7 +52,6 @@ export function PhotoCropper({ file, onCancel, onSave }: Props) {
     return () => URL.revokeObjectURL(url);
   }, [file]);
 
-  // Scale that makes the image cover the viewport at zoom=1
   const baseScale = useMemo(() => {
     if (!imgSize) return 1;
     return Math.max(VIEWPORT / imgSize.w, VIEWPORT / imgSize.h);
@@ -49,7 +61,6 @@ export function PhotoCropper({ file, onCancel, onSave }: Props) {
   const displayW = imgSize ? imgSize.w * displayScale : 0;
   const displayH = imgSize ? imgSize.h * displayScale : 0;
 
-  // Clamp offset so image always covers the viewport
   const clamp = (x: number, y: number) => {
     const maxX = Math.max(0, (displayW - VIEWPORT) / 2);
     const maxY = Math.max(0, (displayH - VIEWPORT) / 2);
@@ -59,7 +70,6 @@ export function PhotoCropper({ file, onCancel, onSave }: Props) {
     };
   };
 
-  // Re-clamp whenever zoom changes (a zoom-out can push old offsets out of bounds)
   useEffect(() => {
     setOffset((o) => clamp(o.x, o.y));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,161 +107,84 @@ export function PhotoCropper({ file, onCancel, onSave }: Props) {
     }
   }
 
+  const halfV = VIEWPORT / 2;
+  const maskExpr = `radial-gradient(circle at center, transparent ${halfV - 1}px, #000 ${halfV}px)`;
+
   return (
-    <div className="cropper-backdrop" onClick={onCancel}>
-      <div
-        className="cropper-card glass-panel sheet-in"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="cropper-head">
-          <div className="section-label">Crop your photo</div>
-          <button className="close-x" onClick={onCancel} aria-label="Close">
-            ×
-          </button>
-        </div>
+    <Dialog open={file !== null} onOpenChange={(o) => { if (!o) onCancel(); }}>
+      <DialogContent className="bg-paper border border-hair rounded-[14px] max-w-[360px] gap-3.5">
+        <DialogHeader>
+          <DialogTitle asChild>
+            <Kicker>Crop your photo</Kicker>
+          </DialogTitle>
+        </DialogHeader>
 
         <div
-          className="cropper-viewport"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
           style={{ width: VIEWPORT, height: VIEWPORT }}
+          className="relative mx-auto overflow-hidden bg-black rounded-xl cursor-grab active:cursor-grabbing touch-none select-none after:content-[''] after:absolute after:inset-0 after:m-auto after:rounded-full after:border after:border-white/35 after:pointer-events-none"
         >
           {imgSrc && imgSize ? (
             <img
               src={imgSrc}
               alt=""
               draggable={false}
+              className="absolute top-1/2 left-1/2 max-w-none pointer-events-none origin-center"
               style={{
                 width: displayW,
                 height: displayH,
+                marginTop: -halfV,
+                marginLeft: -halfV,
                 transform: `translate(${offset.x}px, ${offset.y}px)`,
               }}
             />
           ) : null}
-          <div className="cropper-mask" aria-hidden="true" />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none rounded-xl [box-shadow:0_0_0_9999px_rgba(4,8,14,0.55)_inset]"
+            style={{ WebkitMaskImage: maskExpr, maskImage: maskExpr }}
+          />
         </div>
 
-        <div className="cropper-zoom">
-          <span className="caption">−</span>
-          <input
-            type="range"
+        <div className="flex items-center gap-2.5">
+          <span className="font-display text-[0.85rem] text-ink2">−</span>
+          <Slider
             min={1}
             max={MAX_ZOOM}
             step={0.01}
-            value={zoom}
-            onChange={(e) => setZoom(Number(e.target.value))}
+            value={[zoom]}
+            onValueChange={(v) => setZoom(v[0])}
             aria-label="Zoom"
+            className="flex-1"
           />
-          <span className="caption">+</span>
+          <span className="font-display text-[0.85rem] text-ink2">+</span>
         </div>
 
-        {error ? <div className="auth-error">{error}</div> : null}
+        {error ? (
+          <div className="text-[13px] text-brand">{error}</div>
+        ) : null}
 
-        <div className="cropper-actions">
-          <button className="soft-button" onClick={onCancel} disabled={saving}>
+        <div className="flex justify-end gap-2">
+          <Button variant="atlas" size="atlas" onClick={onCancel} disabled={saving}>
             Cancel
-          </button>
-          <button
-            className="soft-button soft-button--primary"
+          </Button>
+          <Button
+            variant="atlas-primary"
+            size="atlas"
             onClick={handleSave}
             disabled={saving || !imgSize}
           >
             {saving ? "Uploading…" : "Save photo"}
-          </button>
+          </Button>
         </div>
-
-        <style>{`
-          .cropper-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(4, 8, 14, 0.6);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 16px;
-          }
-          .cropper-card {
-            width: min(360px, calc(100vw - 32px));
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-          }
-          .cropper-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          }
-          .cropper-viewport {
-            position: relative;
-            margin: 0 auto;
-            overflow: hidden;
-            background: #000;
-            border-radius: 12px;
-            cursor: grab;
-            touch-action: none;
-            user-select: none;
-          }
-          .cropper-viewport:active {
-            cursor: grabbing;
-          }
-          .cropper-viewport img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-top: ${-VIEWPORT / 2}px;
-            margin-left: ${-VIEWPORT / 2}px;
-            transform-origin: center center;
-            pointer-events: none;
-            max-width: none;
-          }
-          .cropper-mask {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            box-shadow: 0 0 0 9999px rgba(4, 8, 14, 0.55) inset;
-            -webkit-mask: radial-gradient(circle at center, transparent ${VIEWPORT / 2 - 1}px, #000 ${VIEWPORT / 2}px);
-                    mask: radial-gradient(circle at center, transparent ${VIEWPORT / 2 - 1}px, #000 ${VIEWPORT / 2}px);
-            border-radius: 12px;
-          }
-          .cropper-viewport::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            margin: auto;
-            width: ${VIEWPORT}px;
-            height: ${VIEWPORT}px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            pointer-events: none;
-          }
-          .cropper-zoom {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-          }
-          .cropper-zoom input {
-            flex: 1;
-          }
-          .cropper-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-          }
-        `}</style>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
-// Compose the cropped circle at OUTPUTxOUTPUT and return a JPEG blob.
-// We export a *square* JPEG (the circle clip is rendered by CSS at display
-// time via .avatar-photo's border-radius), which keeps the file simple and
-// printable elsewhere if needed.
 async function renderCrop(
   src: string,
   imgSize: { w: number; h: number },
@@ -265,9 +198,6 @@ async function renderCrop(
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("canvas 2d context unavailable");
 
-  // The viewport in image-space:
-  //   - viewport center maps to (imgSize/2 - offset/displayScale)
-  //   - viewport side in image-space = VIEWPORT / displayScale
   const srcSide = VIEWPORT / displayScale;
   const srcX = imgSize.w / 2 - offset.x / displayScale - srcSide / 2;
   const srcY = imgSize.h / 2 - offset.y / displayScale - srcSide / 2;

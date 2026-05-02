@@ -1,4 +1,13 @@
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   CONTACT_LABELS,
   CONTACT_TYPES,
@@ -62,19 +71,25 @@ export function ContactAddRow({ onAdd, disabled, submitLabel = "Add" }: Props) {
   const isDisabled = disabled || busy;
 
   return (
-    <div className="contact-add">
-      <select
+    <div className="flex flex-wrap items-center gap-1.5">
+      <Select
         value={type}
-        onChange={(e) => setType(e.target.value as ContactType)}
+        onValueChange={(v) => setType(v as ContactType)}
         disabled={isDisabled}
       >
-        {CONTACT_TYPES.map((t) => (
-          <option key={t} value={t}>
-            {CONTACT_LABELS[t]}
-          </option>
-        ))}
-      </select>
-      <input
+        <SelectTrigger className="rounded-full border-hair text-[13px] px-3 py-2 h-auto bg-paper hover:bg-hair-soft">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="bg-paper border border-hair rounded-[14px]">
+          {CONTACT_TYPES.map((t) => (
+            <SelectItem key={t} value={t}>
+              {CONTACT_LABELS[t]}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Input
+        className="flex-1 basis-[140px] min-w-0"
         value={value}
         placeholder={placeholderFor(type)}
         onChange={(e) => setValue(e.target.value)}
@@ -85,8 +100,8 @@ export function ContactAddRow({ onAdd, disabled, submitLabel = "Add" }: Props) {
         maxLength={200}
       />
       {type === "other" ? (
-        <input
-          className="contact-add-label"
+        <Input
+          className="flex-1 basis-[100px] min-w-0"
           value={label}
           placeholder="Label (e.g. Discord)"
           onChange={(e) => setLabel(e.target.value)}
@@ -97,24 +112,14 @@ export function ContactAddRow({ onAdd, disabled, submitLabel = "Add" }: Props) {
           maxLength={40}
         />
       ) : null}
-      <button
-        className="soft-button soft-button--primary"
+      <Button
+        variant="atlas-primary"
+        size="atlas"
         disabled={isDisabled || !value.trim()}
         onClick={handleAdd}
       >
         {submitLabel}
-      </button>
-      <style>{`
-        .contact-add {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.4rem;
-          align-items: center;
-        }
-        .contact-add select { flex: 0 0 auto; }
-        .contact-add input { flex: 1 1 140px; min-width: 0; }
-        .contact-add .contact-add-label { flex: 1 1 100px; }
-      `}</style>
+      </Button>
     </div>
   );
 }

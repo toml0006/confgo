@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Overlap · Blueprint</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #ece2c4;
+  --paper: #f0e8cf;
+  --ink: #2a2018;
+  --rule: #2a2018;
+  --grid: #b8a47a;
+  --accent: #1f6fa3;
+  --muted: #7a6a4f;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #08203c;
+    --paper: #0a2a4a;
+    --ink: #d6e6ff;
+    --rule: #6fc2ff;
+    --grid: #2a4d77;
+    --accent: #6fd8ff;
+    --muted: #6f8fb0;
+  }
+}
+:root[data-theme="light"] { --bg:#ece2c4; --paper:#f0e8cf; --ink:#2a2018; --rule:#2a2018; --grid:#b8a47a; --accent:#1f6fa3; --muted:#7a6a4f; }
+:root[data-theme="dark"]  { --bg:#08203c; --paper:#0a2a4a; --ink:#d6e6ff; --rule:#6fc2ff; --grid:#2a4d77; --accent:#6fd8ff; --muted:#6f8fb0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--paper), transparent 0%), var(--bg) 80%);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 28px;
+}
+.theme-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 50;
+  font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  background: transparent; color: var(--ink); border: 1px solid var(--rule); padding: 6px 10px; cursor: pointer;
+}
+.frame {
+  position: relative;
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  padding: 56px 56px 72px;
+  max-width: 1180px; margin: 0 auto;
+  background-image:
+    linear-gradient(var(--grid) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, var(--grid) 0.5px, transparent 0.5px);
+  background-size: 40px 40px;
+  background-position: 0 0;
+}
+@media (prefers-color-scheme: dark) {
+  .frame {
+    background-image:
+      linear-gradient(var(--grid) 0.5px, transparent 0.5px),
+      linear-gradient(90deg, var(--grid) 0.5px, transparent 0.5px),
+      radial-gradient(ellipse at top, color-mix(in oklab, var(--accent), transparent 92%), transparent 60%);
+  }
+}
+.frame::before, .frame::after {
+  content: ""; position: absolute; pointer-events: none;
+  border: 1px dashed var(--accent); opacity: 0.35;
+}
+.frame::before { inset: 14px; }
+.frame::after { inset: 8px; border-style: solid; opacity: 0.6; }
+
+.head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 14px; margin-bottom: 32px;
+  position: relative; z-index: 2;
+}
+.head-l h1 {
+  font-family: "Major Mono Display", monospace;
+  font-size: 30px; margin: 0; letter-spacing: 0.06em; line-height: 1;
+}
+.head-l small {
+  font-family: "IBM Plex Mono", monospace; font-size: 10px;
+  letter-spacing: 0.32em; text-transform: uppercase; color: var(--muted);
+  display: block; margin-top: 8px;
+}
+.head-r {
+  font-family: "IBM Plex Mono", monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+  text-align: right;
+}
+.head-r b { color: var(--accent); font-weight: 500; }
+
+.canvas { position: relative; padding: 24px 0; }
+svg.venn { width: 100%; height: auto; max-width: 980px; margin: 0 auto; display: block; }
+svg.venn .ruler-line { stroke: var(--grid); stroke-width: 0.5; }
+svg.venn .ruler-tick { stroke: var(--rule); stroke-width: 0.8; }
+svg.venn .ruler-text { font-family: "IBM Plex Mono", monospace; font-size: 9px; fill: var(--muted); letter-spacing: 0.12em; }
+svg.venn .circ {
+  fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 3;
+}
+svg.venn .ctr { fill: var(--accent); }
+svg.venn .ctr-line { stroke: var(--accent); stroke-width: 0.8; }
+svg.venn .name { font-family: "Major Mono Display", monospace; fill: var(--ink); font-size: 18px; letter-spacing: 0.1em; }
+svg.venn .nm-meta { font-family: "IBM Plex Mono", monospace; fill: var(--muted); font-size: 9px; letter-spacing: 0.18em; }
+svg.venn .reg-id { font-family: "IBM Plex Mono", monospace; fill: var(--accent); font-size: 11px; letter-spacing: 0.04em; font-weight: 500; }
+svg.venn .reg-count { font-family: "Major Mono Display", monospace; fill: var(--ink); font-size: 22px; }
+svg.venn .conf { font-family: "IBM Plex Mono", monospace; fill: var(--ink); font-size: 9.5px; letter-spacing: 0.02em; }
+svg.venn .leader { stroke: var(--rule); stroke-width: 0.5; opacity: 0.5; }
+
+.legend-block {
+  margin-top: 36px;
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px;
+  background: var(--rule); border: 1px solid var(--rule);
+  font-family: "IBM Plex Mono", monospace;
+}
+.legend-block > div { background: var(--paper); padding: 12px 14px; }
+.legend-block .lh { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.legend-block .lc { font-family: "Major Mono Display", monospace; font-size: 18px; color: var(--ink); margin-bottom: 8px; }
+.legend-block ul { list-style: none; padding: 0; margin: 0; font-size: 10.5px; line-height: 1.5; color: var(--ink); }
+.legend-block li::before { content: "›"; color: var(--accent); margin-right: 4px; }
+
+.title-block {
+  position: relative; z-index: 2;
+  margin-top: 48px;
+  border: 1px solid var(--rule);
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+.title-block > div { padding: 12px 16px; border-right: 1px solid var(--rule); }
+.title-block > div:last-child { border-right: 0; }
+.title-block label { font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; }
+.title-block .v { font-family: "Major Mono Display", monospace; font-size: 14px; color: var(--ink); }
+.tb-title { font-family: "Major Mono Display", monospace; font-size: 16px; }
+
+@media (max-width: 900px) {
+  .legend-block { grid-template-columns: repeat(2, 1fr); }
+  .frame { padding: 32px 22px 48px; }
+  .title-block { grid-template-columns: 1fr 1fr; }
+  .title-block > div:nth-child(2n) { border-right: 0; }
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">toggle</button>
+
+<section class="frame">
+  <header class="head">
+    <div class="head-l">
+      <h1>overlap.dwg</h1>
+      <small>Personal Conference Intersection · Schematic A</small>
+    </div>
+    <div class="head-r">
+      Sheet 01 of 01<br>
+      Scale <b>1 : ∞</b><br>
+      Datum <b>JT-001</b>
+    </div>
+  </header>
+
+  <div class="canvas">
+    <svg viewBox="0 0 1000 720" class="venn">
+      <!-- Top ruler -->
+      <line class="ruler-line" x1="20" y1="20" x2="980" y2="20" />
+      <g>
+        <line class="ruler-tick" x1="100" y1="14" x2="100" y2="26" />
+        <line class="ruler-tick" x1="300" y1="14" x2="300" y2="26" />
+        <line class="ruler-tick" x1="500" y1="14" x2="500" y2="26" />
+        <line class="ruler-tick" x1="700" y1="14" x2="700" y2="26" />
+        <line class="ruler-tick" x1="900" y1="14" x2="900" y2="26" />
+        <text class="ruler-text" x="100" y="40" text-anchor="middle">100</text>
+        <text class="ruler-text" x="300" y="40" text-anchor="middle">300</text>
+        <text class="ruler-text" x="500" y="40" text-anchor="middle">500</text>
+        <text class="ruler-text" x="700" y="40" text-anchor="middle">700</text>
+        <text class="ruler-text" x="900" y="40" text-anchor="middle">900</text>
+      </g>
+      <!-- Left ruler -->
+      <line class="ruler-line" x1="20" y1="20" x2="20" y2="700" />
+
+      <!-- Three circles -->
+      <circle class="circ" cx="385" cy="290" r="200" />
+      <circle class="circ" cx="615" cy="290" r="200" />
+      <circle class="circ" cx="500" cy="490" r="200" />
+
+      <!-- Crosshair markers at centers -->
+      <g>
+        <circle class="ctr" cx="385" cy="290" r="2.5" />
+        <circle class="ctr" cx="615" cy="290" r="2.5" />
+        <circle class="ctr" cx="500" cy="490" r="2.5" />
+      </g>
+
+      <!-- Names with leader -->
+      <line class="ctr-line" x1="385" y1="290" x2="220" y2="125" />
+      <text class="name" x="220" y="115" text-anchor="end">A.JACKSON</text>
+      <text class="nm-meta" x="220" y="130" text-anchor="end">UID :: JT-001</text>
+
+      <line class="ctr-line" x1="615" y1="290" x2="780" y2="125" />
+      <text class="name" x="780" y="115" text-anchor="start">B.PRIYA</text>
+      <text class="nm-meta" x="780" y="130" text-anchor="start">UID :: PR-014</text>
+
+      <line class="ctr-line" x1="500" y1="490" x2="500" y2="690" />
+      <text class="name" x="500" y="710" text-anchor="middle">C.DEVON</text>
+      <text class="nm-meta" x="500" y="724" text-anchor="middle">UID :: DW-029</text>
+
+      <!-- Region IDs and counts -->
+      <g>
+        <text class="reg-id" x="245" y="260" text-anchor="middle">A</text>
+        <text class="reg-count" x="245" y="288" text-anchor="middle">02</text>
+        <text class="reg-id" x="755" y="260" text-anchor="middle">B</text>
+        <text class="reg-count" x="755" y="288" text-anchor="middle">02</text>
+        <text class="reg-id" x="500" y="585" text-anchor="middle">C</text>
+        <text class="reg-count" x="500" y="613" text-anchor="middle">01</text>
+
+        <text class="reg-id" x="500" y="220" text-anchor="middle">A∩B</text>
+        <text class="reg-count" x="500" y="248" text-anchor="middle">02</text>
+
+        <text class="reg-id" x="395" y="430" text-anchor="middle">A∩C</text>
+        <text class="reg-count" x="395" y="458" text-anchor="middle">01</text>
+
+        <text class="reg-id" x="615" y="430" text-anchor="middle">B∩C</text>
+        <text class="reg-count" x="615" y="458" text-anchor="middle">01</text>
+
+        <text class="reg-id" x="500" y="345" text-anchor="middle">A∩B∩C</text>
+        <text class="reg-count" x="500" y="375" text-anchor="middle">02</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="legend-block">
+    <div>
+      <div class="lh">A · only</div>
+      <div class="lc">02</div>
+      <ul>
+        <li>SREcon Americas '26</li>
+        <li>dotJS Paris</li>
+      </ul>
+    </div>
+    <div>
+      <div class="lh">B · only</div>
+      <div class="lc">02</div>
+      <ul>
+        <li>PyCon Italia '25</li>
+        <li>RustConf '25</li>
+      </ul>
+    </div>
+    <div>
+      <div class="lh">C · only</div>
+      <div class="lc">01</div>
+      <ul><li>KubeCon NA '25</li></ul>
+    </div>
+    <div>
+      <div class="lh">A ∩ B</div>
+      <div class="lc">02</div>
+      <ul>
+        <li>Strange Loop '24</li>
+        <li>RailsConf '25</li>
+      </ul>
+    </div>
+    <div>
+      <div class="lh">A ∩ C</div>
+      <div class="lc">01</div>
+      <ul><li>GopherCon '24</li></ul>
+    </div>
+    <div>
+      <div class="lh">B ∩ C</div>
+      <div class="lc">01</div>
+      <ul><li>PyData Berlin '24</li></ul>
+    </div>
+    <div>
+      <div class="lh">A ∩ B ∩ C</div>
+      <div class="lc">02</div>
+      <ul>
+        <li>QCon SF '25</li>
+        <li>React Conf '25</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="title-block">
+    <div>
+      <label>Drawing</label>
+      <div class="v tb-title">CONFERENCE OVERLAP — PERSONAL</div>
+    </div>
+    <div><label>Drawn by</label><div class="v">JT</div></div>
+    <div><label>Rev</label><div class="v">A · 2026.05</div></div>
+    <div><label>Sheet</label><div class="v">01 / 01</div></div>
+  </div>
+</section>
+</body>
+</html>
