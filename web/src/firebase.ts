@@ -1,6 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import {
+  connectFirestoreEmulator,
+  initializeFirestore,
+} from "firebase/firestore";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 const useEmulators = import.meta.env.VITE_USE_FIREBASE_EMULATORS === "true";
@@ -14,7 +17,16 @@ export const firebaseApp = initializeApp({
 });
 
 export const auth = getAuth(firebaseApp);
-export const db = getFirestore(firebaseApp);
+// `experimentalAutoDetectLongPolling` makes Firestore try WebChannel
+// first and fall back to long polling if the streaming transport fails.
+// Safari's Intelligent Tracking Prevention frequently blocks WebChannel
+// to firestore.googleapis.com — without this, post-signin /Listen
+// streams error with "access control checks" / "transport errored" on
+// Safari + iOS. Slight first-listen latency cost (~100ms); no behavior
+// change in Chrome / Firefox where WebChannel works.
+export const db = initializeFirestore(firebaseApp, {
+  experimentalAutoDetectLongPolling: true,
+});
 export const storage = getStorage(firebaseApp);
 
 if (useEmulators) {
