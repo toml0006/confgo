@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Source SVG for the manifest / home-screen app icons. Larger padding
+  than the favicon (which is sized for a tiny tab badge) so iOS / Android
+  rounded-rect masks don't crop the venn circles. Render to PNG via:
+    rsvg-convert -w 192 -h 192 icon-source.svg -o icon-192.png
+    rsvg-convert -w 512 -h 512 icon-source.svg -o icon-512.png
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Paper-warm background, opaque (manifest icons should not be
+       transparent — many launchers paint them on a dark home screen). -->
+  <rect width="512" height="512" fill="#fbf9f4"/>
+
+  <!-- Venn circles, centered, with ~17% safe-area padding so adaptive
+       icon masking on Android keeps the strokes inside the visible
+       circle/squircle. -->
+  <g transform="translate(154, 188)">
+    <circle cx="80" cy="68" r="68" fill="none" stroke="#1a1814" stroke-width="14"/>
+    <circle cx="124" cy="68" r="68" fill="none" stroke="#c2410c" stroke-width="14"/>
+  </g>
+</svg>
