@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Overlap · Riso Zine</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --paper: #f7eedd;
+  --ink: #1a0d24;
+  --c-coral: #ff5d3a;
+  --c-indigo: #2e2bff;
+  --c-olive: #6b7a2a;
+  --grain: 0.18;
+  --over-blend: multiply;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a0d24;
+    --ink: #ffe9d4;
+    --c-coral: #ff7a55;
+    --c-indigo: #6f6cff;
+    --c-olive: #c1d24f;
+    --grain: 0.32;
+    --over-blend: screen;
+  }
+}
+:root[data-theme="light"] { --paper:#f7eedd; --ink:#1a0d24; --c-coral:#ff5d3a; --c-indigo:#2e2bff; --c-olive:#6b7a2a; --grain:0.18; --over-blend:multiply; }
+:root[data-theme="dark"]  { --paper:#1a0d24; --ink:#ffe9d4; --c-coral:#ff7a55; --c-indigo:#6f6cff; --c-olive:#c1d24f; --grain:0.32; --over-blend:screen; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  position: relative;
+  padding: 32px;
+}
+body::before {
+  content: ""; pointer-events: none;
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' seed='9'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.65 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: var(--grain);
+  mix-blend-mode: var(--over-blend);
+  z-index: 1000;
+}
+.theme-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 1001;
+  font-family: "Boldonse", "Instrument Serif", serif; font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  background: var(--paper); color: var(--ink);
+  border: 2px solid var(--ink); padding: 6px 12px; cursor: pointer;
+}
+.zine {
+  max-width: 1100px; margin: 0 auto;
+  border: 4px solid var(--ink);
+  padding: 36px;
+  position: relative;
+  background: var(--paper);
+}
+.zine::after {
+  content: ""; position: absolute; inset: 8px;
+  border: 1px solid var(--ink);
+  pointer-events: none;
+}
+.masthead {
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: end; gap: 18px;
+  border-bottom: 4px solid var(--ink);
+  padding-bottom: 12px; margin-bottom: 28px;
+}
+.masthead .num {
+  font-family: "Boldonse", serif;
+  font-size: 96px; line-height: 0.85;
+  color: var(--c-coral);
+  letter-spacing: -0.04em;
+}
+.masthead .title {
+  font-family: "Boldonse", serif;
+  font-size: 56px; line-height: 0.86;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+.masthead .title em { color: var(--c-indigo); font-style: normal; }
+.masthead .meta {
+  font-family: "Instrument Serif", serif; font-style: italic;
+  font-size: 14px; line-height: 1.3; text-align: right; color: var(--ink);
+}
+.lede {
+  font-family: "Instrument Serif", serif; font-style: italic;
+  font-size: 22px; line-height: 1.35; max-width: 740px; margin: 0 0 28px;
+}
+.lede em { color: var(--c-coral); font-style: italic; }
+
+.canvas { position: relative; }
+svg.venn { width: 100%; height: auto; max-width: 920px; margin: 0 auto; display: block; }
+svg.venn .circ-coral { fill: var(--c-coral); fill-opacity: 0.85; mix-blend-mode: var(--over-blend); }
+svg.venn .circ-indigo { fill: var(--c-indigo); fill-opacity: 0.85; mix-blend-mode: var(--over-blend); }
+svg.venn .circ-olive { fill: var(--c-olive); fill-opacity: 0.85; mix-blend-mode: var(--over-blend); }
+svg.venn .name {
+  font-family: "Boldonse", serif;
+  font-size: 26px; letter-spacing: -0.02em; text-transform: uppercase;
+}
+svg.venn .reg-pill { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+svg.venn .reg-text {
+  font-family: "Boldonse", serif; font-size: 11px; letter-spacing: 0.04em;
+  text-transform: uppercase; fill: var(--ink);
+}
+svg.venn .reg-text.confs {
+  font-family: "Instrument Sans", sans-serif; font-size: 10.5px;
+  letter-spacing: 0; text-transform: none; font-weight: 500;
+}
+
+.legend {
+  margin-top: 36px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  border-top: 4px solid var(--ink);
+}
+.legend > article {
+  border-right: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  padding: 16px 14px;
+}
+.legend > article:nth-child(4n) { border-right: 0; }
+.legend h4 {
+  margin: 0 0 8px;
+  font-family: "Boldonse", serif; text-transform: uppercase;
+  font-size: 12px; letter-spacing: 0.06em;
+}
+.legend .label-coral { color: var(--c-coral); }
+.legend .label-indigo { color: var(--c-indigo); }
+.legend .label-olive { color: var(--c-olive); }
+.legend ul { list-style: none; margin: 0; padding: 0; font-size: 13px; line-height: 1.45; }
+.legend li::before { content: "✱"; margin-right: 6px; color: var(--c-coral); }
+.legend li:nth-child(2n)::before { color: var(--c-indigo); }
+
+.foot {
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 4px solid var(--ink); margin-top: 18px; padding-top: 14px;
+  font-family: "Instrument Serif", serif; font-style: italic; font-size: 13px;
+}
+.foot .pricetag {
+  background: var(--c-coral); color: var(--paper);
+  padding: 4px 10px; border-radius: 999px;
+  font-family: "Boldonse", serif; font-style: normal; letter-spacing: 0.1em;
+  text-transform: uppercase; font-size: 10px;
+}
+@media (max-width: 800px) {
+  .masthead { grid-template-columns: 1fr; }
+  .masthead .meta { text-align: left; }
+  .masthead .num { font-size: 64px; }
+  .masthead .title { font-size: 36px; }
+  .legend { grid-template-columns: repeat(2, 1fr); }
+  .legend > article:nth-child(2n) { border-right: 0; }
+  .legend > article:nth-child(4n) { border-right: 2px solid var(--ink); }
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">flip the page</button>
+
+<section class="zine">
+  <header class="masthead">
+    <div class="num">01</div>
+    <div class="title">Overlap <em>zine</em><br>shared rooms.</div>
+    <div class="meta">
+      Sample size: 3 humans<br>
+      Pressed in 2 colours<br>
+      Free with attendance
+    </div>
+  </header>
+
+  <p class="lede">Three friends, twelve conferences, one chronic case of <em>seeing each other in lobbies.</em> A two-colour overprint of who shows up where.</p>
+
+  <div class="canvas">
+    <svg viewBox="0 0 1000 740" class="venn">
+      <g style="mix-blend-mode: var(--over-blend);">
+        <circle class="circ-coral" cx="385" cy="290" r="210" />
+        <circle class="circ-indigo" cx="615" cy="290" r="210" />
+        <circle class="circ-olive" cx="500" cy="500" r="210" />
+      </g>
+
+      <text class="name" style="fill: var(--c-coral);" x="200" y="78">JACKSON</text>
+      <text class="name" style="fill: var(--c-indigo);" x="800" y="78" text-anchor="end">PRIYA</text>
+      <text class="name" style="fill: var(--c-olive);" x="500" y="730" text-anchor="middle">DEVON</text>
+
+      <!-- region pills with conference names. Two per region max for legibility. -->
+      <g>
+        <rect class="reg-pill" x="180" y="240" width="170" height="56" rx="6" />
+        <text class="reg-text confs" x="265" y="262" text-anchor="middle">SREcon '26</text>
+        <text class="reg-text confs" x="265" y="280" text-anchor="middle">dotJS Paris</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="650" y="240" width="170" height="56" rx="6" />
+        <text class="reg-text confs" x="735" y="262" text-anchor="middle">PyCon Italia '25</text>
+        <text class="reg-text confs" x="735" y="280" text-anchor="middle">RustConf '25</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="415" y="600" width="170" height="38" rx="6" />
+        <text class="reg-text confs" x="500" y="624" text-anchor="middle">KubeCon NA '25</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="415" y="180" width="170" height="56" rx="6" />
+        <text class="reg-text confs" x="500" y="202" text-anchor="middle">Strange Loop '24</text>
+        <text class="reg-text confs" x="500" y="220" text-anchor="middle">RailsConf '25</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="310" y="412" width="170" height="38" rx="6" />
+        <text class="reg-text confs" x="395" y="436" text-anchor="middle">GopherCon '24</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="520" y="412" width="170" height="38" rx="6" />
+        <text class="reg-text confs" x="605" y="436" text-anchor="middle">PyData Berlin '24</text>
+      </g>
+      <g>
+        <rect class="reg-pill" x="415" y="320" width="170" height="56" rx="6" />
+        <text class="reg-text confs" x="500" y="342" text-anchor="middle">QCon SF '25</text>
+        <text class="reg-text confs" x="500" y="360" text-anchor="middle">React Conf '25</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="legend">
+    <article>
+      <h4 class="label-coral">JACKSON · ALONE</h4>
+      <ul><li>SREcon Americas '26</li><li>dotJS Paris</li></ul>
+    </article>
+    <article>
+      <h4 class="label-indigo">PRIYA · ALONE</h4>
+      <ul><li>PyCon Italia '25</li><li>RustConf '25</li></ul>
+    </article>
+    <article>
+      <h4 class="label-olive">DEVON · ALONE</h4>
+      <ul><li>KubeCon NA '25</li></ul>
+    </article>
+    <article>
+      <h4>JACKSON ∩ PRIYA</h4>
+      <ul><li>Strange Loop '24</li><li>RailsConf '25</li></ul>
+    </article>
+    <article>
+      <h4>JACKSON ∩ DEVON</h4>
+      <ul><li>GopherCon '24</li></ul>
+    </article>
+    <article>
+      <h4>PRIYA ∩ DEVON</h4>
+      <ul><li>PyData Berlin '24</li></ul>
+    </article>
+    <article>
+      <h4 style="color: var(--c-coral);">ALL <span style="color: var(--c-indigo);">THREE</span></h4>
+      <ul><li>QCon SF '25</li><li>React Conf '25</li></ul>
+    </article>
+    <article>
+      <h4>COLOPHON</h4>
+      <ul style="list-style:none;">
+        <li>Boldonse + Instrument</li>
+        <li>2-colour fake riso</li>
+        <li>Pulled by hand</li>
+      </ul>
+    </article>
+  </div>
+
+  <footer class="foot">
+    <span>Issue 01 · printed for friends.</span>
+    <span class="pricetag">free · 1 of 1</span>
+  </footer>
+</section>
+</body>
+</html>

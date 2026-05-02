@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { z } from "zod";
-import { users, attendances } from "../lib/firestore";
+import { users, attendances, chunk, getUsersByIds } from "../lib/firestore";
 import { savedContactsArraySchema } from "../lib/contacts";
 import { AppEnv, getUserId, requireAuth } from "../auth";
 
@@ -52,6 +52,69 @@ me.patch("/me", requireAuth, async (c) => {
   }
   const snap = await users().doc(userId).get();
   return c.json(toApiUser(userId, snap.data()!));
+});
+
+// Top peers by count of conferences both me and them have attended.
+// Used by the personal overlap Venn — caller passes ?limit=N to size the diagram.
+const overlapQuery = z.object({
+  limit: z.coerce.number().int().min(1).max(10).optional(),
+});
+
+me.get("/me/overlap-peers", requireAuth, async (c) => {
+  const userId = getUserId(c);
+  const parsed = overlapQuery.safeParse({ limit: c.req.query("limit") });
+  if (!parsed.success) return c.json({ error: "bad_request" }, 400);
+  const limit = parsed.data.limit ?? 2;
+
+  const mineSnap = await attendances().where("user_id", "==", userId).get();
+  const myConfIds = Array.from(
+    new Set(mineSnap.docs.map((d) => d.get("conference_id") as string)),
+  );
+  if (myConfIds.length === 0) return c.json({ peers: [] });
+
+  // Tally other users who attended any of my conferences. Firestore "in"
+  // caps at 30 values per query, so chunk.
+  const counts = new Map<string, number>();
+  for (const ids of chunk(myConfIds, 30)) {
+    const snap = await attendances().where("conference_id", "in", ids).get();
+    for (const d of snap.docs) {
+      const other = d.get("user_id") as string;
+      if (other === userId) continue;
+      counts.set(other, (counts.get(other) ?? 0) + 1);
+    }
+  }
+
+  // Sort by overlap desc, then fetch user docs and drop hidden (no display_name) users.
+  const ranked = Array.from(counts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, Math.max(limit * 4, limit + 5)); // overfetch since some may be hidden
+
+  const usersById = await getUsersByIds(ranked.map(([id]) => id));
+  const peers: Array<{
+    user: {
+      id: string;
+      avatarId: number;
+      displayName: string | null;
+      photoURL: string | null;
+    };
+    sharedCount: number;
+  }> = [];
+  for (const [id, sharedCount] of ranked) {
+    const data = usersById.get(id);
+    if (!data) continue;
+    if (typeof data.display_name !== "string" || data.display_name.length === 0) continue;
+    peers.push({
+      user: {
+        id,
+        avatarId: data.avatar_id ?? 0,
+        displayName: data.display_name,
+        photoURL: data.photo_url ?? null,
+      },
+      sharedCount,
+    });
+    if (peers.length >= limit) break;
+  }
+  return c.json({ peers });
 });
 
 me.get("/me/attendances", requireAuth, async (c) => {

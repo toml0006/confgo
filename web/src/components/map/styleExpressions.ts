@@ -2,48 +2,112 @@ import type { ExpressionSpecification } from "mapbox-gl";
 
 /**
  * Map layer style helpers.
- * - `glow` is a feature property in [0, 1] set client-side via conferenceGlow().
- * - `state` is one of "default" | "mine" | "past" | "past-mine".
- * - `premium` (boolean) overrides the state-based color so sponsored
- *   conferences read as a single distinct hue regardless of attendance.
+ *
+ * Driven by three feature properties and one feature-state:
+ *   `glow`    – number in [0, 1] from `conferenceGlow()` — peaks during the
+ *               event, fades after, ramps in before. Drives radius + opacity
+ *               so the cluster reads like a heatmap.
+ *   `state`   – "default" | "mine" | "past" | "past-mine" — drives color.
+ *   `premium` – boolean — when true, overrides state-based color so sponsored
+ *               conferences read as a single distinct hue regardless of
+ *               attendance.
+ *   feature-state.hover / .active – pop-out radius + color highlight on
+ *               pointer interaction.
  */
 
-export const coreRadius: ExpressionSpecification = [
-  "interpolate",
-  ["linear"],
-  ["get", "glow"],
-  0,
-  3.5,
-  1,
-  9,
-];
+type Colors = {
+  future: string;
+  futureMine: string;
+  past: string;
+  pastMine: string;
+  premium: string;
+  hover: string;
+  haloHover: string;
+};
 
-export const haloRadius: ExpressionSpecification = [
-  "interpolate",
-  ["linear"],
-  ["get", "glow"],
-  0,
-  7,
-  1,
-  18,
-];
+export function coreRadius(): ExpressionSpecification {
+  return [
+    "case",
+    ["boolean", ["feature-state", "active"], false],
+    14,
+    ["boolean", ["feature-state", "hover"], false],
+    14,
+    [
+      "interpolate",
+      ["linear"],
+      ["get", "glow"],
+      0,
+      3.5,
+      1,
+      9,
+    ],
+  ] as ExpressionSpecification;
+}
 
-export const coreColor: ExpressionSpecification = [
-  "case",
-  ["==", ["get", "premium"], true],
-  "#b794f6", // aurora violet — premium overrides state color
-  [
-    "match",
-    ["get", "state"],
-    "mine",
-    "#5ee7d9", // signal teal
-    "past-mine",
-    "#8ca0dc", // past-signal muted blue
-    "past",
-    "#e879b1", // past-ember vivid rose
-    /* default */ "#ffb547", // ember vivid amber
-  ],
-];
+export function haloRadius(): ExpressionSpecification {
+  return [
+    "case",
+    ["boolean", ["feature-state", "active"], false],
+    24,
+    ["boolean", ["feature-state", "hover"], false],
+    24,
+    [
+      "interpolate",
+      ["linear"],
+      ["get", "glow"],
+      0,
+      7,
+      1,
+      18,
+    ],
+  ] as ExpressionSpecification;
+}
+
+export function coreColor(c: Colors): ExpressionSpecification {
+  return [
+    "case",
+    ["boolean", ["feature-state", "active"], false],
+    c.hover,
+    ["boolean", ["feature-state", "hover"], false],
+    c.hover,
+    ["==", ["get", "premium"], true],
+    c.premium,
+    [
+      "match",
+      ["get", "state"],
+      "mine",
+      c.futureMine,
+      "past-mine",
+      c.pastMine,
+      "past",
+      c.past,
+      /* default */ c.future,
+    ],
+  ] as ExpressionSpecification;
+}
+
+export function haloColor(c: Colors): ExpressionSpecification {
+  return [
+    "case",
+    ["boolean", ["feature-state", "active"], false],
+    c.haloHover,
+    ["boolean", ["feature-state", "hover"], false],
+    c.haloHover,
+    ["==", ["get", "premium"], true],
+    c.premium,
+    [
+      "match",
+      ["get", "state"],
+      "mine",
+      c.futureMine,
+      "past-mine",
+      c.pastMine,
+      "past",
+      c.past,
+      /* default */ c.future,
+    ],
+  ] as ExpressionSpecification;
+}
 
 export const coreOpacity: ExpressionSpecification = [
   "interpolate",
@@ -64,3 +128,5 @@ export const haloOpacity: ExpressionSpecification = [
   1,
   0.45,
 ];
+
+export type { Colors };

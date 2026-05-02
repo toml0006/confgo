@@ -7,6 +7,11 @@ import {
 } from "../api";
 import { useAuth } from "../auth/AuthContext";
 import type { ContactEntry } from "../lib/contacts";
+import { isFuture as isFutureFn } from "../lib/decay";
+import { Button } from "@/components/ui/button";
+import { Caption, FloatingPanel } from "@/components/ui/floating-panel";
+import { Kicker } from "@/components/ui/kicker";
+import { Tag } from "@/components/ui/tag";
 import { PingComposer } from "./PingComposer";
 import { PremiumCard } from "./PremiumCard";
 import { UserAvatar } from "./UserAvatar";
@@ -90,110 +95,118 @@ export function ConferenceSheet({
 
   const now = new Date();
   const isPast = new Date(conference.endDate) < now;
-  const defaultAction: AttendanceIntent = isPast ? "been" : "going";
+  const isFuture = isFutureFn(conference.startDate, now);
+
+  const startDateStr = new Date(conference.startDate).toLocaleDateString();
+  const endDateStr =
+    conference.endDate && conference.endDate !== conference.startDate
+      ? new Date(conference.endDate).toLocaleDateString()
+      : null;
+  const dateLabel = endDateStr ? `${startDateStr} – ${endDateStr}` : startDateStr;
+
+  // Title: italicize the last word in brand color (per Atlas spec) — only when
+  // there's more than one word, otherwise keep the title plain.
+  const lastSpace = conference.name.lastIndexOf(" ");
+  const titleHead =
+    lastSpace > 0 ? conference.name.slice(0, lastSpace) : conference.name;
+  const titleTail = lastSpace > 0 ? conference.name.slice(lastSpace + 1) : null;
 
   return (
-    <div
-      className={`conf-sheet glass-panel sheet-in${conference.premium ? " conf-sheet--premium" : ""}`}
+    <FloatingPanel
+      side="top-left"
+      onBack={onBack}
+      onClose={onClose}
+      premium={Boolean(conference.premium)}
     >
-      {onBack ? (
-        <button
-          className="soft-button soft-button--quiet conf-sheet-back"
-          onClick={onBack}
-        >
-          ← Back
-        </button>
-      ) : null}
-      <button
-        className="close-x conf-sheet-close"
-        onClick={onClose}
-        aria-label="Close"
-      >
-        ×
-      </button>
-
       {conference.premium ? (
         <PremiumCard conference={conference} />
       ) : (
-        <div className="stack-sm">
-          <div className="section-label">{conference.source ?? "conference"}</div>
-          <h2 className="conf-name">{conference.name}</h2>
-          <div className="muted">
-            {conference.locationName} ·{" "}
-            {new Date(conference.startDate).toLocaleDateString()}
-            {conference.endDate && conference.endDate !== conference.startDate
-              ? ` – ${new Date(conference.endDate).toLocaleDateString()}`
-              : ""}
+        <div className="flex flex-col gap-2">
+          <Kicker accent>
+            {(conference.source ?? "conference")} <span className="text-ink3">·</span> {dateLabel}
+          </Kicker>
+          <h2 className="m-0 font-display font-normal text-[1.6rem] leading-[1.05] tracking-[-0.025em] text-ink">
+            {titleTail ? (
+              <>
+                {titleHead}{" "}
+                <em className="italic text-brand">{titleTail}</em>
+              </>
+            ) : (
+              conference.name
+            )}
+          </h2>
+          <div className="text-[13px] text-ink2">
+            {conference.locationName}{" "}
+            <span className="text-ink3">·</span> {dateLabel}
           </div>
         </div>
       )}
-      {conference.topics.length > 0 ? (
-        <div className="topics">
-          {conference.topics.map((t) => (
-            <span key={t} className="topic-chip">
-              {t}
-            </span>
-          ))}
-        </div>
-      ) : null}
+      {(() => {
+        // Show the full tag set: union of `topics` (curated) + `tags` (raw),
+        // deduped, since the API returns both and they often differ.
+        const set = new Set<string>([
+          ...(conference.topics ?? []),
+          ...(conference.tags ?? []),
+        ]);
+        const all = Array.from(set);
+        if (all.length === 0) return null;
+        return (
+          <div className="flex gap-1.5 flex-wrap">
+            {all.map((t) => (
+              <Tag key={t}>{t}</Tag>
+            ))}
+          </div>
+        );
+      })()}
 
-      <div className="conf-actions">
-        {myIntent === undefined ? (
-          <>
-            {!isPast && (
-              <button
-                className="soft-button soft-button--primary"
-                disabled={busy}
-                onClick={() => mark("going")}
-              >
-                I'll be there
-              </button>
-            )}
-            <button
-              className="soft-button"
-              disabled={busy}
-              onClick={() => mark("been")}
-            >
-              I was there
-            </button>
-          </>
-        ) : (
-          <>
-            <div className="muted mine-tag">
-              Marked as <strong>{myIntent === "going" ? "going" : "been"}</strong>
-            </div>
-            <button
-              className="soft-button soft-button--danger"
-              disabled={busy}
-              onClick={unmark}
-            >
-              Unmark
-            </button>
-            {myIntent !== defaultAction ? (
-              <button
-                className="soft-button soft-button--quiet"
-                disabled={busy}
-                onClick={() => mark(defaultAction)}
-              >
-                Switch to "{defaultAction}"
-              </button>
-            ) : null}
-          </>
-        )}
+      <div className="flex gap-2 flex-wrap items-center">
+        {/* Toggle pair: filled = currently selected, outlined = available
+            choice. Clicking the active (filled) button unmarks; clicking
+            the inactive one marks (or switches). Tense gates each
+            button — you can't claim past attendance for an event that
+            hasn't started, nor pre-RSVP an event that's already over. */}
+        {!isPast ? (
+          <Button
+            variant={myIntent === "going" ? "atlas-future-solid" : "atlas-future"}
+            size="atlas"
+            disabled={busy}
+            onClick={() =>
+              myIntent === "going" ? unmark() : mark("going")
+            }
+          >
+            I'll be there
+          </Button>
+        ) : null}
+        {!isFuture ? (
+          <Button
+            variant={myIntent === "been" ? "atlas-past-solid" : "atlas-past"}
+            size="atlas"
+            disabled={busy}
+            onClick={() =>
+              myIntent === "been" ? unmark() : mark("been")
+            }
+          >
+            I was there
+          </Button>
+        ) : null}
       </div>
 
-      <div className="section-label">Attendees ({attendees.length})</div>
+      <Kicker>Attendees · {attendees.length}</Kicker>
       {attendees.length === 0 ? (
-        <div className="caption">No one's marked this yet.</div>
+        <Caption>No one's marked this yet.</Caption>
       ) : (
-        <div className="attendee-grid">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2.5">
           {attendees.map((a) => (
-            <div key={a.userId} className="attendee-tile" title={a.displayName ?? ""}>
+            <div
+              key={a.userId}
+              title={a.displayName ?? ""}
+              className="flex items-center gap-1.5 p-2 bg-bg border border-hair rounded-[10px] hover:border-ink3 transition-colors"
+            >
               <button
                 type="button"
-                className="attendee-identity"
                 disabled={a.isYou}
                 onClick={() => !a.isYou && onOpenPeer(a.userId)}
+                className="flex items-center gap-2 flex-1 min-w-0 bg-transparent border-none p-0 cursor-pointer text-current text-left disabled:cursor-default"
               >
                 <UserAvatar
                   avatarId={a.avatarId}
@@ -212,11 +225,13 @@ export function ConferenceSheet({
                             : "none"
                   }
                 />
-                <div className="attendee-meta">
-                  <div className="attendee-name">
+                <div className="flex flex-col min-w-0">
+                  <div className="text-[13px] text-ink truncate">
                     {a.isYou ? "You" : a.displayName ?? "Unnamed"}
                   </div>
-                  <div className="attendee-intent muted">{a.intent}</div>
+                  <Kicker className="text-[10px]">
+                    {isPast ? "been" : "going"}
+                  </Kicker>
                 </div>
               </button>
               <AttendeePing
@@ -230,177 +245,24 @@ export function ConferenceSheet({
       )}
 
       {conference.url ? (
-        <a
-          className="soft-button soft-button--quiet"
-          href={conference.url}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Visit site ↗
-        </a>
+        <Button asChild variant="atlas-ghost" size="atlas-sm" className="self-start">
+          <a href={conference.url} target="_blank" rel="noreferrer">
+            Visit site ↗
+          </a>
+        </Button>
       ) : null}
 
-      {composerFor ? (
-        <PingComposer
-          title={`Ping ${composerFor.displayName ?? "Unnamed"}`}
-          peerDisplayName={composerFor.displayName ?? "them"}
-          submitLabel={composerFor.hasPingedYou ? "Ping back" : "Send ping"}
-          onSubmit={handlePingSubmit}
-          onCancel={() => setComposerFor(null)}
-        />
-      ) : null}
-
-      <style>{`
-        .conf-sheet {
-          position: fixed;
-          top: 68px;
-          left: 18px;
-          width: min(420px, calc(100vw - 36px));
-          max-height: calc(100vh - 86px);
-          overflow-y: auto;
-          padding: 18px;
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-          z-index: 40;
+      <PingComposer
+        open={composerFor !== null}
+        title={
+          composerFor ? `Ping ${composerFor.displayName ?? "Unnamed"}` : ""
         }
-        .conf-sheet--premium {
-          border-color: var(--aurora-dim);
-          box-shadow:
-            0 10px 40px -15px rgba(0, 0, 0, 0.9),
-            0 0 0 1px var(--aurora-dim) inset,
-            0 0 60px -20px var(--aurora-dim);
-        }
-        .conf-sheet-close {
-          position: absolute;
-          top: 12px;
-          right: 12px;
-          z-index: 2;
-        }
-        .conf-sheet-back {
-          position: absolute;
-          top: 12px;
-          left: 12px;
-          z-index: 2;
-        }
-        .conf-name {
-          margin: 0;
-          font-size: 1.3rem;
-          font-weight: 400;
-          line-height: 1.2;
-        }
-        .topics {
-          display: flex;
-          gap: 0.4rem;
-          flex-wrap: wrap;
-        }
-        .topic-chip {
-          font-size: 0.6rem;
-          text-transform: uppercase;
-          letter-spacing: 0.14em;
-          padding: 0.2rem 0.55rem;
-          border: 1px solid var(--mist);
-          border-radius: 999px;
-          color: var(--text-muted);
-        }
-        .conf-actions {
-          display: flex;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-          align-items: center;
-        }
-        .mine-tag strong {
-          color: var(--signal);
-          font-weight: 400;
-        }
-        .attendee-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-          gap: 0.6rem;
-        }
-        .attendee-tile {
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-          padding: 0.4rem 0.55rem;
-          border: 1px solid var(--mist);
-          border-radius: 12px;
-        }
-        .attendee-identity {
-          display: flex;
-          align-items: center;
-          gap: 0.55rem;
-          flex: 1;
-          min-width: 0;
-          background: transparent;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          color: inherit;
-          text-align: left;
-        }
-        .attendee-identity:disabled {
-          cursor: default;
-        }
-        .attendee-meta {
-          display: flex;
-          flex-direction: column;
-          min-width: 0;
-        }
-        .attendee-name {
-          font-size: 0.78rem;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .attendee-intent {
-          font-size: 0.62rem;
-          text-transform: uppercase;
-          letter-spacing: 0.14em;
-        }
-        .attendee-ping-slot {
-          flex-shrink: 0;
-          display: flex;
-          align-items: center;
-        }
-        .attendee-ping-btn {
-          font-size: 0.65rem;
-          padding: 0.25rem 0.55rem;
-          border-radius: 999px;
-          background: transparent;
-          border: 1px solid var(--mist, rgba(255,255,255,0.1));
-          color: var(--text-muted, rgba(255,255,255,0.7));
-          cursor: pointer;
-          white-space: nowrap;
-        }
-        .attendee-ping-btn:hover:not(:disabled) {
-          border-color: var(--signal, #5ee7d9);
-          color: var(--signal, #5ee7d9);
-        }
-        .attendee-ping-btn:disabled { cursor: default; opacity: 0.55; }
-        .attendee-ping-btn.primary {
-          border-color: var(--signal, #5ee7d9);
-          color: var(--signal, #5ee7d9);
-        }
-        .attendee-chip {
-          font-size: 0.58rem;
-          text-transform: uppercase;
-          letter-spacing: 0.12em;
-          padding: 0.2rem 0.5rem;
-          border-radius: 999px;
-          white-space: nowrap;
-        }
-        .attendee-chip.matched {
-          background: rgba(94, 231, 217, 0.12);
-          color: var(--signal, #5ee7d9);
-          border: 1px solid rgba(94, 231, 217, 0.35);
-        }
-        .attendee-chip.sent {
-          color: var(--text-muted, rgba(255, 255, 255, 0.5));
-          border: 1px solid var(--mist, rgba(255, 255, 255, 0.08));
-        }
-      `}</style>
-    </div>
+        peerDisplayName={composerFor?.displayName ?? "them"}
+        submitLabel={composerFor?.hasPingedYou ? "Ping back" : "Send ping"}
+        onSubmit={handlePingSubmit}
+        onCancel={() => setComposerFor(null)}
+      />
+    </FloatingPanel>
   );
 }
 
@@ -417,26 +279,25 @@ function AttendeePing({
   const mutual = attendee.youPinged && attendee.hasPingedYou;
   const sent = attendee.youPinged && !attendee.hasPingedYou;
   const incoming = !attendee.youPinged && attendee.hasPingedYou;
+  // Pings require a real account — anonymous sessions can't send or
+  // receive disclosures. Hide ping affordances entirely; matched/pinged
+  // tags still show because those are public state, not actions.
+  if (isAnonymous && !mutual && !sent) return null;
   return (
-    <div className="attendee-ping-slot">
+    <div className="shrink-0 flex items-center">
       {mutual ? (
-        <span className="attendee-chip matched" aria-label="Matched">
-          ✓ Matched
-        </span>
+        <Tag accent>✓ Matched</Tag>
       ) : sent ? (
-        <span className="attendee-chip sent" aria-label="Pinged">
-          Pinged
-        </span>
+        <Tag>Pinged</Tag>
       ) : (
-        <button
+        <Button
           type="button"
-          className={`attendee-ping-btn ${incoming ? "primary" : ""}`}
-          disabled={isAnonymous}
-          title={isAnonymous ? "Sign in to ping" : undefined}
           onClick={onPing}
+          variant={incoming ? "atlas-primary" : "atlas"}
+          size="atlas-sm"
         >
           {incoming ? "Ping back" : "Ping"}
-        </button>
+        </Button>
       )}
     </div>
   );

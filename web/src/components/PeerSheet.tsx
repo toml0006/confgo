@@ -2,6 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { apiFetch, type Conference, type UserProfile } from "../api";
 import { useAuth } from "../auth/AuthContext";
 import type { ContactEntry } from "../lib/contacts";
+import { Button } from "@/components/ui/button";
+import { Caption, FloatingPanel } from "@/components/ui/floating-panel";
+import { Kicker } from "@/components/ui/kicker";
+import { Tag } from "@/components/ui/tag";
+import { VennChart } from "@/components/ui/venn-chart";
 import { PingComposer } from "./PingComposer";
 import { UserAvatar } from "./UserAvatar";
 
@@ -44,46 +49,58 @@ export function PeerSheet({ userId, onBack, onClose, onOpenConference }: Props) 
 
   if (!profile) {
     return (
-      <div className="peer-sheet glass-panel sheet-in">
-        <div className="conf-sheet-head">
-          {onBack ? (
-            <button className="soft-button soft-button--quiet" onClick={onBack}>
-              ← Back
-            </button>
-          ) : (
-            <span />
-          )}
-          <button className="close-x" onClick={onClose} aria-label="Close">
-            ×
-          </button>
-        </div>
-        <div className="caption">{error ?? "Loading…"}</div>
-        <PeerSheetStyles />
-      </div>
+      <FloatingPanel side="top-left" inset="raised" onBack={onBack} onClose={onClose}>
+        <Caption>{error ?? "Loading…"}</Caption>
+      </FloatingPanel>
     );
   }
 
   const { user, shared, pingState } = profile;
   const pingStatus = pingStatusOf(pingState);
   const displayName = user.displayName ?? "Unnamed";
+  const firstName = displayName.split(" ")[0];
 
   return (
     <>
-      <div className="peer-sheet glass-panel sheet-in">
-        <div className="conf-sheet-head">
-          {onBack ? (
-            <button className="soft-button soft-button--quiet" onClick={onBack}>
-              ← Back
-            </button>
-          ) : (
-            <span />
-          )}
-          <button className="close-x" onClick={onClose} aria-label="Close">
-            ×
-          </button>
+      <FloatingPanel
+        side="top-left"
+        inset="raised"
+        onBack={onBack}
+        onClose={onClose}
+        className="gap-5"
+      >
+        <div className="flex flex-col gap-3">
+          <Kicker accent>The overlap</Kicker>
+          <h1 className="m-0 font-display font-normal text-[2.2rem] leading-[1.05] tracking-[-0.025em] text-ink">
+            {shared.length > 0 ? (
+              <>
+                You and{" "}
+                <em className="italic text-brand">{firstName}</em> have crossed
+                paths at {shared.length} of the same{" "}
+                {shared.length === 1 ? "event" : "events"}.
+              </>
+            ) : (
+              <>
+                You and{" "}
+                <em className="italic text-brand">{firstName}</em> haven't crossed
+                paths yet.
+              </>
+            )}
+          </h1>
         </div>
 
-        <div className="peer-identity">
+        <div className="flex justify-center">
+          <VennChart
+            size={280}
+            leftCount={0}
+            rightCount={0}
+            sharedCount={shared.length}
+            leftLabel="You"
+            rightLabel={firstName}
+          />
+        </div>
+
+        <div className="flex gap-3 items-center">
           <UserAvatar
             avatarId={user.avatarId}
             photoURL={user.photoURL}
@@ -99,76 +116,78 @@ export function PeerSheet({ userId, onBack, onClose, onOpenConference }: Props) 
                     : "none"
             }
           />
-          <div>
-            <div className="peer-name">{displayName}</div>
-            <div className="caption">
+          <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+            <div className="font-display text-[18px] text-ink truncate">
+              {displayName}
+            </div>
+            <Caption>
               {shared.length === 0
                 ? "No shared conferences."
                 : `${shared.length} shared conference${shared.length === 1 ? "" : "s"}.`}
-            </div>
+            </Caption>
           </div>
         </div>
 
-        <div className="peer-ping">
+        <div className="flex gap-2 items-center">
           {pingStatus === "matched" ? (
-            <div className="mini-chip matched">✓ Matched</div>
+            <Tag accent>✓ Matched</Tag>
           ) : pingStatus === "sent" ? (
-            <div className="mini-chip sent">• Pinged</div>
-          ) : pingStatus === "incoming" ? (
-            <button
-              className="soft-button soft-button--primary"
-              disabled={isAnonymous}
-              title={isAnonymous ? "Sign in to respond" : undefined}
+            <Tag>· Pinged</Tag>
+          ) : isAnonymous ? null : pingStatus === "incoming" ? (
+            <Button
+              variant="atlas-primary"
+              size="atlas"
               onClick={() => setComposerOpen(true)}
             >
               Ping back
-            </button>
+            </Button>
           ) : pingStatus === "none" ? (
-            <button
-              className="soft-button soft-button--primary"
-              disabled={isAnonymous}
-              title={isAnonymous ? "Sign in to ping" : undefined}
+            <Button
+              variant="atlas-primary"
+              size="atlas"
               onClick={() => setComposerOpen(true)}
             >
               Send ping
-            </button>
+            </Button>
           ) : null}
         </div>
 
-        {actionError ? <div className="auth-error">{actionError}</div> : null}
+        {actionError ? (
+          <div className="text-[13px] text-brand">{actionError}</div>
+        ) : null}
 
         {shared.length > 0 ? (
           <>
-            <div className="section-label">Shared ({shared.length})</div>
-            <div className="peer-shared-list">
+            <Kicker>Shared · {shared.length}</Kicker>
+            <div className="flex flex-col gap-1.5">
               {shared.map((c) => (
                 <button
                   key={c.id}
-                  className="peer-shared-row"
                   onClick={() => onOpenConference(c)}
+                  className="grid grid-cols-[110px_1fr_auto] gap-2.5 items-center px-3 py-2 bg-bg border border-hair rounded-[10px] text-left hover:border-ink3 transition-colors"
                 >
-                  <span className="peer-shared-date">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink3 whitespace-nowrap">
                     {new Date(c.startDate).toLocaleDateString()}
                   </span>
-                  <span className="peer-shared-name">{c.name}</span>
+                  <span className="font-display text-[14px] text-ink overflow-hidden text-ellipsis whitespace-nowrap">
+                    {c.name}
+                  </span>
+                  <Tag accent>Both went</Tag>
                 </button>
               ))}
             </div>
           </>
         ) : null}
+      </FloatingPanel>
 
-        <PeerSheetStyles />
-      </div>
-
-      {composerOpen ? (
-        <PingComposer
-          title={`Ping ${displayName}`}
-          peerDisplayName={displayName}
-          submitLabel={pingStatus === "incoming" ? "Ping back" : "Send ping"}
-          onSubmit={handleSubmit}
-          onCancel={() => setComposerOpen(false)}
-        />
-      ) : null}
+      <PingComposer
+        open={composerOpen}
+        title={`Ping ${displayName}`}
+        peerDisplayName={displayName}
+        submitLabel={pingStatus === "incoming" ? "Ping back" : "Send ping"}
+        onSubmit={handleSubmit}
+        onCancel={() => setComposerOpen(false)}
+      />
     </>
   );
 }
@@ -181,93 +200,4 @@ function pingStatusOf(s: UserProfile["pingState"]): PingStatus {
   if (s.youPinged) return "sent";
   if (s.hasPingedYou) return "incoming";
   return "none";
-}
-
-function PeerSheetStyles() {
-  return (
-    <style>{`
-      .peer-sheet {
-        position: fixed;
-        top: 92px;
-        left: 18px;
-        width: min(420px, calc(100vw - 36px));
-        max-height: calc(100vh - 110px);
-        overflow-y: auto;
-        padding: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        z-index: 40;
-      }
-      .peer-identity {
-        display: flex;
-        gap: 0.9rem;
-        align-items: center;
-      }
-      .peer-name {
-        font-size: 1.05rem;
-        margin-bottom: 0.15rem;
-      }
-      .peer-ping {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-      }
-      .peer-shared-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-      .peer-shared-row {
-        display: flex;
-        align-items: baseline;
-        gap: 0.7rem;
-        padding: 0.4rem 0.55rem;
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 6px;
-        border: 1px solid transparent;
-        text-align: left;
-        color: inherit;
-        cursor: pointer;
-      }
-      .peer-shared-row:hover {
-        border-color: var(--mist, rgba(255,255,255,0.08));
-        background: rgba(255, 255, 255, 0.04);
-      }
-      .peer-shared-date {
-        font-size: 0.65rem;
-        color: var(--muted, rgba(255,255,255,0.5));
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        white-space: nowrap;
-      }
-      .peer-shared-name {
-        flex: 1;
-        min-width: 0;
-        font-size: 0.85rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .mini-chip {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.2rem 0.6rem;
-        border-radius: 999px;
-        font-size: 0.65rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-      }
-      .mini-chip.matched {
-        background: rgba(94, 231, 217, 0.12);
-        color: var(--signal, #5ee7d9);
-        border: 1px solid rgba(94, 231, 217, 0.35);
-      }
-      .mini-chip.sent {
-        background: rgba(255, 255, 255, 0.04);
-        color: var(--text-muted, rgba(255, 255, 255, 0.6));
-        border: 1px solid var(--mist, rgba(255, 255, 255, 0.08));
-      }
-    `}</style>
-  );
 }
