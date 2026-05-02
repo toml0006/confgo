@@ -66,7 +66,6 @@ export function Toolbar({
   me,
 }: Props) {
   const navigate = useNavigate();
-  const onAtlasHome = window.location.pathname === "/";
 
   return (
     <header
@@ -106,9 +105,6 @@ export function Toolbar({
       </div>
 
       <nav aria-label="Primary" className="ml-auto flex items-center gap-0 sm:gap-1 min-w-0">
-        <NavPill active={onAtlasHome} onClick={() => navigate("/")}>
-          Atlas
-        </NavPill>
         <NavPill onClick={onOpenMyConferences} ariaLabel="My conferences">
           <span className="sm:hidden">Mine</span>
           <span className="hidden sm:inline">My conferences</span>

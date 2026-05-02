@@ -13,7 +13,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Kicker } from "@/components/ui/kicker";
-import { Tag } from "@/components/ui/tag";
 import { cn } from "@/lib/utils";
 import type { Conference, PublicUser, TagsResponse } from "../api";
 import {
@@ -322,11 +321,6 @@ export function CommandK({
                         <span className="flex flex-col items-start gap-0.5 min-w-0 flex-1">
                           <span className="font-display text-[15px] font-medium text-ink truncate max-w-full">
                             {c.name}
-                            {c.premium ? (
-                              <span className="ml-2 align-middle inline-block">
-                                <Tag accent>Premium</Tag>
-                              </span>
-                            ) : null}
                           </span>
                           <span className="text-[11px] text-ink2 truncate max-w-full">
                             {c.locationName} ·{" "}

@@ -1,6 +1,4 @@
 import type { Conference } from "../api";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tag } from "@/components/ui/tag";
 
 type Props = {
   conference: Conference;
@@ -13,23 +11,14 @@ export function PremiumCard({ conference }: Props) {
   const image = conference.premiumImage;
 
   return (
-    <Card className="overflow-hidden border-brand bg-brand-soft rounded-[14px] py-0 gap-0">
+    <div className="shrink-0 flex flex-col gap-0 overflow-hidden">
       {image ? (
         <div
           className="relative h-[140px] bg-contain bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${image})` }}
-        >
-          <span className="absolute top-2.5 left-2.5">
-            <Tag accent>Premium</Tag>
-          </span>
-        </div>
+        />
       ) : null}
-      <CardContent className="px-4 pt-3.5 pb-4 flex flex-col gap-1.5">
-        {!image ? (
-          <span className="self-start mb-1">
-            <Tag accent>Premium</Tag>
-          </span>
-        ) : null}
+      <div className="px-4 pt-3.5 pb-4 flex flex-col gap-1.5">
         <h2 className="m-0 font-display font-normal text-[1.6rem] leading-[1.1] text-ink">
           {header}
         </h2>
@@ -39,8 +28,8 @@ export function PremiumCard({ conference }: Props) {
             {body}
           </p>
         ) : null}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 

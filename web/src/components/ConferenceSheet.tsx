@@ -116,7 +116,6 @@ export function ConferenceSheet({
       side="top-left"
       onBack={onBack}
       onClose={onClose}
-      premium={Boolean(conference.premium)}
     >
       {conference.premium ? (
         <PremiumCard conference={conference} />

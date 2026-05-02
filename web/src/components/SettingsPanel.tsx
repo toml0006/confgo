@@ -361,6 +361,8 @@ export function SettingsPanel({ me, onClose, onUpdated, onShowIntro }: Props) {
           attendancesByUser={vennState.attendancesByUser}
           title={`Conference overlap · ${vennState.people.length} people`}
           onClose={() => setVennState(null)}
+          meId={me.id}
+          canPing={!isAnonymous}
         />
       ) : null}
     </>

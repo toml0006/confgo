@@ -6,7 +6,9 @@ import {
   type Conference,
   type PublicUser,
 } from "../api";
+import type { ContactEntry } from "../lib/contacts";
 import { UserAvatar } from "./UserAvatar";
+import { PingComposer } from "./PingComposer";
 import { Button } from "@/components/ui/button";
 import { Kicker } from "@/components/ui/kicker";
 
@@ -136,7 +138,20 @@ export function PeopleVennOverlay({
   attendancesByUser,
   onClose,
   title,
-}: Props & { onClose: () => void; title?: string }) {
+  meId,
+  canPing = true,
+}: Props & {
+  onClose: () => void;
+  title?: string;
+  // Person id of the viewer — peers other than this id get a Ping button.
+  // Omit to hide ping affordances entirely (e.g. anon viewers).
+  meId?: string | null;
+  // Override to suppress Ping buttons even when meId is set (e.g. anon).
+  canPing?: boolean;
+}) {
+  const [composerFor, setComposerFor] = useState<PublicUser | null>(null);
+  const [pinged, setPinged] = useState<Set<string>>(new Set());
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -149,6 +164,16 @@ export function PeopleVennOverlay({
   const counts = useMemo(() => {
     return used.map((p) => attendancesByUser?.get(p.id)?.length ?? null);
   }, [used, attendancesByUser]);
+
+  async function handlePingSubmit(contacts: ContactEntry[]) {
+    if (!composerFor) return;
+    await apiFetch(`/users/${composerFor.id}/ping`, {
+      method: "POST",
+      body: JSON.stringify({ contacts }),
+    });
+    setPinged((s) => new Set([...s, composerFor.id]));
+    setComposerFor(null);
+  }
 
   return (
     <div
@@ -173,32 +198,58 @@ export function PeopleVennOverlay({
           />
         </div>
         <div className="mt-3 flex items-center gap-4 flex-wrap">
-          {used.map((p, i) => (
-            <div key={p.id} className="flex items-center gap-2">
-              <span
-                className="inline-block w-3 h-3 rounded-full"
-                style={{ background: colorFor(p) }}
-                aria-hidden="true"
-              />
-              <UserAvatar
-                avatarId={p.avatarId}
-                photoURL={p.photoURL}
-                displayName={p.displayName}
-                size="sm"
-              />
-              <span className="font-display text-[14px] text-ink">
-                {p.displayName ?? "Unnamed"}
-              </span>
-              {counts[i] !== null ? (
-                <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink3">
-                  {counts[i]}
+          {used.map((p, i) => {
+            const isMe = meId != null && p.id === meId;
+            const showPing = canPing && !isMe && meId != null;
+            const alreadyPinged = pinged.has(p.id);
+            return (
+              <div key={p.id} className="flex items-center gap-2">
+                <span
+                  className="inline-block w-3 h-3 rounded-full"
+                  style={{ background: colorFor(p) }}
+                  aria-hidden="true"
+                />
+                <UserAvatar
+                  avatarId={p.avatarId}
+                  photoURL={p.photoURL}
+                  displayName={p.displayName}
+                  size="sm"
+                />
+                <span className="font-display text-[14px] text-ink">
+                  {p.displayName ?? "Unnamed"}
                 </span>
-              ) : null}
-            </div>
-          ))}
+                {counts[i] !== null ? (
+                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink3">
+                    {counts[i]}
+                  </span>
+                ) : null}
+                {showPing ? (
+                  <Button
+                    type="button"
+                    variant="atlas"
+                    size="atlas-sm"
+                    disabled={alreadyPinged}
+                    onClick={() => setComposerFor(p)}
+                  >
+                    {alreadyPinged ? "Pinged" : "Ping"}
+                  </Button>
+                ) : null}
+              </div>
+            );
+          })}
           <Kicker className="ml-auto">esc to close</Kicker>
         </div>
       </div>
+
+      <PingComposer
+        open={composerFor !== null}
+        title={
+          composerFor ? `Ping ${composerFor.displayName ?? "Unnamed"}` : ""
+        }
+        peerDisplayName={composerFor?.displayName ?? "them"}
+        onSubmit={handlePingSubmit}
+        onCancel={() => setComposerFor(null)}
+      />
     </div>
   );
 }
