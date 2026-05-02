@@ -39,6 +39,11 @@ export function PhotoCropper({ file, onCancel, onSave }: Props) {
       setImgSize(null);
       return;
     }
+    // Belt-and-braces: reset transient state on every fresh file so a
+    // hung "saving" / stale error from a previous upload can't leak
+    // into the new session.
+    setSaving(false);
+    setError(null);
     const url = URL.createObjectURL(file);
     setImgSrc(url);
     const img = new Image();
@@ -100,6 +105,11 @@ export function PhotoCropper({ file, onCancel, onSave }: Props) {
       await uploadBytes(ref, blob, { contentType: "image/jpeg" });
       const url = await getDownloadURL(ref);
       onSave(url);
+      // Radix <Dialog> doesn't unmount on close, so the component
+      // instance survives between uploads. Without this reset, opening
+      // the cropper a second time in the same session leaves the button
+      // stuck on "Uploading…".
+      setSaving(false);
     } catch (err) {
       console.error("[photo upload]", err);
       setError("Upload failed. Check your connection and try again.");
