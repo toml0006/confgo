@@ -18,6 +18,7 @@ import {
   onAuthStateChanged,
   signInAnonymously,
   signInWithPopup,
+  signInWithRedirect,
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase";
@@ -123,7 +124,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch (err) {
         const code = (err as { code?: string }).code;
         if (code !== "auth/credential-already-in-use") throw err;
-        // Credential already belongs to another account — fall through to signIn.
+        // Credential already belongs to another Firebase user. Re-opening a
+        // popup here would be blocked — the original click gesture was
+        // consumed by linkWithPopup. Fall back to signInWithRedirect, which
+        // doesn't require a fresh gesture; the page reloads into the
+        // existing account when Google posts the result back.
+        await signInWithRedirect(auth, provider);
+        return;
       }
     }
     const cred = await signInWithPopup(auth, provider);
