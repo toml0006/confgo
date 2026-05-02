@@ -27,8 +27,12 @@
       property="og:description"
       content="A map of the conferences worth showing up to — and the people you'll see there."
     />
-    <!-- Wide hero (1.91:1) — preferred by Twitter, Facebook, LinkedIn,
-         iMessage, Slack, Discord. -->
+    <!-- Single wide hero (1.91:1) — works across Twitter, Facebook,
+         LinkedIn, iMessage, Slack, Discord, WhatsApp. We tried chaining
+         a square variant as a second og:image; iMessage rendered both
+         side-by-side rather than picking one, which is the wrong shape.
+         If we ever want a per-platform square card, the right path is a
+         dedicated route + UA sniffing, not a second og:image. -->
     <meta property="og:image" content="https://venn.bar/og.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
@@ -36,18 +40,6 @@
     <meta
       property="og:image:alt"
       content="Venn·bar wordmark on warm paper, with the tagline ‘a map of the conferences worth showing up to — and the people you'll see there.’"
-    />
-    <!-- Square (1:1) — picked by some launchers / WhatsApp / certain
-         feeds that prefer a tile-shaped preview. Crawlers that respect
-         multiple og:image entries will choose this when their layout
-         calls for it; first-only crawlers stick with the wide hero. -->
-    <meta property="og:image" content="https://venn.bar/og-square.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="1200" />
-    <meta
-      property="og:image:alt"
-      content="Venn·bar wordmark, square edition."
     />
 
     <!-- Twitter / X — summary_large_image is the wide hero treatment -->
