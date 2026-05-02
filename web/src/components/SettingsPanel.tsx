@@ -25,9 +25,10 @@ type Props = {
   me: MeUser;
   onClose: () => void;
   onUpdated: (me: MeUser) => void;
+  onShowIntro?: () => void;
 };
 
-export function SettingsPanel({ me, onClose, onUpdated }: Props) {
+export function SettingsPanel({ me, onClose, onUpdated, onShowIntro }: Props) {
   const { user, isAnonymous, linkProvider, signOutUser } = useAuth();
   const [displayName, setDisplayName] = useState(me.displayName ?? "");
   const [photoURL, setPhotoURL] = useState(me.photoURL);
@@ -322,6 +323,23 @@ export function SettingsPanel({ me, onClose, onUpdated }: Props) {
             <div className="text-[13px] text-brand">{authError}</div>
           ) : null}
         </div>
+
+        {onShowIntro ? (
+          <div className="flex flex-col gap-1.5">
+            <Kicker>Help</Kicker>
+            <Button
+              variant="atlas-ghost"
+              size="atlas"
+              onClick={onShowIntro}
+              className="w-full justify-start"
+            >
+              Run intro
+            </Button>
+            <Caption>
+              A 5-screen tour of what Venn·bar is for, and how to use it.
+            </Caption>
+          </div>
+        ) : null}
 
         <Caption>
           {isAnonymous

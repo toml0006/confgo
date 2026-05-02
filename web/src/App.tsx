@@ -16,6 +16,9 @@ import { PingInbox } from "./components/PingInbox";
 import { SettingsPanel } from "./components/SettingsPanel";
 import { VersionBadge } from "./components/VersionBadge";
 import { Footer } from "./components/Footer";
+import { IntroTour, hasSeenIntro } from "./components/IntroTour";
+import { Caption, FloatingPanel } from "./components/ui/floating-panel";
+import { Kicker } from "./components/ui/kicker";
 
 type LocationSelection = {
   conferences: Conference[];
@@ -44,6 +47,15 @@ export function App() {
   const [userCache, setUserCache] = useState<PublicUser | null>(null);
   const [panel, setPanel] = useState<"none" | "settings" | "mine" | "signals">("none");
   const [searchOpen, setSearchOpen] = useState(false);
+  const [showIntro, setShowIntro] = useState(false);
+
+  // Auto-fire the intro on a brand-new device once auth is ready, so the
+  // tour appears for first-time visitors without us prompting. Returning
+  // visitors flip vb.intro.v1 in localStorage so they don't see it twice.
+  useEffect(() => {
+    if (!ready || !user) return;
+    if (!hasSeenIntro()) setShowIntro(true);
+  }, [ready, user]);
   const [flyTo, setFlyTo] = useState<{
     longitude: number;
     latitude: number;
@@ -339,17 +351,36 @@ export function App() {
         />
       ) : null}
 
-      {panel === "settings" && me ? (
-        <SettingsPanel
-          me={me}
-          onClose={() => setPanel("none")}
-          onUpdated={setMe}
-        />
+      {panel === "settings" ? (
+        me ? (
+          <SettingsPanel
+            me={me}
+            onClose={() => setPanel("none")}
+            onUpdated={setMe}
+            onShowIntro={() => {
+              setPanel("none");
+              setShowIntro(true);
+            }}
+          />
+        ) : (
+          <FloatingPanel side="top-right" onClose={() => setPanel("none")}>
+            <div className="flex flex-col gap-1.5">
+              <Kicker>Profile</Kicker>
+              <Caption>
+                {ready
+                  ? "Loading your profile… if this hangs, /me may be failing — check the console."
+                  : "Signing you in…"}
+              </Caption>
+            </div>
+          </FloatingPanel>
+        )
       ) : null}
 
       {panel === "signals" ? (
         <PingInbox onClose={() => setPanel("none")} />
       ) : null}
+
+      {showIntro ? <IntroTour onClose={() => setShowIntro(false)} /> : null}
 
       <Footer />
       <VersionBadge />
