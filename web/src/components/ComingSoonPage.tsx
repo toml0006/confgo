@@ -2,6 +2,10 @@
 // site's design tokens (--void, --signal, --ember, .glass-panel) so it
 // feels like the rest of confgo, with one bright callout card pointing
 // curious visitors at the upcoming MinneBar talk.
+//
+// Live-refresh on deploy is handled at the app root by VersionPoller in
+// main.tsx — works in both gated→live and live→gated directions so the
+// audience flips together whenever a deploy lands.
 
 const MINNEBAR_URL = "https://sessions.minnestar.org/sessions/1903";
 

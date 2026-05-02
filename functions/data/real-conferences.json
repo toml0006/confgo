@@ -1330,8 +1330,8 @@
     "location_name": "Minneapolis, USA",
     "latitude": 44.976106,
     "longitude": -93.266096,
-    "start_date": "2026-04-25T00:00:00.000Z",
-    "end_date": "2026-04-25T23:59:59.000Z",
+    "start_date": "2026-05-02T00:00:00.000Z",
+    "end_date": "2026-05-02T23:59:59.000Z",
     "source": "minnestar",
     "topics": [
       "general",
