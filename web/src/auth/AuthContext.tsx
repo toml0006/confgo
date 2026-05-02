@@ -77,6 +77,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const cred = await linkWithPopup(current, provider);
         setUser(cred.user);
+        // Hard reload so every user-scoped fetch (/me, attendances,
+        // pings) re-runs with the upgraded identity instead of trying
+        // to reconcile post-link state in place.
+        window.location.reload();
         return;
       } catch (err) {
         const code = (err as { code?: string }).code;
@@ -86,6 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     const cred = await signInWithPopup(auth, provider);
     setUser(cred.user);
+    window.location.reload();
   }, []);
 
   const signOutUser = useCallback(async () => {
