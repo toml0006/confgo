@@ -1,3 +1,12 @@
+import { useNavigate } from "react-router-dom";
+import { SearchIcon } from "lucide-react";
+import { Wordmark } from "@/components/ui/wordmark";
+import { Tag } from "@/components/ui/tag";
+import { ThemePicker } from "@/components/ui/theme-picker";
+import { UserAvatar } from "@/components/UserAvatar";
+import { cn } from "@/lib/utils";
+import type { MeUser } from "@/api";
+
 type Props = {
   myCount: number;
   signalsCount: number;
@@ -8,7 +17,40 @@ type Props = {
   onOpenSettings: () => void;
   onOpenMyConferences: () => void;
   onOpenSignals: () => void;
+  onOpenSearch: () => void;
+  me?: MeUser | null;
 };
+
+type NavPillProps = {
+  active?: boolean;
+  onClick?: () => void;
+  children: React.ReactNode;
+  ariaLabel?: string;
+  indicator?: boolean;
+};
+
+function NavPill({ active, onClick, children, ariaLabel, indicator }: NavPillProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "relative inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[12px] sm:text-[13px] sm:px-3 transition-colors whitespace-nowrap",
+        active ? "bg-hair-soft text-ink" : "text-ink2 hover:text-ink",
+      )}
+    >
+      {children}
+      {indicator ? (
+        <span
+          aria-hidden="true"
+          className="absolute -top-0.5 -right-0.5 size-1.5 rounded-full bg-brand"
+        />
+      ) : null}
+    </button>
+  );
+}
 
 export function Toolbar({
   myCount,
@@ -20,144 +62,86 @@ export function Toolbar({
   onOpenSettings,
   onOpenMyConferences,
   onOpenSignals,
+  onOpenSearch,
+  me,
 }: Props) {
+  const navigate = useNavigate();
+  const onAtlasHome = window.location.pathname === "/";
+
   return (
-    <div className="toolbar glass-panel">
-      <div className="toolbar-row">
-        <button
-          className="soft-button soft-button--quiet signals-button"
-          onClick={onOpenSignals}
-          aria-label={signalsCount > 0 ? `Signals (${signalsCount} unread)` : "Signals"}
-        >
-          <span aria-hidden="true">◈</span>
-          {signalsCount > 0 ? (
-            <span className="count-badge signals-badge">{signalsCount}</span>
-          ) : null}
-        </button>
-        <button
-          className="soft-button soft-button--quiet"
-          onClick={onOpenSettings}
-          aria-label="Settings"
-        >
-          ⚙
-        </button>
-      </div>
+    <header
+      className="fixed top-0 left-0 right-0 z-30 h-[60px] bg-paper border-b border-hair flex items-center px-2 sm:px-4 gap-2 sm:gap-4"
+      role="banner"
+    >
+      <Wordmark onClick={() => navigate("/")} />
+
+      {/* Search trigger — icon-only on mobile, full search bar on sm+. */}
       <button
-        className="soft-button"
-        onClick={onOpenMyConferences}
-        aria-label="My conferences"
+        type="button"
+        onClick={onOpenSearch}
+        aria-label="Open search"
+        className="flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded-full bg-bg border border-hair text-ink2 hover:text-ink hover:border-ink3 transition-colors w-9 sm:w-[260px] sm:max-w-[40vw] shrink-0 sm:shrink"
       >
-        <span>My conferences</span>
-        {myCount > 0 ? <span className="count-badge">{myCount}</span> : null}
+        <SearchIcon className="size-3.5 shrink-0" aria-hidden />
+        <span className="hidden sm:inline flex-1 text-left text-[12px] truncate">
+          Search conferences, people…
+        </span>
+        <kbd className="hidden sm:inline-flex font-mono text-[10px] text-ink2 px-1.5 py-px rounded border border-hair bg-paper">
+          ⌘K
+        </kbd>
       </button>
-      {/* TODO: Co-attendance toggle slot — added when feature ships. */}
-      <div className="toolbar-divider" />
-      <div className="filter-row" role="group" aria-label="Time range filter">
-        <button
-          type="button"
-          className={`chip-toggle chip-toggle--past ${showPast ? "is-on" : ""}`}
-          aria-pressed={showPast}
-          onClick={() => onTogglePast(!showPast)}
-        >
+
+      {/* Time range filter — hidden on mobile (reach via My conferences). */}
+      <div
+        role="group"
+        aria-label="Time range filter"
+        className="hidden md:flex items-center gap-1.5"
+      >
+        <Tag tone="past" active={showPast} onClick={() => onTogglePast(!showPast)}>
           Past
-        </button>
-        <button
-          type="button"
-          className={`chip-toggle chip-toggle--future ${showFuture ? "is-on" : ""}`}
-          aria-pressed={showFuture}
-          onClick={() => onToggleFuture(!showFuture)}
-        >
+        </Tag>
+        <Tag tone="future" active={showFuture} onClick={() => onToggleFuture(!showFuture)}>
           Future
-        </button>
+        </Tag>
       </div>
-      <style>{`
-        .toolbar {
-          position: fixed;
-          top: 18px;
-          right: 18px;
-          padding: 14px;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          align-items: stretch;
-          min-width: 220px;
-          z-index: 20;
-        }
-        .toolbar-row {
-          display: flex;
-          justify-content: flex-end;
-          gap: 10px;
-        }
-        .toolbar .soft-button {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.75rem;
-        }
-        .count-badge {
-          background: var(--signal-dim);
-          color: var(--signal);
-          font-size: 0.65rem;
-          padding: 0.12rem 0.55rem;
-          border-radius: 999px;
-          letter-spacing: 0.08em;
-        }
-        .signals-button {
-          position: relative;
-        }
-        .signals-badge {
-          position: absolute;
-          top: -4px;
-          right: -4px;
-          padding: 0.05rem 0.4rem;
-          font-size: 0.6rem;
-        }
-        .toolbar-divider {
-          height: 1px;
-          background: var(--mist);
-          margin: 4px 0;
-        }
-        .filter-row {
-          display: flex;
-          gap: 8px;
-          justify-content: stretch;
-        }
-        .chip-toggle {
-          flex: 1;
-          font-size: 0.72rem;
-          text-transform: uppercase;
-          letter-spacing: 0.14em;
-          padding: 0.5rem 0.75rem;
-          border-radius: 999px;
-          border: 1px solid var(--mist);
-          color: var(--text-muted);
-          background: transparent;
-          cursor: pointer;
-          transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
-        }
-        .chip-toggle:hover {
-          border-color: var(--mist-strong);
-          color: var(--text);
-        }
-        .chip-toggle:focus-visible {
-          outline: 2px solid var(--signal-dim);
-          outline-offset: 2px;
-        }
-        .chip-toggle--past.is-on {
-          border-color: rgba(232, 121, 177, 0.65);
-          border-color: color(display-p3 0.91 0.475 0.694 / 0.65);
-          background: rgba(232, 121, 177, 0.14);
-          background: color(display-p3 0.91 0.475 0.694 / 0.14);
-          color: var(--past-ember);
-        }
-        .chip-toggle--future.is-on {
-          border-color: rgba(255, 181, 71, 0.65);
-          border-color: color(display-p3 1 0.71 0.278 / 0.65);
-          background: rgba(255, 181, 71, 0.14);
-          background: color(display-p3 1 0.71 0.278 / 0.14);
-          color: var(--ember);
-        }
-      `}</style>
-    </div>
+
+      <nav aria-label="Primary" className="ml-auto flex items-center gap-0 sm:gap-1 min-w-0">
+        <NavPill active={onAtlasHome} onClick={() => navigate("/")}>
+          Atlas
+        </NavPill>
+        <NavPill onClick={onOpenMyConferences} ariaLabel="My conferences">
+          <span className="sm:hidden">Mine</span>
+          <span className="hidden sm:inline">My conferences</span>
+          {myCount > 0 ? (
+            <span className="text-ink3 text-[10px] sm:text-[11px]">{myCount}</span>
+          ) : null}
+        </NavPill>
+        <NavPill
+          onClick={onOpenSignals}
+          indicator={signalsCount > 0}
+          ariaLabel={
+            signalsCount > 0 ? `Signals (${signalsCount} unread)` : "Signals"
+          }
+        >
+          Signals
+        </NavPill>
+      </nav>
+
+      <ThemePicker className="hidden sm:flex" />
+
+      <button
+        type="button"
+        onClick={onOpenSettings}
+        aria-label="Open settings"
+        className="rounded-full p-0.5 transition-colors hover:bg-hair-soft shrink-0"
+      >
+        <UserAvatar
+          avatarId={me?.avatarId ?? 0}
+          photoURL={me?.photoURL ?? null}
+          displayName={me?.displayName ?? null}
+          size="sm"
+        />
+      </button>
+    </header>
   );
 }

@@ -1,4 +1,6 @@
-import { AvatarGlyph } from "./AvatarGlyph";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { PersonToken } from "./PersonToken";
 
 export type PingIndicator = "incoming" | "outgoing" | "mutual" | "none";
 
@@ -14,6 +16,14 @@ type Props = {
 
 const SIZE_PX: Record<Size, number> = { xs: 22, sm: 28, md: 36, lg: 48, xl: 72 };
 
+const INDICATOR_RING: Record<PingIndicator, string> = {
+  none: "",
+  mutual:
+    "after:border-signal after:[box-shadow:0_0_14px_rgba(94,231,217,0.35)]",
+  outgoing: "after:border-signal-dim",
+  incoming: "after:border-ember after:animate-ping-pulse",
+};
+
 export function UserAvatar({
   avatarId,
   photoURL,
@@ -21,18 +31,7 @@ export function UserAvatar({
   size = "md",
   pingIndicator = "none",
 }: Props) {
-  const inner = photoURL ? (
-    <img
-      className="avatar-photo"
-      src={photoURL}
-      alt=""
-      width={SIZE_PX[size]}
-      height={SIZE_PX[size]}
-    />
-  ) : (
-    <AvatarGlyph avatarId={avatarId} size={size} />
-  );
-
+  const px = SIZE_PX[size];
   const aria =
     pingIndicator === "mutual"
       ? `Matched with ${displayName ?? "them"}`
@@ -44,39 +43,37 @@ export function UserAvatar({
 
   return (
     <span
-      className={`avatar-wrap avatar-wrap--${pingIndicator}`}
       aria-label={aria}
       role={aria ? "img" : undefined}
+      className={cn(
+        "relative inline-flex rounded-full shrink-0",
+        "after:content-[''] after:absolute after:-inset-[3px] after:rounded-full",
+        "after:border-2 after:border-transparent after:pointer-events-none",
+        "after:transition-[border-color,box-shadow] after:duration-200",
+        INDICATOR_RING[pingIndicator],
+      )}
     >
-      {inner}
-      <style>{`
-        .avatar-wrap {
-          position: relative;
-          display: inline-flex;
-          border-radius: 999px;
-          flex-shrink: 0;
-        }
-        .avatar-wrap::after {
-          content: "";
-          position: absolute;
-          inset: -3px;
-          border-radius: 999px;
-          border: 2px solid transparent;
-          pointer-events: none;
-          transition: border-color 180ms ease, box-shadow 180ms ease;
-        }
-        .avatar-wrap--mutual::after {
-          border-color: var(--signal);
-          box-shadow: 0 0 14px rgba(94, 231, 217, 0.35);
-        }
-        .avatar-wrap--outgoing::after {
-          border-color: var(--signal-dim);
-        }
-        .avatar-wrap--incoming::after {
-          border-color: var(--ember);
-          animation: ping-pulse 2s ease-in-out infinite;
-        }
-      `}</style>
+      <Avatar
+        style={{ width: px, height: px }}
+        className="bg-transparent"
+      >
+        {photoURL ? (
+          <AvatarImage
+            src={photoURL}
+            alt=""
+            width={px}
+            height={px}
+            className="object-cover"
+          />
+        ) : null}
+        <AvatarFallback className="bg-transparent p-0">
+          <PersonToken
+            avatarId={avatarId}
+            displayName={displayName}
+            size={px}
+          />
+        </AvatarFallback>
+      </Avatar>
     </span>
   );
 }

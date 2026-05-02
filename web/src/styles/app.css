@@ -1,0 +1,235 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ────────────────── Atlas tokens (visual overhaul spec) ──────────────────
+   Aesthetic: editorial / paper-warm / type-forward.
+   Light mode default + dark mode via [data-mode="dark"] on <html>.
+   Brand accent is terracotta (fixed). Past + future events get their own
+   semantic colors (steel-blue / teal) so they read as data, distinct from
+   the warm-paper / ink / terracotta brand language. */
+
+@theme {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-ui: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* kicker tracking */
+  --tracking-kicker: 0.22em;
+  --tracking-tight-1: -0.025em;
+  --tracking-tight-2: -0.035em;
+
+  --radius-card: 14px;
+  --radius-tag: 6px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-modal: 0 24px 64px -12px rgba(15, 23, 42, 0.3);
+
+  --animate-sheet-in: sheet-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-ping-pulse: ping-pulse 2s ease-in-out infinite;
+}
+
+/* Expose Atlas tokens as Tailwind colors (`bg-paper`, `text-ink`, etc.) */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-paper: var(--paper);
+  --color-elev: var(--elev);
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink2);
+  --color-ink3: var(--ink3);
+  --color-hair: var(--hair);
+  --color-hair-soft: var(--hair-soft);
+  --color-panel: var(--panel);
+
+  --color-brand: var(--accent-color);
+  --color-brand-soft: var(--accent-soft);
+  --color-brand-deep: var(--accent-deep);
+
+  /* Past / future / premium event coloring — independent of the brand
+     accent, picked to be visually distinct from paper / ink / terracotta.
+     Past = cool steel blue (retrospective). Future = vivid teal (alive,
+     incoming). Premium = iridescent purple (sponsor / exception). */
+  --color-future: var(--future-color);
+  --color-future-mine: var(--future-mine-color);
+  --color-past: var(--past-color);
+  --color-past-mine: var(--past-mine-color);
+  --color-premium: var(--premium-color);
+
+  /* shadcn semantic tokens mapped onto Atlas palette */
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --color-card: var(--paper);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--paper);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--ink);
+  --color-primary-foreground: var(--bg);
+  --color-secondary: var(--hair-soft);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--hair-soft);
+  --color-muted-foreground: var(--ink2);
+  --color-accent: var(--hair-soft);
+  --color-accent-foreground: var(--ink);
+  --color-destructive: var(--accent-color);
+  --color-destructive-foreground: var(--bg);
+  --color-border: var(--hair);
+  --color-input: var(--hair);
+  --color-ring: var(--accent-color);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Atlas-styled mapbox popup. Mapbox renders its Popup with built-in
+   classes (`.mapboxgl-popup-content`, `.mapboxgl-popup-tip`) that we
+   override here to match paper/ink. */
+.vb-map-popup .mapboxgl-popup-content {
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  color: var(--ink);
+  padding: 10px 12px;
+  font-family: var(--font-ui);
+  min-width: 200px;
+  max-width: 280px;
+}
+.vb-map-popup .mapboxgl-popup-tip {
+  border-top-color: var(--paper);
+  border-bottom-color: var(--paper);
+  border-left-color: var(--paper);
+  border-right-color: var(--paper);
+}
+.vb-map-popup .vb-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+.vb-map-popup .vb-line {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-top: 2px;
+}
+.vb-map-popup .vb-att {
+  color: var(--ink2);
+  margin-top: 4px;
+}
+
+@keyframes sheet-in {
+  0%   { transform: translateY(8px); opacity: 0; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
+@keyframes ping-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+@layer base {
+  /* All atlas tokens use the display-p3 color space so the brand reads
+     richer on wide-gamut displays. The numbers below match the original
+     sRGB hex values reinterpreted as p3 component values — a deliberate,
+     small saturation lift on capable displays, identical sRGB fallback
+     elsewhere because the components are bit-equivalent. */
+
+  /* Light mode (default). Brand accent is fixed terracotta. Past + future
+     are independent data colors — see `@theme inline` for rationale. */
+  :root {
+    --bg:        color(display-p3 0.957 0.945 0.918);  /* #f4f1ea */
+    --paper:     color(display-p3 0.984 0.976 0.957);  /* #fbf9f4 */
+    --elev:      color(display-p3 1     1     1    );  /* #ffffff */
+    --ink:       color(display-p3 0.102 0.094 0.078);  /* #1a1814 */
+    --ink2:      color(display-p3 0.353 0.333 0.298);  /* #5a554c */
+    --ink3:      color(display-p3 0.639 0.616 0.573);  /* #a39d92 */
+    --hair:      color(display-p3 0.886 0.863 0.812);  /* #e2dccf */
+    --hair-soft: color(display-p3 0.925 0.902 0.847);  /* #ece6d8 */
+    --panel:     color(display-p3 0.929 0.906 0.847);  /* #ede7d8 */
+
+    --accent-color: color(display-p3 0.761 0.255 0.047);  /* #c2410c */
+    --accent-soft:  color(display-p3 0.992 0.902 0.839);  /* #fde6d6 */
+    --accent-deep:  color(display-p3 0.486 0.176 0.055);  /* #7c2d0e */
+
+    --past-color:        color(display-p3 0.745 0.094 0.365);  /* #be185d */
+    --past-mine-color:   color(display-p3 0.624 0.071 0.224);  /* #9f1239 */
+    --future-color:      color(display-p3 0.396 0.639 0.051);  /* #65a30d */
+    --future-mine-color: color(display-p3 0.247 0.384 0.071);  /* #3f6212 */
+    --premium-color:     color(display-p3 0.718 0.580 0.965);  /* #b794f6 */
+
+    /* sRGB-hex parallels — mapbox-gl's color parser doesn't understand
+       CSS color() functions, so the WebGL paint layers read these
+       fallbacks via getComputedStyle. The CSS surfaces still pick up the
+       p3 vars above, giving the brand a wide-gamut lift everywhere except
+       the map canvas (which is sRGB anyway). */
+    --accent-color-hex:      #c2410c;
+    --accent-soft-hex:       #fde6d6;
+    --past-color-hex:        #be185d;
+    --past-mine-color-hex:   #9f1239;
+    --future-color-hex:      #65a30d;
+    --future-mine-color-hex: #3f6212;
+    --premium-color-hex:     #b794f6;
+
+    --radius: 0.875rem;
+  }
+
+  [data-mode="dark"] {
+    --bg:        color(display-p3 0.078 0.075 0.059);  /* #14130f */
+    --paper:     color(display-p3 0.102 0.098 0.078);  /* #1a1914 */
+    --elev:      color(display-p3 0.133 0.125 0.102);  /* #22201a */
+    --ink:       color(display-p3 0.957 0.941 0.898);  /* #f4f0e5 */
+    --ink2:      color(display-p3 0.639 0.616 0.553);  /* #a39d8d */
+    --ink3:      color(display-p3 0.380 0.361 0.322);  /* #615c52 */
+    --hair:      color(display-p3 0.180 0.169 0.137);  /* #2e2b23 */
+    --hair-soft: color(display-p3 0.149 0.141 0.114);  /* #26241d */
+    --panel:     color(display-p3 0.122 0.114 0.090);  /* #1f1d17 */
+
+    --accent-soft: color(display-p3 0.227 0.141 0.094);  /* #3a2418 */
+
+    /* On dark bg push past + future lighter so they continue to pop
+       against the warm-charcoal background. */
+    --past-color:        color(display-p3 0.957 0.447 0.714);  /* #f472b6 */
+    --past-mine-color:   color(display-p3 0.984 0.443 0.522);  /* #fb7185 */
+    --future-color:      color(display-p3 0.639 0.902 0.208);  /* #a3e635 */
+    --future-mine-color: color(display-p3 0.745 0.949 0.392);  /* #bef264 */
+
+    --accent-soft-hex:       #3a2418;
+    --past-color-hex:        #f472b6;
+    --past-mine-color-hex:   #fb7185;
+    --future-color-hex:      #a3e635;
+    --future-mine-color-hex: #bef264;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    transition: background 240ms ease, color 240ms ease;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  button {
+    font-family: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .sheet-in   { animation: var(--animate-sheet-in); }
+  .ping-pulse { animation: var(--animate-ping-pulse); }
+}

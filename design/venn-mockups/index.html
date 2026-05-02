@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Venn Mockups · Index</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..600;1,6..72,200..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #f4f1ea;
+  --ink: #15131a;
+  --line: rgba(21,19,26,0.18);
+  --soft: #6a6477;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0c0a13; --ink: #ece5d6; --line: rgba(236,229,214,0.18); --soft: #8a839a; }
+}
+:root[data-theme="light"] { --bg:#f4f1ea; --ink:#15131a; --line:rgba(21,19,26,0.18); --soft:#6a6477; }
+:root[data-theme="dark"]  { --bg:#0c0a13; --ink:#ece5d6; --line:rgba(236,229,214,0.18); --soft:#8a839a; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: "Newsreader", serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 64px 32px 96px;
+}
+.theme-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 50;
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  background: transparent; color: var(--ink); border: 1px solid var(--line);
+  padding: 6px 12px; cursor: pointer; border-radius: 999px;
+}
+.wrap { max-width: 980px; margin: 0 auto; }
+header.top {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 18px; margin-bottom: 36px;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.kicker { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--soft); }
+h1 {
+  font-style: italic; font-weight: 250;
+  font-size: clamp(48px, 8vw, 84px); line-height: 0.95;
+  letter-spacing: -0.025em; margin: 0 0 16px;
+}
+p.lede { font-size: 18px; max-width: 64ch; color: var(--soft); margin: 0 0 48px; line-height: 1.5; }
+ol { list-style: none; padding: 0; margin: 0; counter-reset: m; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+ol li {
+  counter-increment: m;
+  background: var(--bg);
+  display: grid; grid-template-columns: 64px 1fr auto; gap: 24px;
+  align-items: baseline;
+  padding: 28px 24px;
+}
+ol li:hover { background: color-mix(in oklab, var(--ink), transparent 96%); }
+ol li::before {
+  content: "0" counter(m);
+  font-family: "JetBrains Mono", monospace; font-size: 12px;
+  color: var(--soft); letter-spacing: 0.18em;
+}
+ol li .name {
+  font-style: italic; font-weight: 300; font-size: 28px;
+  letter-spacing: -0.01em;
+}
+ol li .name a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+ol li .name a:hover { border-bottom-color: var(--ink); }
+ol li small {
+  display: block;
+  font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--soft); margin-top: 6px;
+}
+ol li .blurb {
+  font-size: 16px; line-height: 1.45; color: var(--soft); max-width: 60ch;
+}
+ol li .open {
+  font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 12px; text-decoration: none;
+}
+ol li .open:hover { border-color: var(--ink); }
+.foot { margin-top: 48px; font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); }
+@media (max-width: 720px) {
+  ol li { grid-template-columns: 1fr; }
+  ol li::before { font-size: 10px; }
+  ol li .open { justify-self: start; }
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">theme</button>
+<div class="wrap">
+  <header class="top">
+    <span class="kicker">Confgo · Personal Venn · 2026.05</span>
+    <span class="kicker">5 directions</span>
+  </header>
+  <h1>Five rooms.<br>Pick one.</h1>
+  <p class="lede">Each variant runs the same data — three friends, twelve conferences, seven regions — through a different aesthetic. All five honour <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:color-mix(in oklab,var(--ink),transparent 92%);padding:1px 5px;border-radius:4px;">prefers-color-scheme</code>; toggle the corner button on each page to compare.</p>
+  <ol>
+    <li>
+      <div></div>
+      <div>
+        <div class="name"><a href="01-broadsheet.html">The Broadsheet</a></div>
+        <small>Fraunces + EB Garamond · serif editorial</small>
+        <p class="blurb">A literary periodical. Outline circles, footnoted region markers (i, ii, iii…), conferences laid out as a three-column reference list below. Cream paper or midnight ink, single warm-red accent. The most "thing you'd read" of the five.</p>
+      </div>
+      <a class="open" href="01-broadsheet.html">open →</a>
+    </li>
+    <li>
+      <div></div>
+      <div>
+        <div class="name"><a href="02-blueprint.html">Blueprint</a></div>
+        <small>Major Mono Display + IBM Plex · drafting / schematic</small>
+        <p class="blurb">A technical drawing. Dashed circles, crosshair pins, dimensioned region IDs (A∩B = 02). Rulers along the edges, title block in the corner, cyan rules on drafting paper or glowing on navy blueprint. Reads like an engineering deliverable.</p>
+      </div>
+      <a class="open" href="02-blueprint.html">open →</a>
+    </li>
+    <li>
+      <div></div>
+      <div>
+        <div class="name"><a href="03-riso.html">Riso Zine</a></div>
+        <small>Boldonse + Instrument Serif · 2-colour overprint</small>
+        <p class="blurb">A printed-by-hand zine. Solid coral / indigo / olive circles overprinting in multiply, grain texture pulled across the whole page, chunky display type. Most personality, most ink. Light is ivory paper; dark flips to overprint-on-aubergine.</p>
+      </div>
+      <a class="open" href="03-riso.html">open →</a>
+    </li>
+    <li>
+      <div></div>
+      <div>
+        <div class="name"><a href="04-swiss.html">Swiss</a></div>
+        <small>Bricolage Grotesque + JetBrains Mono · modernist editorial</small>
+        <p class="blurb">Strict grid, hairline circles, generous whitespace, big variable-weight numerals showing each region's count. A single chartreuse accent calls out the centre. The "shipped product" feel — restrained, confident, fast to scan.</p>
+      </div>
+      <a class="open" href="04-swiss.html">open →</a>
+    </li>
+    <li>
+      <div></div>
+      <div>
+        <div class="name"><a href="05-aurora.html">Aurora</a></div>
+        <small>Newsreader italic + Albert Sans · painterly glass</small>
+        <p class="blurb">A refined evolution of the existing glass overlay. Soft radial gradients, blurred halos, glass cards with rounded corners, italic Newsreader display. Pearlescent dawn in light; deep cosmic indigo + magenta nebula in dark. The dreamiest of the five.</p>
+      </div>
+      <a class="open" href="05-aurora.html">open →</a>
+    </li>
+  </ol>
+  <p class="foot">Open each page; toggle theme top-right; pick one to ship.</p>
+</div>
+</body>
+</html>

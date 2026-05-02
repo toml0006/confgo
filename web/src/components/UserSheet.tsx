@@ -5,18 +5,22 @@ import {
   type Conference,
   type PublicUser,
 } from "../api";
+import { isPast } from "../lib/decay";
+import { Caption, FloatingPanel } from "@/components/ui/floating-panel";
+import { Kicker } from "@/components/ui/kicker";
 import { UserAvatar } from "./UserAvatar";
 
 type Props = {
   user: PublicUser;
   conferences: Conference[];
+  onBack?: () => void;
   onClose: () => void;
   onPickConference: (conf: Conference) => void;
 };
 
 type AttendanceRow = { conferenceId: string; intent: AttendanceIntent };
 
-export function UserSheet({ user, conferences, onClose, onPickConference }: Props) {
+export function UserSheet({ user, conferences, onBack, onClose, onPickConference }: Props) {
   const [attendances, setAttendances] = useState<AttendanceRow[] | null>(null);
 
   useEffect(() => {
@@ -37,12 +41,17 @@ export function UserSheet({ user, conferences, onClose, onPickConference }: Prop
   const { going, been } = useMemo(() => {
     if (!attendances) return { going: [], been: [] };
     const byId = new Map(conferences.map((c) => [c.id, c]));
+    const now = new Date();
     const going: Conference[] = [];
     const been: Conference[] = [];
+    // Bucket by temporal context, not stored intent — past events read
+    // as "Been" and future as "Going" regardless of how the user
+    // originally marked them.
     for (const a of attendances) {
       const conf = byId.get(a.conferenceId);
       if (!conf) continue;
-      (a.intent === "going" ? going : been).push(conf);
+      if (isPast(conf.endDate, now)) been.push(conf);
+      else going.push(conf);
     }
     const byStartDesc = (a: Conference, b: Conference) =>
       b.startDate.localeCompare(a.startDate);
@@ -55,117 +64,43 @@ export function UserSheet({ user, conferences, onClose, onPickConference }: Prop
   const empty = !loading && going.length === 0 && been.length === 0;
 
   return (
-    <div className="user-sheet glass-panel sheet-in">
-      <button
-        className="close-x user-sheet-close"
-        onClick={onClose}
-        aria-label="Close"
-      >
-        ×
-      </button>
-
-      <div className="user-sheet-hero">
+    <FloatingPanel side="top-left" onBack={onBack} onClose={onClose}>
+      <div className="flex items-center gap-3.5">
         <UserAvatar
           avatarId={user.avatarId}
           photoURL={user.photoURL}
           displayName={user.displayName}
           size="xl"
         />
-        <div>
-          <div className="section-label">person</div>
-          <h2 className="user-name">{user.displayName ?? "Unnamed"}</h2>
+        <div className="flex flex-col gap-1">
+          <Kicker>person</Kicker>
+          <h2 className="m-0 font-display font-normal text-[1.6rem] leading-[1.05] tracking-[-0.025em] text-ink">
+            {user.displayName ?? "Unnamed"}
+          </h2>
         </div>
       </div>
 
       {loading ? (
-        <div className="caption muted">Loading conferences…</div>
+        <Caption>Loading conferences…</Caption>
       ) : empty ? (
-        <div className="caption muted">No conference activity yet.</div>
+        <Caption>No conference activity yet.</Caption>
       ) : (
         <>
           {going.length > 0 ? (
-            <div className="stack-sm">
-              <div className="section-label">Going ({going.length})</div>
-              <ConferenceList
-                confs={going}
-                onPick={onPickConference}
-              />
+            <div className="flex flex-col gap-2">
+              <Kicker tone="future">Going · {going.length}</Kicker>
+              <ConferenceList confs={going} onPick={onPickConference} />
             </div>
           ) : null}
           {been.length > 0 ? (
-            <div className="stack-sm">
-              <div className="section-label">Been ({been.length})</div>
-              <ConferenceList
-                confs={been}
-                onPick={onPickConference}
-              />
+            <div className="flex flex-col gap-2">
+              <Kicker tone="past">Been · {been.length}</Kicker>
+              <ConferenceList confs={been} onPick={onPickConference} />
             </div>
           ) : null}
         </>
       )}
-
-      <style>{`
-        .user-sheet {
-          position: fixed;
-          top: 68px;
-          left: 18px;
-          width: min(420px, calc(100vw - 36px));
-          max-height: calc(100vh - 86px);
-          overflow-y: auto;
-          padding: 18px;
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-          z-index: 40;
-        }
-        .user-sheet-close {
-          position: absolute;
-          top: 12px;
-          right: 12px;
-          z-index: 2;
-        }
-        .user-sheet-hero {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-        }
-        .user-name {
-          margin: 0;
-          font-size: 1.3rem;
-          font-weight: 400;
-          line-height: 1.2;
-        }
-        .user-conf-row {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 2px;
-          padding: 0.55rem 0.75rem;
-          width: 100%;
-          text-align: left;
-          border: 1px solid var(--mist);
-          border-radius: 12px;
-          background: transparent;
-          cursor: pointer;
-        }
-        .user-conf-row + .user-conf-row {
-          margin-top: 6px;
-        }
-        .user-conf-row:hover {
-          background: rgba(232, 240, 255, 0.04);
-          background: color(display-p3 0.91 0.941 1 / 0.04);
-        }
-        .user-conf-row .name {
-          font-size: 0.85rem;
-        }
-        .user-conf-row .meta {
-          font-size: 0.68rem;
-          color: var(--text-muted);
-          text-transform: uppercase;
-          letter-spacing: 0.14em;
-        }
-      `}</style>
-    </div>
+    </FloatingPanel>
   );
 }
 
@@ -177,15 +112,17 @@ function ConferenceList({
   onPick: (conf: Conference) => void;
 }) {
   return (
-    <div>
+    <div className="flex flex-col gap-1.5">
       {confs.map((c) => (
         <button
           key={c.id}
-          className="user-conf-row"
           onClick={() => onPick(c)}
+          className="flex flex-col items-start gap-1 px-3 py-2 w-full text-left bg-bg border border-hair rounded-[10px] hover:border-ink3 transition-colors"
         >
-          <span className="name">{c.name}</span>
-          <span className="meta">
+          <span className="font-display text-[15px] font-medium text-ink">
+            {c.name}
+          </span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink3">
             {c.locationName} · {new Date(c.startDate).toLocaleDateString()}
           </span>
         </button>

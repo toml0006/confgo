@@ -7,12 +7,15 @@ import { ComingSoonPage } from "./components/ComingSoonPage";
 import { TopicsDemo } from "./components/TopicsDemo";
 import "./styles/tokens.css";
 import "./styles/animations.css";
+import { ThemeProvider } from "./lib/theme";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "./styles/app.css";
 
 // Pre-launch marketing gate. While true, every route serves the
 // ComingSoonPage. Flip to false + push to main when the real app
 // should come online — the deploy workflow on main rebuilds and
 // publishes automatically.
-const COMING_SOON_ONLY = true;
+const COMING_SOON_ONLY = false;
 
 // Live-refresh: poll /version.json every 3.5s and hard-reload when the
 // deployed build number exceeds the one baked into this bundle. Lives
@@ -59,6 +62,8 @@ function VersionPoller() {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <VersionPoller />
+        <ThemeProvider>
+
     <BrowserRouter>
       <Routes>
         {/* Always-on demo route — works regardless of the coming-soon gate
@@ -88,9 +93,9 @@ createRoot(document.getElementById("root")!).render(
                 </AuthProvider>
               }
             />
-          </>
+          </Routes>
         )}
-      </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ThemeProvider>
   </StrictMode>,
 );

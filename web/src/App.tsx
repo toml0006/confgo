@@ -7,7 +7,7 @@ import { useConferenceUpdates } from "./hooks/useConferenceUpdates";
 import { useIncomingPingCount } from "./hooks/useIncomingPingCount";
 import { MapView } from "./components/map/MapView";
 import { Toolbar } from "./components/Toolbar";
-import { GlobalSearch } from "./components/GlobalSearch";
+import { CommandK } from "./components/CommandK";
 import { ConferenceSheet } from "./components/ConferenceSheet";
 import { LocationSheet } from "./components/LocationSheet";
 import { UserSheet } from "./components/UserSheet";
@@ -19,6 +19,10 @@ import { VersionBadge } from "./components/VersionBadge";
 type LocationSelection = {
   conferences: Conference[];
   locationName: string;
+  // The dot the user actually clicked. LocationSheet uses this to scroll the
+  // matching row into view and highlight it, so a multi-event city pin
+  // doesn't dump the user into a list with no anchor.
+  anchorId?: string;
 };
 
 export function App() {
@@ -38,6 +42,7 @@ export function App() {
   const [locationSel, setLocationSel] = useState<LocationSelection | null>(null);
   const [userCache, setUserCache] = useState<PublicUser | null>(null);
   const [panel, setPanel] = useState<"none" | "settings" | "mine" | "signals">("none");
+  const [searchOpen, setSearchOpen] = useState(false);
   const [flyTo, setFlyTo] = useState<{
     longitude: number;
     latitude: number;
@@ -122,13 +127,14 @@ export function App() {
   const myCount = myAttendances.size;
 
   const handleMapSelect = useCallback(
-    (confs: Conference[], _lngLat: [number, number]) => {
+    (confs: Conference[], anchor: Conference) => {
       if (confs.length === 1) {
         navigate(`/c/${confs[0].id}`);
       } else {
         setLocationSel({
           conferences: confs,
-          locationName: confs[0].locationName,
+          locationName: anchor.locationName,
+          anchorId: anchor.id,
         });
       }
     },
@@ -175,6 +181,12 @@ export function App() {
     }
   }, [navigate, location.key]);
 
+  // Show Back when the current sheet was opened via in-app navigation
+  // (drilled in from another sheet). location.key === "default" means a
+  // cold deep-link, in which case there's no prior view to return to.
+  const hasHistory = Boolean(location.key && location.key !== "default");
+  const goBack = useCallback(() => navigate(-1), [navigate]);
+
   const closeLocationSheet = useCallback(() => setLocationSel(null), []);
 
   const hasToken = Boolean(import.meta.env.VITE_MAPBOX_ACCESS_TOKEN);
@@ -186,7 +198,7 @@ export function App() {
         <ConferenceSheet
           conference={activeConference}
           myIntent={myAttendances.get(activeConference.id)}
-          onBack={locationSel ? () => navigate(-1) : undefined}
+          onBack={hasHistory || locationSel ? goBack : undefined}
           onClose={closeSheet}
           onMarked={() => {
             // onSnapshot will update myAttendances; no manual refresh needed.
@@ -202,6 +214,7 @@ export function App() {
         <UserSheet
           user={userCache}
           conferences={conferences}
+          onBack={hasHistory ? goBack : undefined}
           onClose={closeSheet}
           onPickConference={openFromSearch}
         />
@@ -212,6 +225,7 @@ export function App() {
         <LocationSheet
           conferences={locationSel.conferences}
           locationName={locationSel.locationName}
+          anchorId={locationSel.anchorId}
           myAttendances={myAttendances}
           onClose={closeLocationSheet}
           onPick={(conf) => navigate(`/c/${conf.id}`)}
@@ -232,6 +246,8 @@ export function App() {
     openFromSearch,
     openPeerFromAttendee,
     navigate,
+    hasHistory,
+    goBack,
   ]);
 
   return (
@@ -249,18 +265,15 @@ export function App() {
         <MissingTokenNotice />
       )}
 
-      <GlobalSearch
-        onPickConference={openFromSearch}
-        onPickUser={openUserFromSearch}
-      />
-
       <Toolbar
+        me={me}
         myCount={myCount}
         signalsCount={signalsCount}
         showPast={showPast}
         showFuture={showFuture}
         onTogglePast={setShowPast}
         onToggleFuture={setShowFuture}
+        onOpenSearch={() => setSearchOpen(true)}
         onOpenSettings={() =>
           setPanel((p) => (p === "settings" ? "none" : "settings"))
         }
@@ -270,6 +283,19 @@ export function App() {
         onOpenSignals={() =>
           setPanel((p) => (p === "signals" ? "none" : "signals"))
         }
+      />
+
+      <CommandK
+        open={searchOpen}
+        onOpenChange={setSearchOpen}
+        onPickConference={(c) => {
+          setSearchOpen(false);
+          openFromSearch(c);
+        }}
+        onPickUser={(u) => {
+          setSearchOpen(false);
+          openUserFromSearch(u);
+        }}
       />
 
       {sheet}
@@ -305,21 +331,12 @@ export function App() {
 
 function MissingTokenNotice() {
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "var(--text-muted)",
-        padding: 32,
-        textAlign: "center",
-      }}
-    >
-      <div className="glass-panel" style={{ padding: 24, maxWidth: 480 }}>
-        <div className="section-label">Mapbox token missing</div>
-        <p className="caption">
+    <div className="fixed inset-0 flex items-center justify-center text-ink2 p-8 text-center">
+      <div className="bg-paper border border-hair rounded-[14px] shadow-[var(--shadow-card)] p-6 max-w-[480px]">
+        <div className="font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-ink2">
+          Mapbox token missing
+        </div>
+        <p className="font-display italic text-[14px] text-ink2 leading-[1.55] mt-2">
           Set <code>VITE_MAPBOX_ACCESS_TOKEN</code> in <code>web/.env</code> and
           restart the dev server.
         </p>
