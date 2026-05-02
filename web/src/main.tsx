@@ -62,39 +62,39 @@ function VersionPoller() {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <VersionPoller />
-        <ThemeProvider>
-
-    <BrowserRouter>
-      <Routes>
-        {/* Always-on demo route — works regardless of the coming-soon gate
-            so it can be projected on a side screen during the talk.
-            Wrapped in AuthProvider so anonymous sign-in fires and the
-            live like-voting can attribute votes to a UID. */}
-        <Route
-          path="/demo/topics"
-          element={
-            <AuthProvider>
-              <TopicsDemo />
-            </AuthProvider>
-          }
-        />
-        {COMING_SOON_ONLY ? (
-          <Route path="*" element={<ComingSoonPage />} />
-        ) : (
-          <>
-            {/* Public marketing route — no auth, no map. */}
-            <Route path="/coming-soon" element={<ComingSoonPage />} />
-            {/* Everything else is the authenticated app. */}
-            <Route
-              path="*"
-              element={
-                <AuthProvider>
-                  <App />
-                </AuthProvider>
-              }
-            />
-          </Routes>
-        )}
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Always-on demo route — works regardless of the coming-soon gate
+              so it can be projected on a side screen during the talk.
+              Wrapped in AuthProvider so anonymous sign-in fires and the
+              live like-voting can attribute votes to a UID. */}
+          <Route
+            path="/demo/topics"
+            element={
+              <AuthProvider>
+                <TopicsDemo />
+              </AuthProvider>
+            }
+          />
+          {COMING_SOON_ONLY ? (
+            <Route path="*" element={<ComingSoonPage />} />
+          ) : (
+            <>
+              {/* Public marketing route — no auth, no map. */}
+              <Route path="/coming-soon" element={<ComingSoonPage />} />
+              {/* Everything else is the authenticated app. */}
+              <Route
+                path="*"
+                element={
+                  <AuthProvider>
+                    <App />
+                  </AuthProvider>
+                }
+              />
+            </>
+          )}
+        </Routes>
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>,
