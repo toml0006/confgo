@@ -19,6 +19,7 @@ import {
   signInAnonymously,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { apiFetch } from "../api";
@@ -49,6 +50,29 @@ function providerFor(id: AuthProviderId): FbAuthProvider {
       p.addScope("user:email");
       return p;
     }
+  }
+}
+
+// `linkWithPopup` attaches the provider's displayName/photoURL to
+// `user.providerData[]` but does not promote them onto the top-level User
+// record, so subsequent ID tokens lack `name`/`picture` claims for the
+// anon-then-link path. Copy from providerData when the User record's own
+// fields are empty so the next minted token carries the claims and the
+// backend can read them via the standard channel. Best-effort — backend has a
+// UserRecord fallback that handles the same gap.
+async function syncProfileFromProviderData(user: User): Promise<void> {
+  const provider = user.providerData[0];
+  if (!provider) return;
+  const nextName = !user.displayName && provider.displayName ? provider.displayName : null;
+  const nextPhoto = !user.photoURL && provider.photoURL ? provider.photoURL : null;
+  if (!nextName && !nextPhoto) return;
+  try {
+    await updateProfile(user, {
+      ...(nextName ? { displayName: nextName } : {}),
+      ...(nextPhoto ? { photoURL: nextPhoto } : {}),
+    });
+  } catch (err) {
+    console.warn("[auth] profile sync from provider data failed", err);
   }
 }
 
@@ -113,6 +137,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (current?.isAnonymous) {
       try {
         const cred = await linkWithPopup(current, provider);
+        await syncProfileFromProviderData(cred.user);
         setUser(cred.user);
         await seedGithubHandleFromCred(cred);
         // Hard reload so every user-scoped fetch (/me, attendances,
@@ -127,6 +152,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     }
     const cred = await signInWithPopup(auth, provider);
+    await syncProfileFromProviderData(cred.user);
     setUser(cred.user);
     await seedGithubHandleFromCred(cred);
     window.location.reload();
