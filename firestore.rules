@@ -7,16 +7,29 @@ service cloud.firestore {
     }
 
     match /conferences/{confId} {
-      allow read, write: if isSignedIn();
+      // Conference catalog writes go through the API (Admin SDK bypasses
+      // rules). Blocking client writes prevents any signed-in user from
+      // mutating shared catalog data.
+      allow read: if isSignedIn();
+      allow write: if false;
     }
 
+    // User docs hold sensitive fields (`email`, `saved_contacts`) that
+    // must only ever leave the server as explicit ping disclosures.
+    // Restrict client reads to self; peer profile reads go through the
+    // API (`/users/:id*`), which strips these fields via toPublicUser.
     match /users/{userId} {
-      allow read: if isSignedIn();
+      allow read: if isSignedIn() && request.auth.uid == userId;
       allow write: if isSignedIn() && request.auth.uid == userId;
     }
 
     match /attendances/{attendanceId} {
-      allow read, write: if isSignedIn();
+      // Clients subscribe to their own attendances via
+      // where("user_id","==",uid); peers' attendances come through the
+      // API. All writes go through the API (Admin SDK), so block client
+      // writes to prevent attendance spoofing.
+      allow read: if isSignedIn();
+      allow write: if false;
     }
 
     // Pings: metadata only. Clients can read their own sides (sender or
