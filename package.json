@@ -10,6 +10,14 @@
     "dev:import-conferences": "node functions/scripts/import-conferences.mjs",
     "dev:seed": "node functions/scripts/seed-dummy-data.mjs",
     "dev:topics": "node web/scripts/build-topics.mjs",
-    "dev:web": "npm --prefix web run dev"
+    "dev:web": "npm --prefix web run dev",
+    "test:rules": "firebase emulators:exec --only firestore --project=confgo-rules-test --config=firebase.test.json \"vitest run\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^4.0.1",
+    "firebase": "^11.1.0",
+    "firebase-tools": "^13.29.1",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.5"
   }
 }
