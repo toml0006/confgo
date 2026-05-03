@@ -42,17 +42,18 @@ service cloud.firestore {
     // silently rather than notify the sender. Locking SDK reads to
     // recipients only preserves that boundary.
     //
-    // Defense-in-depth: an earlier schema stored disclosures inline as
-    // `pings/{id}.contacts`. The migration in
-    // functions/scripts/migrate-ping-contacts.mjs splits them into
-    // `ping_contacts/{id}` (owner-only). Until that migration runs in
-    // production, recipients reading a stale ping doc could see the
-    // disclosure pre-mutual. We block reads of any ping doc that still
-    // carries the legacy field so a forgotten migration can't leak.
+    // Pre-deploy invariant: an earlier schema stored disclosures
+    // inline as `pings/{id}.contacts`. functions/scripts/migrate-
+    // ping-contacts.mjs splits them into `ping_contacts/{id}` (owner-
+    // only). The migration MUST run before the rules tightening
+    // deploys. Functions code already writes split `ping_contacts`,
+    // so no new inline contacts are created. A rule-level guard
+    // (e.g. `!('contacts' in resource.data)`) was tried but Firestore
+    // evaluates field-absence inconsistently on list queries — so we
+    // rely on the migration plus the no-new-writes invariant.
     match /pings/{pingId} {
       allow read: if isSignedIn() &&
-        request.auth.uid == resource.data.to_user_id &&
-        !('contacts' in resource.data);
+        request.auth.uid == resource.data.to_user_id;
       allow write: if false;
     }
 

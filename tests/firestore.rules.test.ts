@@ -223,11 +223,11 @@ describe("pings", () => {
     );
   });
 
-  // Mirrors useIncomingPingCount.ts: the live Signals badge subscribes
-  // to where(to_user_id == uid) && where(rejected_at == null). Verifies
-  // the field-absence check on `contacts` doesn't reject the list at
-  // query-shape time when no result has the legacy field.
-  it("allows useIncomingPingCount-shaped list query against migrated docs", async () => {
+  // Mirrors useIncomingPingCount.ts exactly: the live Signals badge
+  // subscribes to where(to_user_id == uid) && where(rejected_at == null).
+  // Pinning this query shape so a future rule change can't silently
+  // break the badge.
+  it("allows useIncomingPingCount-shaped list query", async () => {
     await seed(async (db) => {
       await setDoc(doc(db, "pings/alice__bob"), {
         from_user_id: "alice",
@@ -247,23 +247,6 @@ describe("pings", () => {
       ),
     );
   });
-
-  // Defense-in-depth against the legacy inline-`contacts` schema. If the
-  // migration in migrate-ping-contacts.mjs hasn't run, any ping doc that
-  // still has a `contacts` field would leak disclosures pre-mutual to
-  // the recipient. The rule blocks read of such docs entirely.
-  it("blocks recipient read when legacy inline contacts field is present", async () => {
-    await seed(async (db) => {
-      await setDoc(doc(db, "pings/alice__bob"), {
-        from_user_id: "alice",
-        to_user_id: "bob",
-        contacts: [{ type: "phone", value: "+15551234567" }],
-      });
-    });
-    const bob = env.authenticatedContext("bob").firestore();
-    await assertFails(getDoc(doc(bob, "pings/alice__bob")));
-  });
-
 });
 
 describe("ping_contacts", () => {
