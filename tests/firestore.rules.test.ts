@@ -175,15 +175,20 @@ describe("conferences", () => {
 });
 
 describe("pings", () => {
-  it("allows from_user_id read", async () => {
+  // Sender-side reads are now blocked by rule so that the API can hide
+  // `rejected_at` from senders (recipient reject is meant to fade
+  // silently, not surface to the sender's UI). All sender flows go
+  // through API endpoints.
+  it("blocks from_user_id (sender) direct read", async () => {
     await seed(async (db) => {
       await setDoc(doc(db, "pings/alice__bob"), {
         from_user_id: "alice",
         to_user_id: "bob",
+        rejected_at: null,
       });
     });
     const alice = env.authenticatedContext("alice").firestore();
-    await assertSucceeds(getDoc(doc(alice, "pings/alice__bob")));
+    await assertFails(getDoc(doc(alice, "pings/alice__bob")));
   });
 
   it("allows to_user_id read", async () => {
@@ -218,6 +223,31 @@ describe("pings", () => {
     );
   });
 
+  // Mirrors useIncomingPingCount.ts: the live Signals badge subscribes
+  // to where(to_user_id == uid) && where(rejected_at == null). Verifies
+  // the field-absence check on `contacts` doesn't reject the list at
+  // query-shape time when no result has the legacy field.
+  it("allows useIncomingPingCount-shaped list query against migrated docs", async () => {
+    await seed(async (db) => {
+      await setDoc(doc(db, "pings/alice__bob"), {
+        from_user_id: "alice",
+        to_user_id: "bob",
+        rejected_at: null,
+        created_at: new Date().toISOString(),
+      });
+    });
+    const bob = env.authenticatedContext("bob").firestore();
+    await assertSucceeds(
+      getDocs(
+        query(
+          collection(bob, "pings"),
+          where("to_user_id", "==", "bob"),
+          where("rejected_at", "==", null),
+        ),
+      ),
+    );
+  });
+
   // Defense-in-depth against the legacy inline-`contacts` schema. If the
   // migration in migrate-ping-contacts.mjs hasn't run, any ping doc that
   // still has a `contacts` field would leak disclosures pre-mutual to
@@ -234,17 +264,6 @@ describe("pings", () => {
     await assertFails(getDoc(doc(bob, "pings/alice__bob")));
   });
 
-  it("blocks sender read when legacy inline contacts field is present", async () => {
-    await seed(async (db) => {
-      await setDoc(doc(db, "pings/alice__bob"), {
-        from_user_id: "alice",
-        to_user_id: "bob",
-        contacts: [{ type: "phone", value: "+15551234567" }],
-      });
-    });
-    const alice = env.authenticatedContext("alice").firestore();
-    await assertFails(getDoc(doc(alice, "pings/alice__bob")));
-  });
 });
 
 describe("ping_contacts", () => {

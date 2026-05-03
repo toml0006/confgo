@@ -34,10 +34,13 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Pings: metadata only. Clients can read their own sides (sender or
-    // recipient) to power the Signals badge + direct lookups. All writes
-    // go through the API (Admin SDK bypasses rules), so client writes
-    // are blocked.
+    // Pings: metadata only. Recipient-side direct reads power the
+    // Signals badge (useIncomingPingCount). Sender-side flows all go
+    // through API endpoints (`/pings/incoming`, `/pings/outgoing`,
+    // `/pings/mutual-contacts`), which intentionally hide
+    // `rejected_at` from senders so a recipient's reject can fade
+    // silently rather than notify the sender. Locking SDK reads to
+    // recipients only preserves that boundary.
     //
     // Defense-in-depth: an earlier schema stored disclosures inline as
     // `pings/{id}.contacts`. The migration in
@@ -48,8 +51,7 @@ service cloud.firestore {
     // carries the legacy field so a forgotten migration can't leak.
     match /pings/{pingId} {
       allow read: if isSignedIn() &&
-        (request.auth.uid == resource.data.from_user_id ||
-         request.auth.uid == resource.data.to_user_id) &&
+        request.auth.uid == resource.data.to_user_id &&
         !('contacts' in resource.data);
       allow write: if false;
     }
