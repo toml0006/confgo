@@ -24,11 +24,13 @@ service cloud.firestore {
     }
 
     match /attendances/{attendanceId} {
-      // Clients subscribe to their own attendances via
-      // where("user_id","==",uid); peers' attendances come through the
-      // API. All writes go through the API (Admin SDK), so block client
-      // writes to prevent attendance spoofing.
-      allow read: if isSignedIn();
+      // Clients only need to subscribe to their OWN attendances; peers'
+      // attendances flow through `/users/:id/attendances` (which gates
+      // on hidden-user visibility). All writes go through the API
+      // (Admin SDK). Restricting client reads to the requester's own
+      // user_id prevents bypass of the visibility gate via direct SDK
+      // reads.
+      allow read: if isSignedIn() && resource.data.user_id == request.auth.uid;
       allow write: if false;
     }
 
@@ -36,10 +38,19 @@ service cloud.firestore {
     // recipient) to power the Signals badge + direct lookups. All writes
     // go through the API (Admin SDK bypasses rules), so client writes
     // are blocked.
+    //
+    // Defense-in-depth: an earlier schema stored disclosures inline as
+    // `pings/{id}.contacts`. The migration in
+    // functions/scripts/migrate-ping-contacts.mjs splits them into
+    // `ping_contacts/{id}` (owner-only). Until that migration runs in
+    // production, recipients reading a stale ping doc could see the
+    // disclosure pre-mutual. We block reads of any ping doc that still
+    // carries the legacy field so a forgotten migration can't leak.
     match /pings/{pingId} {
       allow read: if isSignedIn() &&
         (request.auth.uid == resource.data.from_user_id ||
-         request.auth.uid == resource.data.to_user_id);
+         request.auth.uid == resource.data.to_user_id) &&
+        !('contacts' in resource.data);
       allow write: if false;
     }
 

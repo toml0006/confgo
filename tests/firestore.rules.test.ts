@@ -131,6 +131,32 @@ describe("attendances", () => {
       }),
     );
   });
+
+  it("blocks direct read of peer's attendance doc", async () => {
+    await seed(async (db) => {
+      await setDoc(doc(db, "attendances/bob__c1"), {
+        user_id: "bob",
+        conference_id: "c1",
+        intent: "going",
+      });
+    });
+    const alice = env.authenticatedContext("alice").firestore();
+    await assertFails(getDoc(doc(alice, "attendances/bob__c1")));
+  });
+
+  it("blocks list query that doesn't filter by self user_id", async () => {
+    await seed(async (db) => {
+      await setDoc(doc(db, "attendances/bob__c1"), {
+        user_id: "bob",
+        conference_id: "c1",
+        intent: "going",
+      });
+    });
+    const alice = env.authenticatedContext("alice").firestore();
+    await assertFails(
+      getDocs(query(collection(alice, "attendances"), where("conference_id", "==", "c1"))),
+    );
+  });
 });
 
 describe("conferences", () => {
@@ -190,6 +216,34 @@ describe("pings", () => {
         to_user_id: "bob",
       }),
     );
+  });
+
+  // Defense-in-depth against the legacy inline-`contacts` schema. If the
+  // migration in migrate-ping-contacts.mjs hasn't run, any ping doc that
+  // still has a `contacts` field would leak disclosures pre-mutual to
+  // the recipient. The rule blocks read of such docs entirely.
+  it("blocks recipient read when legacy inline contacts field is present", async () => {
+    await seed(async (db) => {
+      await setDoc(doc(db, "pings/alice__bob"), {
+        from_user_id: "alice",
+        to_user_id: "bob",
+        contacts: [{ type: "phone", value: "+15551234567" }],
+      });
+    });
+    const bob = env.authenticatedContext("bob").firestore();
+    await assertFails(getDoc(doc(bob, "pings/alice__bob")));
+  });
+
+  it("blocks sender read when legacy inline contacts field is present", async () => {
+    await seed(async (db) => {
+      await setDoc(doc(db, "pings/alice__bob"), {
+        from_user_id: "alice",
+        to_user_id: "bob",
+        contacts: [{ type: "phone", value: "+15551234567" }],
+      });
+    });
+    const alice = env.authenticatedContext("alice").firestore();
+    await assertFails(getDoc(doc(alice, "pings/alice__bob")));
   });
 });
 
