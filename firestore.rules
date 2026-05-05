@@ -7,26 +7,53 @@ service cloud.firestore {
     }
 
     match /conferences/{confId} {
-      allow read, write: if isSignedIn();
+      // Conference catalog writes go through the API (Admin SDK bypasses
+      // rules). Blocking client writes prevents any signed-in user from
+      // mutating shared catalog data.
+      allow read: if isSignedIn();
+      allow write: if false;
     }
 
+    // User docs hold sensitive fields (`email`, `saved_contacts`) that
+    // must only ever leave the server as explicit ping disclosures.
+    // Restrict client reads to self; peer profile reads go through the
+    // API (`/users/:id*`), which strips these fields via toPublicUser.
     match /users/{userId} {
-      allow read: if isSignedIn();
+      allow read: if isSignedIn() && request.auth.uid == userId;
       allow write: if isSignedIn() && request.auth.uid == userId;
     }
 
     match /attendances/{attendanceId} {
-      allow read, write: if isSignedIn();
+      // Clients only need to subscribe to their OWN attendances; peers'
+      // attendances flow through `/users/:id/attendances` (which gates
+      // on hidden-user visibility). All writes go through the API
+      // (Admin SDK). Restricting client reads to the requester's own
+      // user_id prevents bypass of the visibility gate via direct SDK
+      // reads.
+      allow read: if isSignedIn() && resource.data.user_id == request.auth.uid;
+      allow write: if false;
     }
 
-    // Pings: metadata only. Clients can read their own sides (sender or
-    // recipient) to power the Signals badge + direct lookups. All writes
-    // go through the API (Admin SDK bypasses rules), so client writes
-    // are blocked.
+    // Pings: metadata only. Recipient-side direct reads power the
+    // Signals badge (useIncomingPingCount). Sender-side flows all go
+    // through API endpoints (`/pings/incoming`, `/pings/outgoing`,
+    // `/pings/mutual-contacts`), which intentionally hide
+    // `rejected_at` from senders so a recipient's reject can fade
+    // silently rather than notify the sender. Locking SDK reads to
+    // recipients only preserves that boundary.
+    //
+    // Pre-deploy invariant: an earlier schema stored disclosures
+    // inline as `pings/{id}.contacts`. functions/scripts/migrate-
+    // ping-contacts.mjs splits them into `ping_contacts/{id}` (owner-
+    // only). The migration MUST run before the rules tightening
+    // deploys. Functions code already writes split `ping_contacts`,
+    // so no new inline contacts are created. A rule-level guard
+    // (e.g. `!('contacts' in resource.data)`) was tried but Firestore
+    // evaluates field-absence inconsistently on list queries — so we
+    // rely on the migration plus the no-new-writes invariant.
     match /pings/{pingId} {
       allow read: if isSignedIn() &&
-        (request.auth.uid == resource.data.from_user_id ||
-         request.auth.uid == resource.data.to_user_id);
+        request.auth.uid == resource.data.to_user_id;
       allow write: if false;
     }
 
