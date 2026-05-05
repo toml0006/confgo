@@ -22,12 +22,12 @@ jobs:
       # default GITHUB_TOKEN when RELEASE_PAT isn't configured — the
       # deploy still runs; the version-bump step below will skip itself.
       # fetch-depth: 0 gives `git pull --rebase` full history to work with.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.RELEASE_PAT || github.token }}
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -55,7 +55,7 @@ jobs:
         run: npm run build
 
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v3
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
